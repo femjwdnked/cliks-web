@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cliks — Consultas SAT</title>
+<meta name="description" content="Descarga automática de tu opinión de cumplimiento y tu constancia de situación fiscal, directo del SAT.">
+<style>
+  :root {
+    --crema: #fdf6ec;
+    --crema-2: #faeeda;
+    --naranja: #ff8a3d;
+    --naranja-suave: #ffe4cc;
+    --verde: #1a9c5c;
+    --azul: #2f6fed;
+    --tinta: #2b2320;
+    --tinta-suave: rgba(43,35,32,0.62);
+    --tinta-tenue: rgba(43,35,32,0.40);
+    --tarjeta-bg: #ffffff;
+    --tarjeta-borde: rgba(43,35,32,0.08);
+    --negativo: #d92d20;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--tinta);
+    background: var(--crema);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Manchas orgánicas de fondo, al estilo Headspace -- sólo CSS, nada de imágenes */
+  .mancha {
+    position: absolute; border-radius: 50%; filter: blur(2px); z-index: 0;
+  }
+  .mancha-1 { width: 420px; height: 420px; background: var(--naranja-suave); top: -120px; right: -140px; }
+  .mancha-2 { width: 320px; height: 320px; background: #d9ecff; bottom: 10%; left: -160px; }
+  .mancha-3 { width: 180px; height: 180px; background: #e3f7ec; top: 55%; right: 6%; }
+
+  .contenedor { max-width: 880px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 0;
+  }
+  .marca { font-weight: 800; font-size: 21px; letter-spacing: -0.02em; }
+  .marca span { color: var(--naranja); }
+
+  .hero { text-align: center; padding: 40px 0 40px; }
+  .mascota { width: 132px; height: 132px; margin: 0 auto 8px; animation: flotar 3.5s ease-in-out infinite; }
+  @keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero h1 {
+    font-size: 46px; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.03em; line-height: 1.08;
+  }
+  .hero h1 .resalte {
+    background: var(--naranja-suave); padding: 2px 10px; border-radius: 10px; display: inline-block;
+  }
+  .hero p { font-size: 17.5px; color: var(--tinta-suave); max-width: 560px; margin: 0 auto 32px; line-height: 1.55; }
+
+  .tarjeta {
+    background: var(--tarjeta-bg);
+    border: 1px solid var(--tarjeta-borde);
+    border-radius: 22px;
+    padding: 34px;
+    box-shadow: 0 20px 50px -30px rgba(43,35,32,0.25);
+  }
+
+  .pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 52px 0; }
+  .paso {
+    text-align: left; padding: 24px 20px; background: var(--tarjeta-bg);
+    border: 1px solid var(--tarjeta-borde); border-radius: 18px;
+  }
+  .paso .num {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: var(--naranja); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; margin-bottom: 14px; font-size: 15px;
+  }
+  .paso h3 { font-size: 15.5px; margin: 0 0 6px; }
+  .paso p { font-size: 13.5px; color: var(--tinta-suave); margin: 0; line-height: 1.45; }
+
+  .precio-tarjeta { max-width: 440px; margin: 0 auto; text-align: center; position: relative; overflow: visible; }
+  .precio-tarjeta .etiqueta {
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--tinta-tenue);
+    text-transform: uppercase;
+  }
+  .precio-tarjeta .cantidad { font-size: 48px; font-weight: 800; margin: 10px 0 0; color: var(--verde); }
+  .precio-tarjeta .cantidad small { font-size: 15px; font-weight: 600; color: var(--tinta-suave); }
+  .precio-tarjeta .desc { color: var(--tinta-suave); font-size: 13.5px; margin: 10px 0 26px; line-height: 1.5; }
+
+  .beneficios { list-style: none; padding: 0; margin: 0 0 26px; text-align: left; }
+  .beneficios li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 10px; color: var(--tinta); }
+  .beneficios li .check {
+    width: 18px; height: 18px; border-radius: 50%; background: var(--verde); color: white;
+    display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 1px;
+  }
+
+  label { display: block; text-align: left; font-size: 13px; font-weight: 600; color: var(--tinta); margin: 16px 0 6px; }
+  input {
+    width: 100%; padding: 13px 14px; border-radius: 12px; border: 1.5px solid var(--tarjeta-borde);
+    background: var(--crema); font-size: 15px; color: var(--tinta);
+  }
+  input:focus { outline: none; border-color: var(--naranja); }
+
+  button {
+    width: 100%; padding: 14px; border-radius: 12px; border: none;
+    background: var(--azul); color: white; font-size: 15.5px; font-weight: 700;
+    cursor: pointer; margin-top: 22px;
+  }
+  button:disabled { opacity: 0.6; cursor: default; }
+
+  .error { color: var(--negativo); font-size: 13px; margin-top: 8px; display: none; }
+  .descargar { text-align: center; margin: 56px 0; }
+  .descargar a {
+    display: inline-block; padding: 13px 24px; border-radius: 12px;
+    background: white; border: 1.5px solid var(--tarjeta-borde);
+    color: var(--tinta); text-decoration: none;
+    font-size: 14px; font-weight: 700;
+  }
+
+  footer {
+    text-align: center; padding: 44px 0 26px; color: var(--tinta-tenue); font-size: 11.5px;
+  }
+
+  @media (max-width: 520px) {
+    .hero h1 { font-size: 32px; }
+    .hero p { font-size: 15.5px; }
+    .pasos { grid-template-columns: 1fr; }
+    .precio-tarjeta .cantidad { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+  <div class="mancha mancha-1"></div>
+  <div class="mancha mancha-2"></div>
+  <div class="mancha mancha-3"></div>
+
+  <div class="contenedor">
+    <header>
+      <div class="marca">Cliks<span>.</span></div>
+    </header>
+
+    <section class="hero">
+      <svg class="mascota" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cuerpo: una hojita/documento redondeado, con cara -->
+        <ellipse cx="100" cy="185" rx="46" ry="8" fill="#000000" opacity="0.06"/>
+        <path d="M55 40 Q55 22 73 22 L127 22 Q145 22 145 40 L145 150 Q145 168 127 168 L73 168 Q55 168 55 150 Z"
+              fill="#ff8a3d"/>
+        <path d="M55 40 Q55 22 73 22 L127 22 Q145 22 145 40 L145 150 Q145 168 127 168 L73 168 Q55 168 55 150 Z"
+              fill="url(#brillo)"/>
+        <defs>
+          <linearGradient id="brillo" x1="55" y1="22" x2="145" y2="168" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ffffff" stop-opacity="0.25"/>
+            <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- líneas de texto, como un documento -->
+        <rect x="72" y="60" width="56" height="6" rx="3" fill="#ffffff" opacity="0.55"/>
+        <rect x="72" y="74" width="40" height="6" rx="3" fill="#ffffff" opacity="0.55"/>
+        <!-- cara -->
+        <circle cx="82" cy="112" r="6" fill="#2b2320"/>
+        <circle cx="118" cy="112" r="6" fill="#2b2320"/>
+        <path d="M84 132 Q100 144 116 132" stroke="#2b2320" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <!-- mejillas -->
+        <circle cx="70" cy="122" r="7" fill="#ffffff" opacity="0.35"/>
+        <circle cx="130" cy="122" r="7" fill="#ffffff" opacity="0.35"/>
+        <!-- brazo levantando la palomita -->
+        <path d="M145 100 Q168 100 168 122" stroke="#ff8a3d" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <circle cx="168" cy="122" r="22" fill="#1a9c5c"/>
+        <path d="M158 122 L166 130 L180 112" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- brazo izquierdo -->
+        <path d="M55 100 Q32 100 32 118" stroke="#ff8a3d" stroke-width="12" stroke-linecap="round" fill="none"/>
+        <circle cx="30" cy="120" r="9" fill="#ff8a3d"/>
+      </svg>
+      <h1>Tu opinión de cumplimiento,<br><span class="resalte">sin entrar al SAT</span></h1>
+      <p>Consultas SAT descarga automático tu opinión de cumplimiento y tu constancia de situación fiscal, directo del portal del SAT con tu e.firma. Sin captcha, sin esperar, sin hacerlo a mano.</p>
+    </section>
+
+    <div class="pasos">
+      <div class="paso">
+        <div class="num">1</div>
+        <h3>Conecta tu e.firma</h3>
+        <p>Se queda cifrada en tu computadora, nunca sale de ahí.</p>
+      </div>
+      <div class="paso">
+        <div class="num">2</div>
+        <h3>La app entra sola al SAT</h3>
+        <p>Cada día, o cuando tú le pidas.</p>
+      </div>
+      <div class="paso">
+        <div class="num">3</div>
+        <h3>Tu PDF, listo</h3>
+        <p>Guardado y ordenado por cliente, en tu propia computadora.</p>
+      </div>
+    </div>
+
+    <div class="tarjeta precio-tarjeta">
+      <div class="etiqueta">Precio</div>
+      <div class="cantidad">$499<small> MXN / año</small></div>
+      <div class="desc">Incluye 1 persona. Cada persona extra, $49 MXN/año.</div>
+
+      <ul class="beneficios">
+        <li><span class="check">✓</span> 7 días de prueba gratis, sin tarjeta</li>
+        <li><span class="check">✓</span> Tu e.firma nunca sale de tu computadora</li>
+        <li><span class="check">✓</span> Cancela cuando quieras</li>
+      </ul>
+
+      <label for="correo">Tu correo</label>
+      <input id="correo" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email">
+
+      <label for="asientos">¿Para cuántas personas?</label>
+      <input id="asientos" type="number" min="1" value="1">
+
+      <button id="btn-pagar" onclick="pagar()">Suscribirme</button>
+      <div class="error" id="error"></div>
+    </div>
+
+    <div class="descargar">
+      <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest" target="_blank" rel="noopener">
+        ¿Ya pagaste? Descarga la app aquí →
+      </a>
+    </div>
+
+    <footer>
+      © 2026 Rodrigo Villicaña Sánchez. Todos los derechos reservados.
+    </footer>
+  </div>
+
+  <script>
+    const SERVIDOR = "https://servidor-licencias-37nv.onrender.com";
+
+    async function pagar() {
+      const correo = document.getElementById("correo").value.trim();
+      const asientos = parseInt(document.getElementById("asientos").value, 10);
+      const errorEl = document.getElementById("error");
+      const boton = document.getElementById("btn-pagar");
+
+      errorEl.style.display = "none";
+
+      if (!correo.includes("@") || !correo.includes(".")) {
+        errorEl.textContent = "Escribe un correo válido.";
+        errorEl.style.display = "block";
+        return;
+      }
+      if (!asientos || asientos < 1) {
+        errorEl.textContent = "El número de personas tiene que ser al menos 1.";
+        errorEl.style.display = "block";
+        return;
+      }
+
+      boton.disabled = true;
+      boton.textContent = "Abriendo pago...";
+
+      try {
+        const respuesta = await fetch(SERVIDOR + "/clientes/pagar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            correo: correo,
+            asientos: asientos,
+            url_exito: window.location.origin + "/gracias.html",
+            url_cancelado: window.location.href,
+          }),
+        });
+        const datos = await respuesta.json();
+        if (!respuesta.ok) {
+          throw new Error(datos.detail || "No se pudo abrir el pago.");
+        }
+        window.location.href = datos.url_de_pago;
+      } catch (err) {
+        errorEl.textContent = "No se pudo conectar: " + err.message;
+        errorEl.style.display = "block";
+        boton.disabled = false;
+        boton.textContent = "Suscribirme";
+      }
+    }
+  </script>
+</body>
+</html>

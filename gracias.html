@@ -5,51 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cliks — Gracias</title>
 <style>
-  :root {
-    --crema: #fdf6ec;
-    --naranja: #ff8a3d;
-    --naranja-suave: #ffe4cc;
-    --verde: #1a9c5c;
-    --azul: #2f6fed;
-    --tinta: #2b2320;
-    --tinta-suave: rgba(43,35,32,0.62);
-    --tarjeta-borde: rgba(43,35,32,0.08);
-  }
+  * { box-sizing: border-box; }
   body {
     margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--crema);
-    color: var(--tinta);
-    position: relative; overflow: hidden;
-  }
-  .mancha {
-    position: absolute; border-radius: 50%; z-index: 0;
-    width: 380px; height: 380px; background: var(--naranja-suave);
-    top: -100px; right: -120px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+    background: #f5f8ff;
+    color: #1c2430;
   }
   .tarjeta {
-    background: white; border: 1px solid var(--tarjeta-borde);
-    border-radius: 22px; padding: 46px 42px; max-width: 420px; text-align: center;
-    box-shadow: 0 20px 50px -30px rgba(43,35,32,0.25);
-    position: relative; z-index: 1;
+    background: white; border: 1px solid #eceff3;
+    border-radius: 14px; padding: 46px 42px; max-width: 420px; text-align: center;
+    box-shadow: 0 20px 50px -30px rgba(16,24,40,0.25);
   }
   .check {
-    width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 22px;
-    background: var(--verde); display: flex; align-items: center; justify-content: center;
-    font-size: 28px; color: white;
+    width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 22px;
+    background: #e6f4ea; display: flex; align-items: center; justify-content: center;
   }
-  h1 { font-size: 23px; margin: 0 0 10px; letter-spacing: -0.02em; }
-  p { color: var(--tinta-suave); font-size: 14px; line-height: 1.55; margin: 0 0 26px; }
+  h1 { font-size: 22px; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.01em; color: #101828; }
+  p { color: #667085; font-size: 14px; line-height: 1.55; margin: 0 0 26px; }
   a {
-    display: inline-block; padding: 13px 24px; border-radius: 12px;
-    background: var(--azul); color: white; text-decoration: none; font-weight: 700; font-size: 14.5px;
+    display: inline-block; padding: 13px 24px; border-radius: 8px;
+    background: #2f6fed; color: white; text-decoration: none; font-weight: 700; font-size: 14.5px;
   }
 </style>
 </head>
 <body>
-  <div class="mancha"></div>
   <div class="tarjeta">
-    <div class="check">✓</div>
+    <div class="check">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a9c5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4 10-10"/></svg>
+    </div>
     <h1>¡Listo, ya quedaste suscrito!</h1>
     <p>Baja la app y entra con el mismo correo que usaste para pagar — tu cuenta ya va a aparecer activa.</p>
     <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest">Descargar Consultas SAT</a>

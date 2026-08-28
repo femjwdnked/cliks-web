@@ -6,327 +6,222 @@
 <title>Cliks — Consultas SAT</title>
 <meta name="description" content="Descarga automática de tu opinión de cumplimiento y tu constancia de situación fiscal, directo del SAT.">
 <style>
-  :root {
-    --crema: #fdf6ec;
-    --naranja: #ff8a3d;
-    --naranja-suave: #ffe4cc;
-    --verde: #1a9c5c;
-    --azul: #2f6fed;
-    --tinta: #2b2320;
-    --tinta-suave: rgba(43,35,32,0.62);
-    --tinta-tenue: rgba(43,35,32,0.40);
-    --tarjeta-bg: #ffffff;
-    --tarjeta-borde: rgba(43,35,32,0.08);
-    --negativo: #d92d20;
-  }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: var(--tinta);
-    background: var(--crema);
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+    color: #1c2430;
+    background: #ffffff;
   }
+  a { color: #2f6fed; text-decoration: none; }
+  .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
 
-  .mancha { position: absolute; border-radius: 50%; filter: blur(2px); z-index: 0; }
-  .mancha-1 { width: 420px; height: 420px; background: var(--naranja-suave); top: -120px; right: -140px; }
-  .mancha-2 { width: 320px; height: 320px; background: #d9ecff; bottom: 78%; left: -160px; }
-  .mancha-3 { width: 180px; height: 180px; background: #e3f7ec; top: 40%; right: 6%; }
-  .mancha-4 { width: 220px; height: 220px; background: #ffe4cc; top: 560px; left: -90px; }
-  .mancha-5 { width: 170px; height: 170px; background: #d9ecff; top: 660px; right: -70px; }
-  .mancha-6 { width: 190px; height: 190px; background: #e3f7ec; top: 700px; left: 40%; }
-
-  @keyframes flotarBolita { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-
-  .pila {
-    position: absolute; z-index: 0;
-    animation: flotarBolita 4.2s ease-in-out infinite;
-  }
-  .pila-1 { width: 160px; top: 2%; right: 4%; animation-delay: 0.4s; }
-  .pila-2 { width: 140px; top: 62%; left: 1%; animation-delay: 1.2s; }
-  .pila-3 { width: 150px; top: 560px; right: 2%; animation-delay: 0.8s; }
-  .pila-4 { width: 130px; top: 670px; left: 6%; animation-delay: 1.6s; }
-  @media (max-width: 760px) { .pila { display: none; } }
-
-  /* Confeti: rayitas de colores regadas por toda la página */
-  .confeti { position: absolute; z-index: 0; width: 7px; height: 16px; border-radius: 4px; }
-  .confeti-1 { background: #ff6fa5; top: 3%; left: 42%; transform: rotate(20deg); }
-  .confeti-2 { background: #6a4fd6; top: 9%; right: 30%; transform: rotate(-15deg); }
-  .confeti-3 { background: #ff6fa5; top: 22%; left: 22%; transform: rotate(35deg); }
-  .confeti-4 { background: var(--naranja); top: 33%; right: 42%; transform: rotate(-10deg); }
-  .confeti-5 { background: #6a4fd6; top: 46%; left: 34%; transform: rotate(15deg); }
-  .confeti-6 { background: #d92d20; top: 58%; right: 22%; transform: rotate(-25deg); }
-  .confeti-7 { background: #ff6fa5; top: 72%; left: 46%; transform: rotate(10deg); }
-  .confeti-8 { background: #6a4fd6; top: 88%; right: 36%; transform: rotate(20deg); }
-  .confeti-9 { background: var(--naranja); top: 610px; left: 24%; transform: rotate(-18deg); }
-  .confeti-10 { background: #ff6fa5; top: 720px; right: 28%; transform: rotate(12deg); }
-
-  /* Cúmulos de figuras apiladas en las esquinas inferiores */
-  .cumulo { position: absolute; z-index: 0; animation: flotarBolita 5s ease-in-out infinite; }
-  .cumulo-izq { width: 210px; top: 660px; left: -30px; animation-delay: 0.5s; }
-  .cumulo-der { width: 210px; top: 660px; right: -30px; animation-delay: 1.3s; }
-  @media (max-width: 760px) { .cumulo { width: 130px; } }
-
-  .contenedor { max-width: 880px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-
-  header { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; }
-  .marca { font-weight: 800; font-size: 21px; letter-spacing: -0.02em; position: relative; display: inline-block; }
-  .marca .punto {
-    position: absolute; top: -4px; right: -14px;
-    font-size: 18px; font-weight: 800; color: var(--naranja); line-height: 1;
-  }
-
-  .hero { text-align: center; padding: 20px 0 40px; }
-
-  .hero h1 { font-size: 46px; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.03em; line-height: 1.08; }
-  .hero h1 .resalte { background: var(--naranja-suave); padding: 2px 10px; border-radius: 10px; display: inline-block; }
-  .hero p { font-size: 17.5px; color: var(--tinta-suave); max-width: 560px; margin: 0 auto 32px; line-height: 1.55; }
-
-  .btn-prueba {
-    display: inline-block; padding: 16px 32px; border-radius: 14px; border: none;
-    background: var(--azul); color: white; font-size: 16.5px; font-weight: 700;
-    cursor: pointer; box-shadow: 0 14px 30px -14px rgba(47,111,237,0.55);
-  }
-  .btn-prueba small { display: block; font-weight: 500; font-size: 12px; opacity: 0.85; margin-top: 2px; }
-
-  .tarjeta { background: var(--tarjeta-bg); border: 1px solid var(--tarjeta-borde); border-radius: 22px; padding: 34px; box-shadow: 0 20px 50px -30px rgba(43,35,32,0.25); }
-
-  .pasos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 52px 0; }
-  .paso { text-align: left; padding: 24px 20px; background: var(--tarjeta-bg); border: 1px solid var(--tarjeta-borde); border-radius: 18px; }
-  .paso .num { width: 34px; height: 34px; border-radius: 10px; background: var(--naranja); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; margin-bottom: 14px; font-size: 15px; }
-  .paso h3 { font-size: 15.5px; margin: 0 0 6px; }
-  .paso p { font-size: 13.5px; color: var(--tinta-suave); margin: 0; line-height: 1.45; }
-
-  /* Sección de precio: escondida hasta que le den clic a "Prueba gratis" */
-  #seccion-precio { display: none; margin: 52px 0; scroll-margin-top: 40px; }
-  #seccion-precio.visible { display: block; animation: aparecer 0.4s ease; }
-  @keyframes aparecer { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-
-  .precio-tarjeta { max-width: 440px; margin: 0 auto; text-align: center; }
-  .precio-tarjeta .etiqueta { font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--tinta-tenue); text-transform: uppercase; }
-  .precio-tarjeta .cantidad { font-size: 48px; font-weight: 800; margin: 10px 0 0; color: var(--verde); }
-  .precio-tarjeta .cantidad small { font-size: 15px; font-weight: 600; color: var(--tinta-suave); }
-  .precio-tarjeta .desc { color: var(--tinta-suave); font-size: 13.5px; margin: 10px 0 26px; line-height: 1.5; }
-
-  .beneficios { list-style: none; padding: 0; margin: 0 0 26px; text-align: left; }
-  .beneficios li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; margin-bottom: 10px; color: var(--tinta); }
-  .beneficios li .check { width: 18px; height: 18px; border-radius: 50%; background: var(--verde); color: white; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; margin-top: 1px; }
-
-  label { display: block; text-align: left; font-size: 13px; font-weight: 600; color: var(--tinta); margin: 16px 0 6px; }
-  input { width: 100%; padding: 13px 14px; border-radius: 12px; border: 1.5px solid var(--tarjeta-borde); background: var(--crema); font-size: 15px; color: var(--tinta); }
-  input:focus { outline: none; border-color: var(--naranja); }
-
-  button.grande { width: 100%; padding: 14px; border-radius: 12px; border: none; background: var(--azul); color: white; font-size: 15.5px; font-weight: 700; cursor: pointer; margin-top: 22px; }
-  button.grande:disabled { opacity: 0.6; cursor: default; }
-
-  .error { color: var(--negativo); font-size: 13px; margin-top: 8px; display: none; }
-  .descargar { text-align: center; margin: 40px 0 30px; }
-  .descargar a { display: inline-block; padding: 13px 24px; border-radius: 12px; background: #d9ecff; border: 1.5px solid rgba(47,111,237,0.18); color: #1c4fb8; text-decoration: none; font-size: 14px; font-weight: 700; }
-
-  footer { text-align: center; padding: 24px 0 20px; color: var(--tinta-tenue); font-size: 11.5px; }
-
-  @media (max-width: 520px) {
-    .hero h1 { font-size: 32px; }
-    .hero p { font-size: 15.5px; }
-    .pasos { grid-template-columns: 1fr; }
-    .precio-tarjeta .cantidad { font-size: 38px; }
+  @media (max-width: 760px) {
+    .hero-flex { flex-direction: column; }
+    .hero-flex h1 { font-size: 30px !important; }
+    .pasos-grid { grid-template-columns: 1fr !important; }
+    .carpetas-flex { flex-direction: column-reverse; }
+    header .contenedor { flex-direction: column; align-items: flex-start !important; gap: 8px; }
+    .boton-soporte span { display: none; }
+    .boton-soporte { padding: 0 16px !important; }
   }
 </style>
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <filter id="sombra-pila" x="-40%" y="-40%" width="180%" height="180%">
-        <feDropShadow dx="0" dy="3" stdDeviation="2.2" flood-color="#2b2320" flood-opacity="0.22"/>
-      </filter>
-    </defs>
-  </svg>
 
-  <div class="mancha mancha-1"></div>
-  <div class="mancha mancha-2"></div>
-  <div class="mancha mancha-3"></div>
-  <div class="mancha mancha-4"></div>
-  <div class="mancha mancha-5"></div>
-  <div class="mancha mancha-6"></div>
-
-  <svg class="pila pila-1" viewBox="0 0 140 170">
-    <ellipse cx="60" cy="130" rx="34" ry="7" fill="#2b2320" opacity="0.12"/>
-    <rect x="18" y="8" width="30" height="66" rx="15" fill="var(--azul)" transform="rotate(-8 33 41)" filter="url(#sombra-pila)"/>
-    <rect x="46" y="46" width="28" height="70" rx="14" fill="#1a9c5c" transform="rotate(6 60 81)" filter="url(#sombra-pila)"/>
-  </svg>
-
-  <svg class="pila pila-2" viewBox="0 0 140 170">
-    <ellipse cx="66" cy="160" rx="40" ry="8" fill="#2b2320" opacity="0.12"/>
-    <circle cx="66" cy="116" r="44" fill="#e3f7ec" filter="url(#sombra-pila)"/>
-    <rect x="14" y="4" width="26" height="60" rx="13" fill="#2b2320" transform="rotate(-10 27 34)" filter="url(#sombra-pila)"/>
-    <rect x="92" y="14" width="24" height="46" rx="12" fill="#ff6fa5" transform="rotate(8 104 37)" filter="url(#sombra-pila)"/>
-    <path d="M118 92 l5 -12 5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 z" fill="var(--naranja)"/>
-  </svg>
-
-  <svg class="pila pila-3" viewBox="0 0 140 170">
-    <ellipse cx="68" cy="162" rx="42" ry="8" fill="#2b2320" opacity="0.12"/>
-    <circle cx="68" cy="118" r="46" fill="var(--naranja-suave)" filter="url(#sombra-pila)"/>
-    <rect x="20" y="10" width="96" height="30" rx="15" fill="#d9ecff" transform="rotate(-4 68 25)" filter="url(#sombra-pila)"/>
-    <rect x="30" y="42" width="76" height="28" rx="14" fill="var(--azul)" transform="rotate(3 68 56)" filter="url(#sombra-pila)"/>
-  </svg>
-
-  <svg class="pila pila-4" viewBox="0 0 140 170">
-    <ellipse cx="66" cy="160" rx="38" ry="7" fill="#2b2320" opacity="0.12"/>
-    <circle cx="66" cy="116" r="42" fill="#ffffff" filter="url(#sombra-pila)"/>
-    <rect x="22" y="10" width="26" height="58" rx="13" fill="#1a9c5c" transform="rotate(7 35 39)" filter="url(#sombra-pila)"/>
-    <rect x="88" y="20" width="24" height="46" rx="12" fill="var(--naranja)" transform="rotate(-9 100 43)" filter="url(#sombra-pila)"/>
-  </svg>
-
-  <div class="confeti confeti-1"></div>
-  <div class="confeti confeti-2"></div>
-  <div class="confeti confeti-3"></div>
-  <div class="confeti confeti-4"></div>
-  <div class="confeti confeti-5"></div>
-  <div class="confeti confeti-6"></div>
-  <div class="confeti confeti-7"></div>
-  <div class="confeti confeti-8"></div>
-  <div class="confeti confeti-9"></div>
-  <div class="confeti confeti-10"></div>
-
-  <svg class="cumulo cumulo-izq" viewBox="0 0 200 180">
-    <circle cx="60" cy="60" r="44" fill="#f5c518" filter="url(#sombra-pila)"/>
-    <rect x="55" y="70" width="56" height="130" rx="26" fill="var(--naranja)" transform="rotate(-28 83 135)" filter="url(#sombra-pila)"/>
-    <circle cx="115" cy="150" r="52" fill="#ff6fa5" filter="url(#sombra-pila)"/>
-    <path d="M40 165 A40 40 0 0 1 118 165 Z" fill="#d92d20" filter="url(#sombra-pila)"/>
-  </svg>
-
-  <svg class="cumulo cumulo-der" viewBox="0 0 200 180">
-    <circle cx="150" cy="60" r="44" fill="#1a9c5c" filter="url(#sombra-pila)"/>
-    <path d="M120 60 A44 44 0 0 1 180 40 L180 90 A44 44 0 0 1 120 90 Z" fill="#9b7cf0" filter="url(#sombra-pila)"/>
-    <rect x="70" y="80" width="120" height="46" rx="23" fill="#5fd6c4" transform="rotate(-8 130 103)" filter="url(#sombra-pila)"/>
-    <circle cx="70" cy="150" r="30" fill="var(--azul)" filter="url(#sombra-pila)"/>
-    <rect x="90" y="140" width="90" height="40" rx="20" fill="#a9e6c4" filter="url(#sombra-pila)"/>
-  </svg>
-
-  <div class="contenedor">
-    <header>
-      <div class="marca">Cliks<span class="punto">*</span></div>
-    </header>
-
-    <section class="hero">
-      <h1>Tu opinión de cumplimiento,<br><span class="resalte">sin entrar al SAT</span></h1>
-      <p>Consultas SAT descarga automático tu opinión de cumplimiento y tu constancia de situación fiscal, directo del portal del SAT con tu e.firma. Sin captcha, sin esperar, sin hacerlo a mano.</p>
-
-      <button class="btn-prueba" onclick="mostrarPrecio()">
-        Empieza tu prueba gratis
-        <small>7 días · no se cobra hasta el día 8</small>
-      </button>
-    </section>
-
-    <div class="pasos">
-      <div class="paso">
-        <div class="num">1</div>
-        <h3>Conecta tu e.firma</h3>
-        <p>Se queda cifrada en tu computadora, nunca sale de ahí.</p>
-      </div>
-      <div class="paso">
-        <div class="num">2</div>
-        <h3>La app entra sola al SAT</h3>
-        <p>Cada día, o cuando tú le pidas.</p>
-      </div>
-      <div class="paso">
-        <div class="num">3</div>
-        <h3>Tu PDF, listo</h3>
-        <p>Guardado y ordenado por cliente, en tu propia computadora.</p>
-      </div>
-    </div>
-
-    <div id="seccion-precio">
-      <div class="tarjeta precio-tarjeta">
-        <div class="etiqueta">Precio</div>
-        <div class="cantidad">$499<small> MXN / año</small></div>
-        <div class="desc">Incluye 1 persona. Cada persona extra, $49 MXN/año.</div>
-
-        <ul class="beneficios">
-          <li><span class="check">✓</span> 7 días de prueba gratis, no se cobra hasta el día 8</li>
-          <li><span class="check">✓</span> Tu e.firma nunca sale de tu computadora</li>
-          <li><span class="check">✓</span> Cancela cuando quieras</li>
-        </ul>
-
-        <label for="correo">Tu correo</label>
-        <input id="correo" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email">
-
-        <label for="asientos">¿Para cuántas personas?</label>
-        <input id="asientos" type="number" min="1" value="1">
-
-        <button class="grande" id="btn-pagar" onclick="pagar()">Suscribirme</button>
-        <div class="error" id="error"></div>
-      </div>
-    </div>
-
-    <div class="descargar">
-      <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest" target="_blank" rel="noopener">
-        ¿Ya pagaste? Descarga la app aquí →
-      </a>
-    </div>
-
-    <footer>
-      © 2026 Rodrigo Villicaña Sánchez. Todos los derechos reservados.
-    </footer>
+<header style="border-bottom: 1px solid #eceff3;">
+  <div class="contenedor" style="display:flex; align-items:center; justify-content:space-between; padding:20px 32px;">
+    <img src="imagenes/logo-cliks.png" alt="Cliks" style="height:26px; width:auto; display:block;">
+    <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest" target="_blank" rel="noopener" style="font-size:13.5px; font-weight:600; color:#1c2430;">¿Ya pagaste? Descarga la app →</a>
   </div>
+</header>
 
-  <script>
-    const SERVIDOR = "https://servidor-licencias-37nv.onrender.com";
+<section style="background:#f5f8ff;">
+  <div class="contenedor hero-flex" style="padding:64px 32px 56px; display:flex; align-items:center; gap:56px;">
+    <div style="flex:1; min-width:0;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#2f6fed; margin-bottom:16px;">Software para contadores</div>
+      <h1 style="font-size:40px; font-weight:800; line-height:1.18; letter-spacing:-0.01em; margin:0 0 20px; color:#101828;">
+        Tu opinión de cumplimiento, sin entrar al SAT
+      </h1>
+      <p style="font-size:16px; line-height:1.6; color:#475467; margin:0 0 24px; max-width:460px;">
+        Consultas SAT descarga automático tu opinión de cumplimiento y tu constancia de situación fiscal, directo del portal del SAT con tu e.firma.
+      </p>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:28px;">
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
+          <span style="font-size:14.5px; color:#1c2430;">Sin captcha, sin esperar, sin hacerlo a mano</span>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
+          <span style="font-size:14.5px; color:#1c2430;">Tu e.firma se queda cifrada en tu computadora</span>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
+          <span style="font-size:14.5px; color:#1c2430;">Descargas guardadas y ordenadas por cliente</span>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+        <a href="#seccion-precio" onclick="mostrarPrecio(event)" style="display:inline-block; padding:14px 28px; border-radius:8px; background:#2f6fed; color:white; font-size:15px; font-weight:700;">Empieza tu prueba gratis</a>
+        <span style="font-size:13px; color:#667085;">7 días · no se cobra hasta el día 8</span>
+      </div>
+    </div>
 
-    function mostrarPrecio() {
-      const seccion = document.getElementById("seccion-precio");
-      seccion.classList.add("visible");
-      seccion.scrollIntoView({ behavior: "smooth", block: "start" });
-      document.getElementById("correo").focus({ preventScroll: true });
+    <div style="flex:1; min-width:0;">
+      <div style="position:relative; border-radius:16px; overflow:hidden; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35);">
+        <img src="imagenes/hero-mujer.jpg" alt="Contadora trabajando en su computadora" style="display:block; width:100%; height:auto;">
+        <div style="position:absolute; bottom:16px; right:16px; background:white; border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:8px; box-shadow:0 8px 20px -8px rgba(16,24,40,0.25);">
+          <span style="width:22px; height:22px; border-radius:50%; background:#e6f4ea; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a9c5c" stroke-width="3"><path d="m5 13 4 4 10-10"/></svg>
+          </span>
+          <span style="font-size:12.5px; font-weight:700; color:#101828;">Opinión de cumplimiento lista</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="contenedor pasos-grid" style="padding:72px 32px; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px;">
+    <div style="border:1px solid #eceff3; border-radius:12px; padding:28px 24px;">
+      <div style="width:44px; height:44px; border-radius:10px; background:#eaf1ff; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6fed" stroke-width="1.6"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg>
+      </div>
+      <h3 style="font-size:16px; font-weight:700; margin:0 0 8px; color:#101828;">Conecta tu e.firma</h3>
+      <p style="font-size:14px; line-height:1.6; color:#667085; margin:0;">Se queda cifrada en tu computadora, nunca sale de ahí.</p>
+    </div>
+    <div style="border:1px solid #eceff3; border-radius:12px; padding:28px 24px;">
+      <div style="width:44px; height:44px; border-radius:10px; background:#eaf1ff; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6fed" stroke-width="1.6"><path d="M4 12a8 8 0 0 1 14-5.3L20 9"/><path d="M20 12a8 8 0 0 1-14 5.3L4 15"/><path d="M17 4v4h-4M7 20v-4h4"/></svg>
+      </div>
+      <h3 style="font-size:16px; font-weight:700; margin:0 0 8px; color:#101828;">La app entra sola al SAT</h3>
+      <p style="font-size:14px; line-height:1.6; color:#667085; margin:0;">Cada día, o cuando tú le pidas.</p>
+    </div>
+    <div style="border:1px solid #eceff3; border-radius:12px; padding:28px 24px;">
+      <div style="width:44px; height:44px; border-radius:10px; background:#eaf1ff; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2f6fed" stroke-width="1.6"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/><path d="m9 15 2 2 4-4"/></svg>
+      </div>
+      <h3 style="font-size:16px; font-weight:700; margin:0 0 8px; color:#101828;">Tu PDF, listo</h3>
+      <p style="font-size:14px; line-height:1.6; color:#667085; margin:0;">Guardado y ordenado por cliente, en tu propia computadora.</p>
+    </div>
+  </div>
+</section>
+
+<section style="border-top:1px solid #eceff3;">
+  <div class="contenedor carpetas-flex" style="padding:0 32px 72px; display:flex; align-items:center; gap:56px;">
+    <div style="flex:1; min-width:0; border-radius:16px; overflow:hidden; box-shadow:0 24px 60px -30px rgba(16,24,40,0.3);">
+      <img src="imagenes/carpetas.jpg" alt="Documentos ordenados por cliente" style="display:block; width:100%; height:auto;">
+    </div>
+    <div style="flex:1; min-width:0;">
+      <h2 style="font-size:28px; font-weight:800; letter-spacing:-0.01em; margin:0 0 14px; color:#101828;">Nada perdido entre carpetas</h2>
+      <p style="font-size:15.5px; line-height:1.65; color:#475467; margin:0; max-width:420px;">
+        Cada opinión de cumplimiento y constancia se guarda sola, ordenada por cliente y por fecha, en tu propia computadora. Sin andar buscando entre PDFs sueltos ni recordando dónde quedó cada cosa.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="seccion-precio" style="background:#f9fafb; border-top:1px solid #eceff3; border-bottom:1px solid #eceff3; scroll-margin-top:30px;">
+  <div class="contenedor" style="padding:72px 32px; display:flex; justify-content:center;">
+    <div style="max-width:420px; width:100%; background:white; border:1px solid #eceff3; border-radius:14px; padding:36px; text-align:center; box-shadow:0 12px 32px -20px rgba(16,24,40,0.18);">
+      <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Precio</div>
+      <div style="font-size:42px; font-weight:800; color:#101828; margin-bottom:6px;">$499 <span style="font-size:15px; font-weight:600; color:#667085;">MXN / año</span></div>
+      <p style="font-size:13.5px; color:#667085; margin:0 0 26px;">Incluye 1 persona. Cada persona extra, $49 MXN/año.</p>
+      <div style="text-align:left; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; border-top:1px solid #eceff3; padding-top:22px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">7 días de prueba gratis, no se cobra hasta el día 8</span></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">Tu e.firma nunca sale de tu computadora</span></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">Cancela cuando quieras</span></div>
+      </div>
+
+      <label for="correo" style="display:block; text-align:left; font-size:13px; font-weight:600; color:#1c2430; margin:0 0 6px;">Tu correo</label>
+      <input id="correo" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email"
+             style="width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid #d0d5dd; font-size:14.5px; margin-bottom:16px; box-sizing:border-box;">
+
+      <label for="asientos" style="display:block; text-align:left; font-size:13px; font-weight:600; color:#1c2430; margin:0 0 6px;">¿Para cuántas personas?</label>
+      <input id="asientos" type="number" min="1" value="1"
+             style="width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid #d0d5dd; font-size:14.5px; margin-bottom:20px; box-sizing:border-box;">
+
+      <button id="btn-pagar" onclick="pagar()" style="display:block; width:100%; padding:14px; border-radius:8px; border:none; background:#2f6fed; color:white; font-size:15px; font-weight:700; cursor:pointer;">Suscribirme</button>
+      <div id="error" style="color:#d92d20; font-size:13px; margin-top:10px; display:none;"></div>
+    </div>
+  </div>
+</section>
+
+<div class="contenedor" style="text-align:center; padding:40px 32px;">
+  <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest" target="_blank" rel="noopener" style="display:inline-block; padding:13px 24px; border-radius:12px; background:#eaf1ff; color:#2f6fed; text-decoration:none; font-size:14px; font-weight:700;">
+    ¿Ya pagaste? Descarga la app aquí →
+  </a>
+</div>
+
+<footer style="text-align:center; padding:28px 32px;">
+  <span style="font-size:11.5px; color:#98a2b3;">© 2026 Rodrigo Villicaña Sánchez. Todos los derechos reservados.</span>
+</footer>
+
+<a href="https://wa.me/525566738980" target="_blank" rel="noopener" class="boton-soporte"
+   style="position:fixed; bottom:24px; right:24px; height:52px; padding:0 20px 0 16px; border-radius:26px; background:#2f6fed; display:flex; align-items:center; gap:9px; box-shadow:0 12px 28px -8px rgba(47,111,237,0.55); z-index:20;">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
+    <path d="M12 3.5c-5 0-9 3.4-9 7.6 0 2.4 1.3 4.5 3.3 5.9-.1 1-.4 2.2-1.1 3.2 1.4-.2 2.7-.8 3.7-1.5.9.3 2 .5 3.1.5 5 0 9-3.4 9-7.6s-4-8.1-9-8.1z"/>
+    <circle cx="8.3" cy="11.2" r="1.15" fill="#2f6fed"/>
+    <circle cx="12" cy="11.2" r="1.15" fill="#2f6fed"/>
+    <circle cx="15.7" cy="11.2" r="1.15" fill="#2f6fed"/>
+  </svg>
+  <span style="color:white; font-size:14.5px; font-weight:700;">Soporte</span>
+</a>
+
+<script>
+  const SERVIDOR = "https://servidor-licencias-37nv.onrender.com";
+
+  function mostrarPrecio(e) {
+    if (e) e.preventDefault();
+    document.getElementById("seccion-precio").scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("correo").focus({ preventScroll: true });
+  }
+
+  async function pagar() {
+    const correo = document.getElementById("correo").value.trim();
+    const asientos = parseInt(document.getElementById("asientos").value, 10);
+    const errorEl = document.getElementById("error");
+    const boton = document.getElementById("btn-pagar");
+
+    errorEl.style.display = "none";
+
+    if (!correo.includes("@") || !correo.includes(".")) {
+      errorEl.textContent = "Escribe un correo válido.";
+      errorEl.style.display = "block";
+      return;
+    }
+    if (!asientos || asientos < 1) {
+      errorEl.textContent = "El número de personas tiene que ser al menos 1.";
+      errorEl.style.display = "block";
+      return;
     }
 
-    async function pagar() {
-      const correo = document.getElementById("correo").value.trim();
-      const asientos = parseInt(document.getElementById("asientos").value, 10);
-      const errorEl = document.getElementById("error");
-      const boton = document.getElementById("btn-pagar");
+    boton.disabled = true;
+    boton.textContent = "Abriendo pago...";
 
-      errorEl.style.display = "none";
-
-      if (!correo.includes("@") || !correo.includes(".")) {
-        errorEl.textContent = "Escribe un correo válido.";
-        errorEl.style.display = "block";
-        return;
+    try {
+      const respuesta = await fetch(SERVIDOR + "/clientes/pagar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          correo: correo,
+          asientos: asientos,
+          url_exito: window.location.origin + "/gracias.html",
+          url_cancelado: window.location.href,
+        }),
+      });
+      const datos = await respuesta.json();
+      if (!respuesta.ok) {
+        throw new Error(datos.detail || "No se pudo abrir el pago.");
       }
-      if (!asientos || asientos < 1) {
-        errorEl.textContent = "El número de personas tiene que ser al menos 1.";
-        errorEl.style.display = "block";
-        return;
-      }
-
-      boton.disabled = true;
-      boton.textContent = "Abriendo pago...";
-
-      try {
-        const respuesta = await fetch(SERVIDOR + "/clientes/pagar", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            correo: correo,
-            asientos: asientos,
-            url_exito: window.location.origin + "/gracias.html",
-            url_cancelado: window.location.href,
-          }),
-        });
-        const datos = await respuesta.json();
-        if (!respuesta.ok) {
-          throw new Error(datos.detail || "No se pudo abrir el pago.");
-        }
-        window.location.href = datos.url_de_pago;
-      } catch (err) {
-        errorEl.textContent = "No se pudo conectar: " + err.message;
-        errorEl.style.display = "block";
-        boton.disabled = false;
-        boton.textContent = "Suscribirme";
-      }
+      window.location.href = datos.url_de_pago;
+    } catch (err) {
+      errorEl.textContent = "No se pudo conectar: " + err.message;
+      errorEl.style.display = "block";
+      boton.disabled = false;
+      boton.textContent = "Suscribirme";
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>

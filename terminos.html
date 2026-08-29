@@ -11,17 +11,24 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
     color: #1c2430;
     background: #ffffff;
-    line-height: 1.6;
+    line-height: 1.62;
   }
   .contenedor { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
   header { border-bottom: 1px solid #eceff3; margin-bottom: 40px; }
   header .contenedor { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; max-width: 720px; }
   a { color: #2f6fed; }
   h1 { font-size: 26px; font-weight: 800; margin: 0 0 8px; }
-  .fecha { color: #667085; font-size: 13px; margin-bottom: 36px; }
+  .fecha { color: #667085; font-size: 13px; margin-bottom: 28px; }
   h2 { font-size: 17px; font-weight: 700; margin: 34px 0 10px; color: #101828; }
   p, li { font-size: 14.5px; color: #344054; }
-  ul { padding-left: 20px; }
+  ul, ol { padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  .destacado {
+    background: #f5f8ff; border: 1px solid #dbe4f5; border-radius: 10px;
+    padding: 16px 18px; margin: 20px 0;
+  }
+  .destacado p { margin: 0; font-size: 14px; }
+  strong { color: #101828; }
 </style>
 </head>
 <body>
@@ -34,46 +41,123 @@
 </header>
 
 <div class="contenedor">
-  <h1>Términos y condiciones</h1>
+  <h1>Términos y condiciones de uso</h1>
   <p class="fecha">Última actualización: agosto de 2026</p>
 
-  <p>Estos términos aplican al usar <strong>Cliks</strong> (marca bajo la cual se ofrece la aplicación "Consultas SAT") y la página <strong>cliks.mx</strong>. Al crear una cuenta, iniciar la prueba gratuita o pagar la suscripción, aceptas lo siguiente.</p>
+  <p>Estos términos rigen el uso de <strong>Cliks</strong>, marca comercial bajo la cual se licencia la aplicación de escritorio <strong>"Consultas SAT"</strong>, y del sitio <strong>cliks.mx</strong> (en conjunto, el "Servicio"). Al instalar la aplicación, iniciar el periodo de prueba o contratar la suscripción, usted celebra un contrato vinculante con el titular del Servicio (el "Licenciante") en los términos siguientes.</p>
 
-  <h2>1. Qué es Cliks</h2>
-  <p>Cliks es una aplicación de escritorio que automatiza la descarga de documentos públicos del portal del SAT (opinión de cumplimiento, constancia de situación fiscal) usando la e.firma que tú mismo proporcionas. <strong>Cliks no está afiliado, patrocinado ni respaldado por el SAT</strong> ni por ninguna autoridad del gobierno mexicano — es una herramienta independiente hecha por un tercero.</p>
+  <div class="destacado">
+    <p><strong>Lea con atención las cláusulas 2, 4, 9, 10, 11 y 12.</strong> Contienen la naturaleza profesional de la licencia, las declaraciones que usted otorga respecto de la e.firma, la ausencia de garantías, el límite de responsabilidad y su obligación de sacar en paz al Licenciante frente a reclamaciones de terceros.</p>
+  </div>
 
-  <h2>2. Tu e.firma y tus datos</h2>
-  <p>Tu e.firma (certificado y llave privada) se queda cifrada y almacenada únicamente en tu propia computadora. No se envía, ni se guarda, ni pasa en ningún momento por los servidores de Cliks. Eres el único responsable de mantener tu e.firma y su contraseña en un lugar seguro.</p>
-
-  <h2>3. Uso del servicio</h2>
+  <h2>1. Qué es y qué no es el Servicio</h2>
+  <p>Consultas SAT es un <strong>programa de cómputo que se instala y ejecuta en el equipo del Usuario</strong> y que automatiza pasos que el propio Usuario podría realizar manualmente en el portal del Servicio de Administración Tributaria (SAT), utilizando las credenciales que el propio Usuario suministra.</p>
   <ul>
-    <li>Debes usar Cliks únicamente para consultar tus propios documentos fiscales o los de clientes que te hayan autorizado expresamente a hacerlo.</li>
-    <li>No debes intentar usar Cliks para actividades ilegales, fraudulentas, o para acceder a información de terceros sin autorización.</li>
-    <li>El SAT puede cambiar su portal, sus requisitos o bloquear el acceso automatizado en cualquier momento sin previo aviso — Cliks hará lo posible por adaptarse, pero no puede garantizar que el servicio funcione siempre sin interrupciones.</li>
+    <li><strong>El Licenciante no es, ni está afiliado, patrocinado, avalado, certificado ni autorizado por el SAT</strong>, ni por la Secretaría de Hacienda y Crédito Público, ni por ninguna autoridad fiscal o gubernamental. Cualquier referencia al SAT es meramente descriptiva de la fuente de los documentos.</li>
+    <li><strong>El Licenciante no accede al portal del SAT.</strong> Quien accede es el Usuario, desde su propio equipo, con su propia conexión y con sus propias credenciales. El Servicio es únicamente el instrumento técnico mediante el cual el Usuario ejecuta ese acceso.</li>
+    <li><strong>El Servicio no presta asesoría fiscal, contable, legal ni financiera</strong>, ni emite opinión profesional alguna, ni sustituye el juicio del contador o profesionista que lo utiliza. No genera, altera, valida ni certifica documentos: únicamente descarga los que el SAT emite.</li>
+    <li>El Servicio <strong>no es un auxiliar, tercero autorizado, proveedor autorizado de certificación (PAC), ni intermediario</strong> ante autoridad alguna.</li>
   </ul>
 
-  <h2>4. Pagos, prueba gratuita y cancelación</h2>
+  <h2>2. Licencia de uso profesional (no destinada al consumo final)</h2>
+  <p>El Servicio se comercializa y licencia <strong>exclusivamente a profesionistas, despachos contables, personas físicas con actividad empresarial o profesional y personas morales</strong>, para ser integrado en la prestación de servicios profesionales a terceros o en la administración de sus propias obligaciones fiscales dentro de una actividad económica.</p>
+  <p>En consecuencia, el Usuario reconoce y acepta que <strong>no adquiere el Servicio como destinatario final para consumo personal, familiar o doméstico</strong>, sino como insumo de su actividad profesional o empresarial, con las consecuencias que ello tiene conforme al artículo 2, fracción I, de la Ley Federal de Protección al Consumidor.</p>
+  <p><strong>El Servicio no está dirigido ni se ofrece a menores de edad ni a personas que actúen fuera de una actividad profesional o empresarial.</strong> Al contratar, el Usuario declara ser mayor de edad y contar con capacidad legal para obligarse.</p>
+
+  <h2>3. Cuenta, verificación y credenciales de acceso</h2>
   <ul>
-    <li>La prueba gratuita dura 7 días. Se pide una tarjeta desde el inicio; si no cancelas antes de que termine la prueba, se hace el primer cobro automáticamente.</li>
-    <li>La suscripción se renueva automáticamente cada año salvo que la canceles.</li>
-    <li>Puedes cancelar en cualquier momento; el acceso permanece activo hasta el final del periodo ya pagado. No se hacen reembolsos por periodos parciales ya utilizados, salvo que la ley aplicable indique lo contrario.</li>
-    <li>Los pagos son procesados por Stripe. Cliks nunca ve ni almacena los datos completos de tu tarjeta.</li>
+    <li>La cuenta se identifica mediante el correo electrónico verificado por el Usuario. El Usuario declara ser titular legítimo de dicho correo.</li>
+    <li>La licencia se otorga para el número de personas (asientos) contratado. Compartir el acceso fuera de ese número constituye incumplimiento y faculta al Licenciante a suspender el Servicio.</li>
+    <li>El Usuario es responsable de toda actividad realizada desde su cuenta y su equipo.</li>
   </ul>
 
-  <h2>5. "Tal cual" y sin garantías</h2>
-  <p>Cliks se ofrece <strong>"tal cual" ("as is")</strong>, sin garantías de ningún tipo, explícitas o implícitas, incluyendo (sin limitarse a) garantías de que el servicio será ininterrumpido, libre de errores, o de que los documentos descargados estarán siempre actualizados o serán aceptados por terceros para cualquier fin específico. Eres responsable de verificar que los documentos obtenidos cumplan tus necesidades antes de usarlos.</p>
+  <h2>4. e.firma: declaraciones y responsabilidad del Usuario</h2>
+  <p>Esta cláusula es esencial para la celebración del contrato. El Usuario declara, bajo protesta de decir verdad, que:</p>
+  <ol>
+    <li><strong>Respecto de cada e.firma que utilice en el Servicio, es su titular o cuenta con autorización expresa, previa y por escrito</strong> del titular para emplearla con la finalidad de consultar y descargar sus documentos fiscales, y que conserva evidencia de dicha autorización.</li>
+    <li>Conoce y asume que, conforme a la normatividad aplicable y a los propios formatos de solicitud del SAT, <strong>el uso de la e.firma y las consecuencias jurídicas de los documentos firmados con ella son responsabilidad exclusiva de su titular</strong>, y que el resguardo de los archivos de e.firma y de su contraseña corresponde íntegramente al Usuario y/o a dicho titular.</li>
+    <li>Utilizará el Servicio únicamente respecto de contribuyentes con los que mantenga una relación profesional vigente y con mandato suficiente.</li>
+  </ol>
+  <p><strong>Arquitectura del Servicio.</strong> Los archivos de e.firma (certificado y llave privada), las contraseñas y los documentos descargados se almacenan cifrados y de forma exclusiva en el equipo del Usuario. <strong>No se transmiten, alojan, replican ni procesan en la infraestructura del Licenciante en ningún momento.</strong> El Licenciante no tiene ni puede tener acceso a ellos, por lo que no puede custodiarlos, recuperarlos ni responder por su pérdida, filtración, uso indebido o divulgación, cuya prevención depende íntegramente de las medidas de seguridad del equipo, la red y el personal del Usuario.</p>
 
-  <h2>6. Límite de responsabilidad</h2>
-  <p>En la máxima medida permitida por la ley, Cliks y su operador no serán responsables por daños indirectos, incidentales, especiales o consecuentes (incluyendo pérdida de ingresos, datos, o multas fiscales) derivados del uso o la imposibilidad de uso del servicio, incluso si se advirtió de la posibilidad de dichos daños. En cualquier caso, la responsabilidad total de Cliks frente a un usuario no excederá el monto que ese usuario haya pagado por la suscripción en los últimos 12 meses.</p>
+  <h2>5. Datos personales de terceros: el Usuario es el responsable</h2>
+  <p>Cuando el Usuario emplea el Servicio respecto de contribuyentes distintos de sí mismo, dichos datos <strong>se tratan localmente en el equipo del Usuario y no son recabados ni tratados por el Licenciante</strong>.</p>
+  <p>Por tanto, para efectos de la legislación mexicana en materia de protección de datos personales en posesión de particulares, <strong>el Usuario es el único responsable</strong> del tratamiento de los datos de sus clientes, incluyendo la obtención del consentimiento, la puesta a disposición del aviso de privacidad, la atención de los derechos de acceso, rectificación, cancelación y oposición, y la implementación de medidas de seguridad. <strong>El Licenciante no actúa como responsable ni como encargado</strong> respecto de esos datos, ya que no los recibe.</p>
+  <p>El único dato personal que el Licenciante trata es el correo electrónico del Usuario y el estado de su suscripción, conforme al <a href="privacidad.html">Aviso de Privacidad</a>.</p>
 
-  <h2>7. Cambios a estos términos</h2>
-  <p>Podemos actualizar estos términos ocasionalmente. Si los cambios son importantes, lo avisaremos por correo o dentro de la aplicación. El uso continuado del servicio después de un cambio implica que lo aceptas.</p>
+  <h2>6. Uso permitido y prohibido</h2>
+  <p>El Usuario se obliga a no:</p>
+  <ul>
+    <li>Utilizar el Servicio para acceder a información de contribuyentes sin autorización, ni para fines ilícitos, fraudulentos o contrarios a la normatividad fiscal.</li>
+    <li>Descompilar, aplicar ingeniería inversa, modificar, redistribuir, sublicenciar, revender o poner el Servicio a disposición de terceros ajenos a los asientos contratados.</li>
+    <li>Emplear el Servicio de forma que sobrecargue, degrade o interfiera con los sistemas del SAT o de terceros, ni con volumen o frecuencia que excedan un uso profesional razonable.</li>
+    <li>Presentar el Servicio ante terceros como producto propio, oficial o avalado por autoridad alguna.</li>
+  </ul>
+  <p>El incumplimiento faculta al Licenciante a suspender o terminar el Servicio de forma inmediata, sin reembolso y sin perjuicio de las acciones que correspondan.</p>
 
-  <h2>8. Ley aplicable</h2>
-  <p>Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Cualquier disputa se resolverá ante los tribunales competentes de México.</p>
+  <h2>7. Precio, periodo de prueba, renovación y cancelación</h2>
+  <ul>
+    <li><strong>Precio:</strong> $499 MXN anuales por el primer asiento y $49 MXN anuales por cada asiento adicional, impuestos incluidos salvo indicación distinta al momento de la contratación.</li>
+    <li><strong>Periodo de prueba:</strong> 7 días naturales. Se solicita un medio de pago al inicio, <strong>sin que se genere cargo alguno durante la prueba</strong>.</li>
+    <li><strong>Cargo recurrente:</strong> concluido el periodo de prueba, y posteriormente cada año, se realizará el cargo correspondiente al medio de pago registrado. El Usuario otorga su consentimiento expreso e informado a dicho cargo recurrente al momento de contratar, habiendo tenido acceso pleno y previo a estos términos.</li>
+    <li><strong>Aviso previo:</strong> el Licenciante notificará al correo del Usuario, <strong>con al menos cinco días hábiles de anticipación</strong>, tanto la terminación del periodo de prueba como cada renovación anual, indicando fecha y monto del cargo.</li>
+    <li><strong>Cancelación:</strong> el Usuario puede cancelar <strong>en cualquier momento y de forma inmediata</strong>, sin penalización, sin trámites adicionales y sin necesidad de justificar el motivo, desde el enlace de cancelación incluido en dichos avisos y en el correo de bienvenida, o solicitándolo por el canal de soporte. La cancelación surte efectos al final del periodo ya pagado, sin que se generen cargos posteriores.</li>
+    <li><strong>Reembolsos:</strong> si un cargo se realiza sin haberse cumplido el aviso previo señalado, o por error atribuible al Licenciante, se reembolsará íntegramente. Fuera de esos supuestos, no se reembolsan periodos parciales ya transcurridos.</li>
+    <li>Los pagos se procesan por Stripe. El Licenciante no recibe, almacena ni tiene acceso a los datos completos del medio de pago.</li>
+    <li>El Licenciante podrá modificar el precio para periodos futuros, notificando con al menos treinta días naturales de anticipación. El Usuario podrá cancelar antes de la renovación si no acepta el nuevo precio; <strong>ningún cambio de precio aplicará a un periodo ya pagado</strong>.</li>
+  </ul>
 
-  <h2>9. Contacto</h2>
-  <p>¿Dudas sobre estos términos? Escríbenos por el botón de "Soporte" en <a href="index.html">cliks.mx</a>.</p>
+  <h2>8. Dependencia de sistemas de terceros y disponibilidad</h2>
+  <p>El funcionamiento del Servicio depende de sistemas operados por terceros ajenos al control del Licenciante, señaladamente <strong>el portal del SAT</strong>, cuya disponibilidad, diseño, reglas de acceso, mecanismos de autenticación y políticas pueden cambiar o suspenderse en cualquier momento y sin aviso.</p>
+  <p>El Usuario reconoce que <strong>un cambio, bloqueo, intermitencia o modificación de política del SAT o de cualquier otro tercero puede impedir total o parcialmente el funcionamiento del Servicio</strong>, y que ello no constituye incumplimiento del Licenciante. El Licenciante procurará adaptar el Servicio con diligencia razonable, sin garantizar plazo ni resultado.</p>
+  <p>Si por esta causa el Servicio quedara inoperante de forma definitiva, la única obligación del Licenciante será reembolsar la parte proporcional no devengada del periodo pagado.</p>
+
+  <h2>9. Ausencia de garantías sobre los documentos y deber de verificación</h2>
+  <p>El Servicio se proporciona <strong>"tal cual" y "según disponibilidad"</strong>. En la máxima medida permitida por la ley, el Licenciante no otorga garantías, expresas o implícitas, de comerciabilidad, idoneidad para un fin particular, continuidad, ausencia de errores ni de resultados.</p>
+  <p>En particular, el Licenciante <strong>no garantiza</strong>:</p>
+  <ul>
+    <li>La exactitud, vigencia, integridad, autenticidad ni contenido de los documentos emitidos por el SAT, cuya única fuente y responsable es la propia autoridad.</li>
+    <li>Que un documento descargado sea aceptado por cualquier tercero, autoridad, licitación, institución financiera o contraparte contractual para un fin determinado.</li>
+    <li>Que la descarga ocurra en una fecha u hora determinada.</li>
+  </ul>
+  <p><strong>El Usuario se obliga a verificar cada documento antes de utilizarlo, hacerlo valer o entregarlo a un tercero</strong>, y reconoce que dicha verificación es un deber profesional propio e indelegable. El Usuario asume el riesgo derivado de omitir dicha verificación.</p>
+
+  <h2>10. Límite de responsabilidad</h2>
+  <p>En la máxima medida permitida por la legislación aplicable:</p>
+  <ol>
+    <li>El Licenciante <strong>no responderá por daños indirectos, incidentales, especiales, punitivos ni consecuenciales</strong>, ni por lucro cesante, pérdida de ingresos, de clientela, de oportunidad, de datos, ni por multas, recargos, actualizaciones, créditos fiscales, sanciones o determinaciones impuestas al Usuario o a sus clientes por autoridad alguna.</li>
+    <li><strong>La responsabilidad total y acumulada del Licenciante</strong>, por cualquier causa y bajo cualquier teoría de responsabilidad, <strong>no excederá del monto efectivamente pagado por el Usuario en los doce meses anteriores</strong> al hecho que la origine.</li>
+    <li>Las limitaciones anteriores no aplican en los casos en que la ley no permita limitar la responsabilidad, señaladamente en supuestos de dolo o mala fe del Licenciante.</li>
+  </ol>
+  <p>El Usuario reconoce que <strong>el precio del Servicio se determinó considerando esta asignación de riesgos</strong>, y que sin ella el Servicio no podría ofrecerse a dicho precio.</p>
+
+  <h2>11. Obligación del Usuario de sacar en paz al Licenciante</h2>
+  <p>El Usuario se obliga a <strong>indemnizar y sacar en paz y a salvo al Licenciante</strong>, sus representantes y colaboradores, de cualquier reclamación, demanda, procedimiento, sanción, gasto o condena —incluidos honorarios razonables de abogados— que provenga de un tercero y derive de:</p>
+  <ul>
+    <li>El uso de una e.firma sin la autorización a que se refiere la cláusula 4.</li>
+    <li>El tratamiento de datos personales de sus clientes realizado por el Usuario.</li>
+    <li>El uso del Servicio en contravención a estos términos o a la normatividad aplicable.</li>
+    <li>La entrega, uso o invocación de documentos descargados sin la verificación prevista en la cláusula 9.</li>
+  </ul>
+
+  <h2>12. Divisibilidad</h2>
+  <p>Si alguna disposición de estos términos fuera declarada inválida, nula o inaplicable por autoridad competente, <strong>dicha disposición se tendrá por no puesta y se interpretará de la forma que más se aproxime a la intención original dentro de lo permitido por la ley, permaneciendo el resto en pleno vigor</strong>. La invalidez de una cláusula no afecta la validez de las demás.</p>
+
+  <h2>13. Propiedad intelectual</h2>
+  <p>El Servicio, su código, marca, nombre comercial, diseño y documentación son propiedad del Licenciante. Estos términos otorgan únicamente una licencia de uso limitada, revocable, no exclusiva e intransferible, y no transmiten titularidad alguna. Los documentos descargados por el Usuario son de éste y de sus clientes.</p>
+
+  <h2>14. Modificaciones y vigencia</h2>
+  <p>El Licenciante podrá actualizar estos términos. Los cambios sustanciales se notificarán al correo del Usuario con al menos <strong>treinta días naturales</strong> de anticipación a su entrada en vigor. Si el Usuario no está de acuerdo, podrá cancelar antes de esa fecha sin penalización; el uso posterior a la entrada en vigor implica aceptación. <strong>Ningún cambio aplicará retroactivamente a hechos ocurridos antes de su vigencia.</strong></p>
+
+  <h2>15. Terminación</h2>
+  <p>El Usuario puede terminar cuando quiera cancelando su suscripción. El Licenciante puede terminar por incumplimiento del Usuario, o por descontinuación del Servicio avisando con al menos treinta días naturales y reembolsando la parte proporcional no devengada.</p>
+
+  <h2>16. Ley aplicable y jurisdicción</h2>
+  <p>Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Para su interpretación y cumplimiento, las partes se someten a la jurisdicción de los <strong>tribunales competentes de la Ciudad de México</strong>, renunciando a cualquier otro fuero que pudiera corresponderles por razón de domicilio presente o futuro.</p>
+  <p>Lo anterior <strong>sin perjuicio de los derechos que la Ley Federal de Protección al Consumidor otorgue a quien tenga el carácter de consumidor</strong> conforme a dicha ley, ni de la competencia de la Procuraduría Federal del Consumidor en los casos en que legalmente proceda.</p>
+
+  <h2>17. Contacto</h2>
+  <p>Para dudas, cancelaciones o reclamaciones, escríbanos por el botón de <strong>Soporte</strong> en <a href="index.html">cliks.mx</a>. Atendemos en días hábiles.</p>
 </div>
 
 </body>

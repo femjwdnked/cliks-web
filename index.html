@@ -140,6 +140,18 @@
       <input id="asientos" type="number" min="1" value="1"
              style="width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid #d0d5dd; font-size:14.5px; margin-bottom:20px; box-sizing:border-box;">
 
+      <div style="text-align:left; background:#f9fafb; border:1px solid #eceff3; border-radius:10px; padding:12px 14px; margin-bottom:18px;">
+        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; margin:0;">
+          <input type="checkbox" id="acepto" style="width:16px; height:16px; margin-top:2px; flex-shrink:0; cursor:pointer;">
+          <span style="font-size:12.5px; color:#475467; line-height:1.5; font-weight:400;">
+            Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos y condiciones</a> y el
+            <a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a>, y autorizo el
+            <strong>cargo recurrente anual</strong> al terminar la prueba de 7 días. Se me avisará por correo
+            5 días hábiles antes de cada cargo y puedo cancelar cuando quiera, sin penalización.
+          </span>
+        </label>
+      </div>
+
       <button id="btn-pagar" onclick="pagar()" style="display:block; width:100%; padding:14px; border-radius:8px; border:none; background:#2f6fed; color:white; font-size:15px; font-weight:700; cursor:pointer;">Suscribirme</button>
       <div id="error" style="color:#d92d20; font-size:13px; margin-top:10px; display:none;"></div>
     </div>
@@ -174,6 +186,10 @@
 
 <script>
   const SERVIDOR = "https://servidor-licencias-37nv.onrender.com";
+
+  // Qué versión de los términos aceptó. Si algún día cambian, poder
+  // demostrar cuál era la vigente el día que la persona contrató.
+  const VERSION_TERMINOS = "2026-08";
 
   // Liga directa al archivo -- así el clic descarga de una vez, sin
   // pasar por la pantalla de GitHub. "latest/download/<nombre>"
@@ -217,6 +233,14 @@
       errorEl.style.display = "block";
       return;
     }
+    // La ley pide consentimiento expreso e informado para el cargo
+    // recurrente, después de haber tenido acceso a los términos. Sin
+    // esta palomita no hay contrato exigible, así que no se avanza.
+    if (!document.getElementById("acepto").checked) {
+      errorEl.textContent = "Para continuar, acepta los términos y el cargo recurrente.";
+      errorEl.style.display = "block";
+      return;
+    }
 
     boton.disabled = true;
     boton.textContent = "Abriendo pago...";
@@ -230,6 +254,10 @@
           asientos: asientos,
           url_exito: window.location.origin + "/gracias.html",
           url_cancelado: window.location.href,
+          // Queda registrado con fecha: la ley exige poder demostrar
+          // que la persona aceptó los términos y el cargo recurrente.
+          acepto_terminos: true,
+          version_terminos: VERSION_TERMINOS,
         }),
       });
       const datos = await respuesta.json();

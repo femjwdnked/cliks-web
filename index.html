@@ -165,6 +165,20 @@
   <div id="texto-descarga-otro" style="margin-top:10px; font-size:12px; color:#98a2b3;"></div>
 </div>
 
+<!-- Datos de contacto: el artículo 76 Bis III de la Ley Federal de
+     Protección al Consumidor obliga a mostrar domicilio y teléfono
+     ANTES de que la persona contrate. No es opcional. -->
+<section style="background:#f9fafb; border-top:1px solid #eceff3;">
+  <div class="contenedor" style="padding:36px 32px; text-align:center;">
+    <h3 style="font-size:15px; font-weight:700; margin:0 0 14px; color:#101828;">¿Necesitas ayuda antes de contratar?</h3>
+    <div style="display:flex; gap:28px; justify-content:center; flex-wrap:wrap; font-size:13.5px; color:#475467;">
+      <span>WhatsApp: <a href="https://wa.me/525566738980">55 6673 8980</a></span>
+      <span>Correo: <a href="mailto:soporte@cliks.mx">soporte@cliks.mx</a></span>
+    </div>
+    <p id="domicilio" style="font-size:12.5px; color:#667085; margin:14px 0 0;"></p>
+  </div>
+</section>
+
 <footer style="text-align:center; padding:28px 32px;">
   <div style="margin-bottom:10px;">
     <a href="terminos.html" style="font-size:12px; color:#667085; margin:0 10px;">Términos y condiciones</a>
@@ -190,6 +204,17 @@
   // Qué versión de los términos aceptó. Si algún día cambian, poder
   // demostrar cuál era la vigente el día que la persona contrató.
   const VERSION_TERMINOS = "2026-08";
+
+  // ⬇⬇⬇  ESCRIBE AQUÍ TU DOMICILIO  ⬇⬇⬇
+  // La ley (art. 76 Bis III) obliga a mostrarlo antes de que alguien
+  // contrate. Ejemplo: "Av. Reforma 123, Col. Centro, CDMX, C.P. 06000".
+  // Mientras esté vacío, simplemente no se muestra nada -- pero el
+  // requisito legal sigue sin cumplirse.
+  const DOMICILIO = "";
+
+  if (DOMICILIO) {
+    document.getElementById("domicilio").textContent = DOMICILIO;
+  }
 
   // Liga directa al archivo -- así el clic descarga de una vez, sin
   // pasar por la pantalla de GitHub. "latest/download/<nombre>"

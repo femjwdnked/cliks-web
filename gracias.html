@@ -36,7 +36,19 @@
     </div>
     <h1>¡Listo, ya quedaste suscrito!</h1>
     <p>Baja la app y entra con el mismo correo que usaste para pagar — tu cuenta ya va a aparecer activa.</p>
-    <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest">Descargar Consultas SAT</a>
+    <a href="#" id="link-descargar">Descargar Consultas SAT</a>
+    <div id="texto-descarga-otro" style="margin-top:12px; font-size:12px; color:#98a2b3;"></div>
   </div>
+  <script>
+    const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
+    const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
+    const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT.exe";
+    const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT.exe" : "ConsultasSAT-Mac.zip";
+    const TEXTO_OTRO = ES_MAC ? "¿Usas Windows? Descárgala aquí" : "¿Usas Mac? Descárgala aquí";
+
+    document.getElementById("link-descargar").href = BASE_DESCARGAS + ARCHIVO_PROPIO;
+    document.getElementById("texto-descarga-otro").innerHTML =
+      `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}" style="background:none; padding:0; color:#98a2b3; text-decoration:underline; font-weight:400; font-size:12px;">${TEXTO_OTRO}</a>`;
+  </script>
 </body>
 </html>

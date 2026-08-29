@@ -32,7 +32,7 @@
 <header style="border-bottom: 1px solid #eceff3;">
   <div class="contenedor" style="display:flex; align-items:center; justify-content:space-between; padding:20px 32px;">
     <img src="imagenes/logo-cliks.png" alt="Cliks" style="height:26px; width:auto; display:block;">
-    <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest" target="_blank" rel="noopener" style="font-size:13.5px; font-weight:600; color:#1c2430;">¿Ya pagaste? Descarga la app →</a>
+    <a href="#" id="link-descargar-header" style="font-size:13.5px; font-weight:600; color:#1c2430;">¿Ya pagaste? Descarga la app →</a>
   </div>
 </header>
 
@@ -147,9 +147,10 @@
 </section>
 
 <div class="contenedor" style="text-align:center; padding:40px 32px;">
-  <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest" target="_blank" rel="noopener" style="display:inline-block; padding:13px 24px; border-radius:12px; background:#eaf1ff; color:#2f6fed; text-decoration:none; font-size:14px; font-weight:700;">
+  <a href="#" id="link-descargar-cuerpo" style="display:inline-block; padding:13px 24px; border-radius:12px; background:#eaf1ff; color:#2f6fed; text-decoration:none; font-size:14px; font-weight:700;">
     ¿Ya pagaste? Descarga la app aquí →
   </a>
+  <div id="texto-descarga-otro" style="margin-top:10px; font-size:12px; color:#98a2b3;"></div>
 </div>
 
 <footer style="text-align:center; padding:28px 32px;">
@@ -169,6 +170,24 @@
 
 <script>
   const SERVIDOR = "https://servidor-licencias-37nv.onrender.com";
+
+  // Liga directa al archivo -- así el clic descarga de una vez, sin
+  // pasar por la pantalla de GitHub. "latest/download/<nombre>"
+  // siempre apunta al archivo de la versión más reciente publicada.
+  const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
+  const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
+  const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT.exe";
+  const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT.exe" : "ConsultasSAT-Mac.zip";
+  const TEXTO_OTRO = ES_MAC ? "¿Usas Windows? Descárgala aquí" : "¿Usas Mac? Descárgala aquí";
+
+  for (const id of ["link-descargar-header", "link-descargar-cuerpo"]) {
+    const liga = document.getElementById(id);
+    if (liga) liga.href = BASE_DESCARGAS + ARCHIVO_PROPIO;
+  }
+  const otro = document.getElementById("texto-descarga-otro");
+  if (otro) {
+    otro.innerHTML = `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}" style="color:#98a2b3; text-decoration:underline;">${TEXTO_OTRO}</a>`;
+  }
 
   function mostrarPrecio(e) {
     if (e) e.preventDefault();

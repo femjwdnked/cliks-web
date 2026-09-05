@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="imagenes/favicon.png">
+<title>Cliks — Panel de control</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+    color: #1c2430;
+    background: #f9fafb;
+  }
+  .contenedor { max-width: 980px; margin: 0 auto; padding: 32px 24px 80px; }
+  h1 { font-size: 22px; font-weight: 800; margin: 0 0 4px; }
+  .subtitulo { color: #667085; font-size: 13.5px; margin: 0 0 28px; }
+
+  /* --- Pantalla de la llave --- */
+  #pantalla-llave {
+    max-width: 380px; margin: 80px auto; background: white; border: 1px solid #eceff3;
+    border-radius: 14px; padding: 32px; text-align: center;
+    box-shadow: 0 12px 32px -20px rgba(16,24,40,0.18);
+  }
+  #pantalla-llave h2 { font-size: 17px; margin: 0 0 6px; }
+  #pantalla-llave p { font-size: 13px; color: #667085; margin: 0 0 20px; }
+  input[type=password] {
+    width: 100%; padding: 12px 14px; border-radius: 10px; border: 1.5px solid #d0d5dd;
+    font-size: 14.5px; margin-bottom: 12px; box-sizing: border-box;
+  }
+  button {
+    width: 100%; padding: 12px; border-radius: 8px; border: none; background: #2f6fed;
+    color: white; font-size: 14.5px; font-weight: 700; cursor: pointer;
+  }
+  button:disabled { opacity: 0.6; cursor: default; }
+  .error { color: #d92d20; font-size: 13px; margin-top: 10px; display: none; }
+  .salir { background: none; border: 1px solid #d0d5dd; color: #475467; margin-top: 10px; }
+
+  /* --- Panel --- */
+  #panel { display: none; }
+  .tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-bottom: 32px; }
+  .tarjeta {
+    background: white; border: 1px solid #eceff3; border-radius: 12px; padding: 18px;
+  }
+  .tarjeta .numero { font-size: 26px; font-weight: 800; color: #101828; }
+  .tarjeta .etiqueta { font-size: 12.5px; color: #667085; margin-top: 4px; }
+  .tarjeta.acento .numero { color: #2f6fed; }
+
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; border: 1px solid #eceff3; }
+  th, td { text-align: left; padding: 10px 14px; font-size: 13px; border-bottom: 1px solid #eceff3; }
+  th { color: #667085; font-weight: 600; background: #f9fafb; }
+  tr:last-child td { border-bottom: none; }
+  .estado { padding: 3px 9px; border-radius: 20px; font-size: 11.5px; font-weight: 700; display: inline-block; }
+  .estado.trialing { background: #eaf1ff; color: #2f6fed; }
+  .estado.active { background: #e6f4ea; color: #1a9c5c; }
+  .estado.past_due { background: #fff4e5; color: #b45309; }
+  .estado.canceled { background: #fdecea; color: #d92d20; }
+  .estado.sin { background: #f2f4f7; color: #667085; }
+
+  h3 { font-size: 14px; color: #344054; margin: 0 0 10px; }
+  .barra-superior { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  #boton-actualizar { width: auto; padding: 9px 16px; font-size: 13px; }
+  #boton-salir { width: auto; padding: 9px 16px; font-size: 13px; background: #f2f4f7; color: #475467; }
+</style>
+</head>
+<body>
+
+<div id="pantalla-llave">
+  <h2>Panel de control</h2>
+  <p>Escribe la llave para ver los datos de Cliks.</p>
+  <input type="password" id="campo-llave" placeholder="Llave del panel" autofocus>
+  <button id="boton-entrar" onclick="entrar()">Entrar</button>
+  <div class="error" id="error-llave"></div>
+</div>
+
+<div class="contenedor" id="panel">
+  <div class="barra-superior">
+    <div>
+      <h1>Panel de control</h1>
+      <p class="subtitulo">Datos de tu servidor, en vivo.</p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button id="boton-actualizar" onclick="cargar()">↻ Actualizar</button>
+      <button id="boton-salir" onclick="salir()">Salir</button>
+    </div>
+  </div>
+
+  <div class="tarjetas">
+    <div class="tarjeta"><div class="numero" id="n-total">—</div><div class="etiqueta">Clientes totales</div></div>
+    <div class="tarjeta"><div class="numero" id="n-prueba">—</div><div class="etiqueta">En prueba gratis</div></div>
+    <div class="tarjeta"><div class="numero" id="n-activos">—</div><div class="etiqueta">Suscripciones activas</div></div>
+    <div class="tarjeta"><div class="numero" id="n-cancelados">—</div><div class="etiqueta">Cancelados</div></div>
+    <div class="tarjeta acento"><div class="numero" id="n-ingreso">—</div><div class="etiqueta">Ingreso mensual estimado</div></div>
+  </div>
+
+  <h3>Clientes</h3>
+  <table>
+    <thead>
+      <tr><th>Correo</th><th>Estado</th><th>Plan</th><th>Personas</th><th>Correo verificado</th></tr>
+    </thead>
+    <tbody id="cuerpo-tabla"></tbody>
+  </table>
+</div>
+
+<script>
+  const SERVIDOR = "https://servidor-licencias-37nv.onrender.com";
+  const LLAVE_GUARDADA = "cliks_panel_llave";
+
+  const ESTADOS = {
+    trialing: "En prueba", active: "Activa", past_due: "Pago pendiente",
+    canceled: "Cancelada",
+  };
+  function claseEstado(estado) {
+    return estado && ESTADOS[estado] ? estado : "sin";
+  }
+
+  function mostrarError(msg) {
+    const e = document.getElementById("error-llave");
+    e.textContent = msg;
+    e.style.display = "block";
+  }
+
+  async function pedirResumen(llave) {
+    const r = await fetch(SERVIDOR + "/admin/resumen", {
+      headers: { Authorization: "Bearer " + llave },
+    });
+    if (!r.ok) {
+      const datos = await r.json().catch(() => ({}));
+      throw new Error(datos.detail || ("Error " + r.status));
+    }
+    return r.json();
+  }
+
+  function pintar(datos) {
+    document.getElementById("n-total").textContent = datos.total_clientes;
+    document.getElementById("n-prueba").textContent = datos.en_prueba;
+    document.getElementById("n-activos").textContent = datos.activos;
+    document.getElementById("n-cancelados").textContent = datos.cancelados;
+    document.getElementById("n-ingreso").textContent =
+      "$" + datos.ingreso_mensual_estimado_pesos.toLocaleString("es-MX", { minimumFractionDigits: 2 }) + " MXN";
+
+    const cuerpo = document.getElementById("cuerpo-tabla");
+    cuerpo.innerHTML = "";
+    for (const c of datos.clientes) {
+      const fila = document.createElement("tr");
+      const clase = claseEstado(c.estado);
+      fila.innerHTML = `
+        <td>${c.correo}</td>
+        <td><span class="estado ${clase}">${ESTADOS[c.estado] || "Sin suscripción"}</span></td>
+        <td>${c.duracion_meses} mes(es)</td>
+        <td>${c.asientos}</td>
+        <td>${c.verificado ? "Sí" : "No"}</td>
+      `;
+      cuerpo.appendChild(fila);
+    }
+  }
+
+  async function cargar() {
+    const llave = localStorage.getItem(LLAVE_GUARDADA);
+    if (!llave) return;
+    try {
+      const datos = await pedirResumen(llave);
+      pintar(datos);
+    } catch (err) {
+      alert("No se pudo actualizar: " + err.message);
+    }
+  }
+
+  async function entrar() {
+    const llave = document.getElementById("campo-llave").value.trim();
+    const boton = document.getElementById("boton-entrar");
+    document.getElementById("error-llave").style.display = "none";
+    if (!llave) {
+      mostrarError("Escribe la llave.");
+      return;
+    }
+    boton.disabled = true;
+    boton.textContent = "Entrando...";
+    try {
+      const datos = await pedirResumen(llave);
+      localStorage.setItem(LLAVE_GUARDADA, llave);
+      document.getElementById("pantalla-llave").style.display = "none";
+      document.getElementById("panel").style.display = "block";
+      pintar(datos);
+    } catch (err) {
+      mostrarError(err.message === "Llave incorrecta." ? "Llave incorrecta." : "No se pudo conectar: " + err.message);
+      boton.disabled = false;
+      boton.textContent = "Entrar";
+    }
+  }
+
+  function salir() {
+    localStorage.removeItem(LLAVE_GUARDADA);
+    document.getElementById("panel").style.display = "none";
+    document.getElementById("pantalla-llave").style.display = "block";
+    document.getElementById("campo-llave").value = "";
+  }
+
+  document.getElementById("campo-llave").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") entrar();
+  });
+
+  // Si ya se guardó la llave en este navegador, entra directo.
+  (async () => {
+    const llave = localStorage.getItem(LLAVE_GUARDADA);
+    if (!llave) return;
+    try {
+      const datos = await pedirResumen(llave);
+      document.getElementById("pantalla-llave").style.display = "none";
+      document.getElementById("panel").style.display = "block";
+      pintar(datos);
+    } catch (err) {
+      localStorage.removeItem(LLAVE_GUARDADA);
+    }
+  })();
+</script>
+
+</body>
+</html>

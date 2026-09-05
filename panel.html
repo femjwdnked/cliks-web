@@ -62,6 +62,44 @@
   .barra-superior { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
   #boton-actualizar { width: auto; padding: 9px 16px; font-size: 13px; }
   #boton-salir { width: auto; padding: 9px 16px; font-size: 13px; background: #f2f4f7; color: #475467; }
+
+  /* --- Gráfica de crecimiento --- */
+  .grafica {
+    background: white; border: 1px solid #eceff3; border-radius: 12px; padding: 20px;
+    margin-bottom: 28px;
+  }
+  .barras {
+    display: flex; align-items: flex-end; gap: 10px; height: 120px; margin-top: 14px;
+  }
+  .barra-mes { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
+  .barra-mes .barra {
+    width: 100%; max-width: 40px; background: #2f6fed; border-radius: 5px 5px 0 0;
+    min-height: 3px;
+  }
+  .barra-mes .num { font-size: 11px; font-weight: 700; color: #344054; margin-bottom: 3px; }
+  .barra-mes .mes { font-size: 10.5px; color: #98a2b3; margin-top: 6px; }
+  .sin-datos { font-size: 13px; color: #98a2b3; padding: 10px 0; }
+
+  /* --- Buscador de la tabla --- */
+  #buscador {
+    width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #d0d5dd;
+    font-size: 13.5px; margin-bottom: 14px; box-sizing: border-box;
+  }
+  .boton-cancelar {
+    width: auto; padding: 5px 10px; font-size: 12px; background: #fdecea; color: #d92d20;
+  }
+
+  /* --- Banner del sitio --- */
+  .aviso-caja { display: flex; flex-direction: column; gap: 10px; }
+  .aviso-fila { display: flex; align-items: center; gap: 10px; }
+  .aviso-caja input[type=text] {
+    flex: 1; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #d0d5dd; font-size: 13.5px;
+  }
+  .aviso-caja button { width: auto; padding: 9px 18px; font-size: 13px; }
+  .interruptor { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475467; cursor: pointer; }
+  .aviso-estado { font-size: 12px; margin-top: 4px; display: none; }
+  .aviso-estado.ok { color: #1a9c5c; }
+  .aviso-estado.mal { color: #d92d20; }
 </style>
 </head>
 <body>
@@ -92,12 +130,38 @@
     <div class="tarjeta"><div class="numero" id="n-activos">—</div><div class="etiqueta">Suscripciones activas</div></div>
     <div class="tarjeta"><div class="numero" id="n-cancelados">—</div><div class="etiqueta">Cancelados</div></div>
     <div class="tarjeta acento"><div class="numero" id="n-ingreso">—</div><div class="etiqueta">Ingreso mensual estimado</div></div>
+    <div class="tarjeta acento"><div class="numero" id="n-cobrado">—</div><div class="etiqueta">Cobrado en los últimos 12 meses (Stripe)</div></div>
+  </div>
+
+  <div class="grafica">
+    <h3 style="margin:0;">Clientes nuevos por mes</h3>
+    <div class="barras" id="grafica-barras"></div>
+  </div>
+
+  <div class="grafica">
+    <h3 style="margin:0 0 4px;">Banner del sitio</h3>
+    <p class="subtitulo" style="margin:0 0 14px;">
+      Un aviso arriba de cliks.mx (mantenimiento, promoción, lo que sea). Prende/apaga cuando quieras.
+    </p>
+    <div class="aviso-caja">
+      <div class="aviso-fila">
+        <input type="text" id="aviso-mensaje" placeholder="Texto del aviso, por ejemplo: Mantenimiento programado el domingo de 10pm a 12am">
+      </div>
+      <div class="aviso-fila">
+        <label class="interruptor">
+          <input type="checkbox" id="aviso-activo"> Mostrar en el sitio
+        </label>
+        <button id="boton-guardar-aviso" onclick="guardarAviso()">Guardar</button>
+      </div>
+      <div class="aviso-estado" id="aviso-estado"></div>
+    </div>
   </div>
 
   <h3>Clientes</h3>
+  <input type="text" id="buscador" placeholder="Buscar por correo, plan o estado..." oninput="filtrarTabla()">
   <table>
     <thead>
-      <tr><th>Correo</th><th>Estado</th><th>Plan</th><th>Personas</th><th>Correo verificado</th></tr>
+      <tr><th>Correo</th><th>Estado</th><th>Plan</th><th>Personas</th><th>Correo verificado</th><th>Próximo cobro</th><th></th></tr>
     </thead>
     <tbody id="cuerpo-tabla"></tbody>
   </table>
@@ -113,6 +177,110 @@
   };
   function claseEstado(estado) {
     return estado && ESTADOS[estado] ? estado : "sin";
+  }
+
+  const MESES_CORTOS = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+
+  function formatearFecha(iso) {
+    if (!iso) return "—";
+    const f = new Date(iso);
+    return f.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" });
+  }
+
+  function pintarGrafica(por_mes) {
+    const cont = document.getElementById("grafica-barras");
+    const claves = Object.keys(por_mes || {});
+    if (!claves.length) {
+      cont.innerHTML = '<div class="sin-datos">Todavía no hay suficientes datos para la gráfica (los clientes de antes de hoy no traen fecha de alta guardada).</div>';
+      return;
+    }
+    const maximo = Math.max(...Object.values(por_mes));
+    cont.innerHTML = "";
+    for (const clave of claves) {
+      const cantidad = por_mes[clave];
+      const [anio, mes] = clave.split("-");
+      const alturaPct = maximo ? Math.max(6, (cantidad / maximo) * 100) : 6;
+      const div = document.createElement("div");
+      div.className = "barra-mes";
+      div.innerHTML = `
+        <div class="num">${cantidad}</div>
+        <div class="barra" style="height:${alturaPct}%"></div>
+        <div class="mes">${MESES_CORTOS[parseInt(mes, 10) - 1]} ${anio.slice(2)}</div>
+      `;
+      cont.appendChild(div);
+    }
+  }
+
+  async function cancelarCliente(correo, boton) {
+    if (!confirm(`¿Cancelar la suscripción de ${correo}? Sigue teniendo acceso hasta que termine lo que ya pagó, y no se le vuelve a cobrar.`)) {
+      return;
+    }
+    const llave = localStorage.getItem(LLAVE_GUARDADA);
+    boton.disabled = true;
+    boton.textContent = "Cancelando...";
+    try {
+      const r = await fetch(SERVIDOR + "/admin/cancelar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + llave },
+        body: JSON.stringify({ correo }),
+      });
+      const datos = await r.json();
+      if (!r.ok) throw new Error(datos.detail || "Error " + r.status);
+      alert("Cancelada. Puede tardar unos segundos en verse reflejado aquí.");
+      cargar();
+    } catch (err) {
+      alert("No se pudo cancelar: " + err.message);
+      boton.disabled = false;
+      boton.textContent = "Cancelar";
+    }
+  }
+
+  async function pedirAviso() {
+    const r = await fetch(SERVIDOR + "/aviso");
+    return r.json();
+  }
+
+  async function cargarAviso() {
+    try {
+      const datos = await pedirAviso();
+      document.getElementById("aviso-mensaje").value = datos.mensaje || "";
+      document.getElementById("aviso-activo").checked = !!datos.activo;
+    } catch (err) {
+      // Si falla, se deja vacío -- no vale la pena tumbar el resto del panel por esto.
+    }
+  }
+
+  async function guardarAviso() {
+    const llave = localStorage.getItem(LLAVE_GUARDADA);
+    const mensaje = document.getElementById("aviso-mensaje").value.trim();
+    const activo = document.getElementById("aviso-activo").checked;
+    const boton = document.getElementById("boton-guardar-aviso");
+    const estado = document.getElementById("aviso-estado");
+    boton.disabled = true;
+    estado.style.display = "none";
+    try {
+      const r = await fetch(SERVIDOR + "/admin/aviso", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + llave },
+        body: JSON.stringify({ activo, mensaje }),
+      });
+      const datos = await r.json();
+      if (!r.ok) throw new Error(datos.detail || "Error " + r.status);
+      estado.textContent = "Guardado.";
+      estado.className = "aviso-estado ok";
+    } catch (err) {
+      estado.textContent = "No se pudo guardar: " + err.message;
+      estado.className = "aviso-estado mal";
+    }
+    estado.style.display = "block";
+    boton.disabled = false;
+  }
+
+  function filtrarTabla() {
+    const q = document.getElementById("buscador").value.trim().toLowerCase();
+    for (const fila of document.querySelectorAll("#cuerpo-tabla tr")) {
+      fila.style.display = fila.textContent.toLowerCase().includes(q) ? "" : "none";
+    }
   }
 
   function mostrarError(msg) {
@@ -139,21 +307,35 @@
     document.getElementById("n-cancelados").textContent = datos.cancelados;
     document.getElementById("n-ingreso").textContent =
       "$" + datos.ingreso_mensual_estimado_pesos.toLocaleString("es-MX", { minimumFractionDigits: 2 }) + " MXN";
+    document.getElementById("n-cobrado").textContent =
+      datos.total_cobrado_12m_pesos == null
+        ? "No disponible"
+        : "$" + datos.total_cobrado_12m_pesos.toLocaleString("es-MX", { minimumFractionDigits: 2 }) + " MXN";
+
+    pintarGrafica(datos.por_mes);
 
     const cuerpo = document.getElementById("cuerpo-tabla");
     cuerpo.innerHTML = "";
     for (const c of datos.clientes) {
       const fila = document.createElement("tr");
       const clase = claseEstado(c.estado);
+      const puedeCancelar = c.estado === "active" || c.estado === "trialing" || c.estado === "past_due";
       fila.innerHTML = `
         <td>${c.correo}</td>
         <td><span class="estado ${clase}">${ESTADOS[c.estado] || "Sin suscripción"}</span></td>
         <td>${c.duracion_meses} mes(es)</td>
         <td>${c.asientos}</td>
         <td>${c.verificado ? "Sí" : "No"}</td>
+        <td>${formatearFecha(c.proximo_cobro)}</td>
+        <td>${puedeCancelar ? '<button class="boton-cancelar">Cancelar</button>' : ""}</td>
       `;
+      if (puedeCancelar) {
+        fila.querySelector(".boton-cancelar").onclick = (e) => cancelarCliente(c.correo, e.target);
+      }
       cuerpo.appendChild(fila);
     }
+    filtrarTabla();
+    cargarAviso();
   }
 
   async function cargar() {

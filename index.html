@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="imagenes/favicon.png">
 <title>Cliks — Consultas SAT</title>
 <meta name="description" content="Descarga automática de tu opinión de cumplimiento y tu constancia de situación fiscal, directo del SAT.">
 <style>
@@ -121,11 +122,20 @@
 </section>
 
 <section id="seccion-precio" style="background:#f9fafb; border-top:1px solid #eceff3; border-bottom:1px solid #eceff3; scroll-margin-top:30px;">
-  <div class="contenedor" style="padding:72px 32px; display:flex; justify-content:center;">
-    <div style="max-width:420px; width:100%; background:white; border:1px solid #eceff3; border-radius:14px; padding:36px; text-align:center; box-shadow:0 12px 32px -20px rgba(16,24,40,0.18);">
+  <div class="contenedor" style="padding:72px 32px;">
+    <div style="text-align:center; margin-bottom:36px;">
       <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Precio</div>
-      <div style="font-size:42px; font-weight:800; color:#101828; margin-bottom:6px;">$499 <span style="font-size:15px; font-weight:600; color:#667085;">MXN / año</span></div>
-      <p style="font-size:13.5px; color:#667085; margin:0 0 26px;">Incluye 1 persona. Cada persona extra, $49 MXN/año.</p>
+      <h2 style="font-size:26px; font-weight:800; color:#101828; margin:0;">Elige cada cuánto quieres pagar</h2>
+      <p style="font-size:14px; color:#667085; margin:8px 0 0;">Entre más tiempo elijas de una vez, más barato sale por mes.</p>
+    </div>
+
+    <div id="planes" style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; max-width:920px; margin:0 auto 40px;">
+      <!-- Cada tarjeta se rellena con JS desde PLANES; aquí sólo el molde. -->
+    </div>
+
+    <div style="max-width:420px; width:100%; margin:0 auto; background:white; border:1px solid #eceff3; border-radius:14px; padding:36px; text-align:center; box-shadow:0 12px 32px -20px rgba(16,24,40,0.18);">
+      <div id="resumen-plan" style="font-size:15px; font-weight:700; color:#101828; margin-bottom:4px;"></div>
+      <p id="resumen-plan-nota" style="font-size:13px; color:#667085; margin:0 0 22px;"></p>
       <div style="text-align:left; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; border-top:1px solid #eceff3; padding-top:22px;">
         <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">7 días de prueba gratis, no se cobra hasta el día 8</span></div>
         <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">Tu e.firma nunca sale de tu computadora</span></div>
@@ -146,8 +156,9 @@
           <span style="font-size:12.5px; color:#475467; line-height:1.5; font-weight:400;">
             Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos y condiciones</a> y el
             <a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a>, y autorizo el
-            <strong>cargo recurrente anual</strong> al terminar la prueba de 7 días. Se me avisará por correo
-            5 días hábiles antes de cada cargo y puedo cancelar cuando quiera, sin penalización.
+            <strong>cargo recurrente</strong> según el plan elegido, al terminar la prueba de 7 días. La
+            suscripción se renueva sola al terminar cada periodo; se me avisará por correo 5 días hábiles
+            antes de cada cargo y puedo cancelar cuando quiera, sin penalización.
           </span>
         </label>
       </div>
@@ -234,6 +245,47 @@
     otro.innerHTML = `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}" style="color:#98a2b3; text-decoration:underline;">${TEXTO_OTRO}</a>`;
   }
 
+  // Mismos precios que precios.py (servidor_licencias) -- si cambian
+  // allá, hay que cambiarlos aquí también, es la única duplicación.
+  const PLANES = {
+    1:  { nombre: "1 mes",   precio: 69,  recomendado: false },
+    3:  { nombre: "3 meses", precio: 180, recomendado: false },
+    6:  { nombre: "6 meses", precio: 330, recomendado: false },
+    12: { nombre: "1 año",   precio: 499, recomendado: true  },
+  };
+  let PLAN_ELEGIDO = 12;
+
+  function pintarPlanes() {
+    const contenedor = document.getElementById("planes");
+    contenedor.innerHTML = "";
+    for (const meses of [1, 3, 6, 12]) {
+      const plan = PLANES[meses];
+      const porMes = plan.precio / meses;
+      const activo = meses === PLAN_ELEGIDO;
+      const tarjeta = document.createElement("div");
+      tarjeta.style.cssText = `
+        cursor:pointer; width:190px; text-align:center; border-radius:12px; padding:22px 16px;
+        border:2px solid ${activo ? "#2f6fed" : "#eceff3"};
+        background:${activo ? "#eaf1ff" : "white"};
+        box-shadow:${activo ? "0 8px 20px -10px rgba(47,111,237,0.4)" : "none"};
+        transition:border-color .15s, background .15s;
+      `;
+      tarjeta.innerHTML = `
+        ${plan.recomendado ? '<div style="font-size:10.5px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#2f6fed; margin-bottom:8px;">Recomendado</div>' : '<div style="height:17px;"></div>'}
+        <div style="font-size:14px; font-weight:700; color:#101828; margin-bottom:6px;">${plan.nombre}</div>
+        <div style="font-size:26px; font-weight:800; color:#101828;">$${plan.precio}</div>
+        <div style="font-size:12px; color:#667085; margin-top:2px;">MXN, equivale a $${porMes.toFixed(0)}/mes</div>
+      `;
+      tarjeta.onclick = () => { PLAN_ELEGIDO = meses; pintarPlanes(); };
+      contenedor.appendChild(tarjeta);
+    }
+    const plan = PLANES[PLAN_ELEGIDO];
+    document.getElementById("resumen-plan").textContent = `Plan de ${plan.nombre} -- $${plan.precio} MXN`;
+    document.getElementById("resumen-plan-nota").textContent =
+      "Incluye 1 persona. Cada persona extra tiene costo adicional, prorrateado según el plan.";
+  }
+  pintarPlanes();
+
   function mostrarPrecio(e) {
     if (e) e.preventDefault();
     document.getElementById("seccion-precio").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -277,6 +329,7 @@
         body: JSON.stringify({
           correo: correo,
           asientos: asientos,
+          duracion_meses: PLAN_ELEGIDO,
           url_exito: window.location.origin + "/gracias.html",
           url_cancelado: window.location.href,
           // Queda registrado con fecha: la ley exige poder demostrar

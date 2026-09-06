@@ -63,6 +63,17 @@
   #boton-actualizar { width: auto; padding: 9px 16px; font-size: 13px; }
   #boton-salir { width: auto; padding: 9px 16px; font-size: 13px; background: #f2f4f7; color: #475467; }
 
+  /* --- Pestañas --- */
+  .pestanas { display: flex; gap: 4px; border-bottom: 1px solid #eceff3; margin-bottom: 24px; }
+  .pestana {
+    padding: 10px 4px; margin-right: 20px; font-size: 14px; font-weight: 600; color: #667085;
+    background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer;
+    width: auto;
+  }
+  .pestana.activa { color: #2f6fed; border-bottom-color: #2f6fed; }
+  .pestana-panel { display: none; }
+  .pestana-panel.activa { display: block; }
+
   /* --- Gráfica de crecimiento --- */
   .grafica {
     background: white; border: 1px solid #eceff3; border-radius: 12px; padding: 20px;
@@ -100,6 +111,18 @@
   .aviso-estado { font-size: 12px; margin-top: 4px; display: none; }
   .aviso-estado.ok { color: #1a9c5c; }
   .aviso-estado.mal { color: #d92d20; }
+
+  /* --- Códigos de descuento --- */
+  .codigos-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 18px; }
+  .campo-mini { display: flex; flex-direction: column; gap: 4px; }
+  .campo-mini label { font-size: 11.5px; color: #667085; font-weight: 600; }
+  .campo-mini input, .campo-mini select {
+    padding: 9px 10px; border-radius: 8px; border: 1.5px solid #d0d5dd; font-size: 13px;
+  }
+  #codigos-form-boton { width: auto; padding: 10px 18px; font-size: 13px; }
+  .boton-desactivar {
+    width: auto; padding: 5px 10px; font-size: 12px; background: #f2f4f7; color: #475467;
+  }
 </style>
 </head>
 <body>
@@ -124,47 +147,100 @@
     </div>
   </div>
 
-  <div class="tarjetas">
-    <div class="tarjeta"><div class="numero" id="n-total">—</div><div class="etiqueta">Clientes totales</div></div>
-    <div class="tarjeta"><div class="numero" id="n-prueba">—</div><div class="etiqueta">En prueba gratis</div></div>
-    <div class="tarjeta"><div class="numero" id="n-activos">—</div><div class="etiqueta">Suscripciones activas</div></div>
-    <div class="tarjeta"><div class="numero" id="n-cancelados">—</div><div class="etiqueta">Cancelados</div></div>
-    <div class="tarjeta acento"><div class="numero" id="n-ingreso">—</div><div class="etiqueta">Ingreso mensual estimado</div></div>
-    <div class="tarjeta acento"><div class="numero" id="n-cobrado">—</div><div class="etiqueta">Cobrado en los últimos 12 meses (Stripe)</div></div>
+  <div class="pestanas">
+    <button class="pestana activa" data-pestana="resumen" onclick="cambiarPestana('resumen')">Resumen</button>
+    <button class="pestana" data-pestana="clientes" onclick="cambiarPestana('clientes')">Clientes</button>
+    <button class="pestana" data-pestana="descuentos" onclick="cambiarPestana('descuentos')">Descuentos</button>
   </div>
 
-  <div class="grafica">
-    <h3 style="margin:0;">Clientes nuevos por mes</h3>
-    <div class="barras" id="grafica-barras"></div>
-  </div>
+  <div class="pestana-panel activa" id="pestana-resumen">
+    <div class="tarjetas">
+      <div class="tarjeta"><div class="numero" id="n-total">—</div><div class="etiqueta">Clientes totales</div></div>
+      <div class="tarjeta"><div class="numero" id="n-prueba">—</div><div class="etiqueta">En prueba gratis</div></div>
+      <div class="tarjeta"><div class="numero" id="n-activos">—</div><div class="etiqueta">Suscripciones activas</div></div>
+      <div class="tarjeta"><div class="numero" id="n-cancelados">—</div><div class="etiqueta">Cancelados</div></div>
+      <div class="tarjeta acento"><div class="numero" id="n-ingreso">—</div><div class="etiqueta">Ingreso mensual estimado</div></div>
+      <div class="tarjeta acento"><div class="numero" id="n-cobrado">—</div><div class="etiqueta">Cobrado en los últimos 12 meses (Stripe)</div></div>
+    </div>
 
-  <div class="grafica">
-    <h3 style="margin:0 0 4px;">Banner del sitio</h3>
-    <p class="subtitulo" style="margin:0 0 14px;">
-      Un aviso arriba de cliks.mx (mantenimiento, promoción, lo que sea). Prende/apaga cuando quieras.
-    </p>
-    <div class="aviso-caja">
-      <div class="aviso-fila">
-        <input type="text" id="aviso-mensaje" placeholder="Texto del aviso, por ejemplo: Mantenimiento programado el domingo de 10pm a 12am">
-      </div>
-      <div class="aviso-fila">
-        <label class="interruptor">
-          <input type="checkbox" id="aviso-activo"> Mostrar en el sitio
-        </label>
-        <button id="boton-guardar-aviso" onclick="guardarAviso()">Guardar</button>
-      </div>
-      <div class="aviso-estado" id="aviso-estado"></div>
+    <div class="grafica">
+      <h3 style="margin:0;">Clientes nuevos por mes</h3>
+      <div class="barras" id="grafica-barras"></div>
     </div>
   </div>
 
-  <h3>Clientes</h3>
-  <input type="text" id="buscador" placeholder="Buscar por correo, plan o estado..." oninput="filtrarTabla()">
-  <table>
-    <thead>
-      <tr><th>Correo</th><th>Estado</th><th>Plan</th><th>Personas</th><th>Correo verificado</th><th>Próximo cobro</th><th></th></tr>
-    </thead>
-    <tbody id="cuerpo-tabla"></tbody>
-  </table>
+  <div class="pestana-panel" id="pestana-clientes">
+    <h3>Clientes</h3>
+    <input type="text" id="buscador" placeholder="Buscar por correo, plan o estado..." oninput="filtrarTabla()">
+    <table>
+      <thead>
+        <tr><th>Correo</th><th>Estado</th><th>Plan</th><th>Personas</th><th>Correo verificado</th><th>Próximo cobro</th><th></th></tr>
+      </thead>
+      <tbody id="cuerpo-tabla"></tbody>
+    </table>
+  </div>
+
+  <div class="pestana-panel" id="pestana-descuentos">
+    <div class="grafica">
+      <h3 style="margin:0 0 4px;">Banner del sitio</h3>
+      <p class="subtitulo" style="margin:0 0 14px;">
+        Un aviso arriba de cliks.mx (mantenimiento, promoción, lo que sea). Prende/apaga cuando quieras.
+      </p>
+      <div class="aviso-caja">
+        <div class="aviso-fila">
+          <input type="text" id="aviso-mensaje" placeholder="Texto del aviso, por ejemplo: Mantenimiento programado el domingo de 10pm a 12am">
+        </div>
+        <div class="aviso-fila">
+          <label class="interruptor">
+            <input type="checkbox" id="aviso-activo"> Mostrar en el sitio
+          </label>
+          <button id="boton-guardar-aviso" onclick="guardarAviso()">Guardar</button>
+        </div>
+        <div class="aviso-estado" id="aviso-estado"></div>
+      </div>
+    </div>
+
+    <div class="grafica">
+      <h3 style="margin:0 0 4px;">Códigos de descuento</h3>
+      <p class="subtitulo" style="margin:0 0 14px;">
+        Se crean directo en Stripe, listos para usarse en la pantalla de pago.
+      </p>
+      <div class="codigos-form">
+        <div class="campo-mini">
+          <label>Código</label>
+          <input type="text" id="cod-codigo" placeholder="BIENVENIDA10" style="width:160px;">
+        </div>
+        <div class="campo-mini">
+          <label>Tipo</label>
+          <select id="cod-tipo">
+            <option value="porcentaje">% de descuento</option>
+            <option value="monto">$ de descuento (MXN)</option>
+          </select>
+        </div>
+        <div class="campo-mini">
+          <label>Valor</label>
+          <input type="number" id="cod-valor" placeholder="10" style="width:90px;" min="0" step="0.01">
+        </div>
+        <div class="campo-mini">
+          <label>Límite de usos (opcional)</label>
+          <input type="number" id="cod-limite" placeholder="Sin límite" style="width:130px;" min="1">
+        </div>
+        <div class="campo-mini">
+          <label class="interruptor" style="margin-bottom:9px;">
+            <input type="checkbox" id="cod-para-siempre"> Aplica siempre, no sólo el primer cobro
+          </label>
+        </div>
+        <button id="codigos-form-boton" onclick="crearCodigo()">Crear código</button>
+      </div>
+      <div class="aviso-estado" id="codigos-estado"></div>
+      <table>
+        <thead>
+          <tr><th>Código</th><th>Descuento</th><th>Aplica</th><th>Usos</th><th></th></tr>
+        </thead>
+        <tbody id="cuerpo-codigos"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -276,6 +352,108 @@
     boton.disabled = false;
   }
 
+  async function cargarCodigos() {
+    const llave = localStorage.getItem(LLAVE_GUARDADA);
+    const cuerpo = document.getElementById("cuerpo-codigos");
+    try {
+      const r = await fetch(SERVIDOR + "/admin/codigos", {
+        headers: { Authorization: "Bearer " + llave },
+      });
+      const datos = await r.json();
+      if (!r.ok) throw new Error(datos.detail || "Error " + r.status);
+      cuerpo.innerHTML = "";
+      if (!datos.codigos.length) {
+        cuerpo.innerHTML = '<tr><td colspan="5" class="sin-datos">Todavía no has creado ningún código.</td></tr>';
+        return;
+      }
+      for (const c of datos.codigos) {
+        const fila = document.createElement("tr");
+        const usos = c.limite_usos ? `${c.usos} / ${c.limite_usos}` : `${c.usos}`;
+        fila.innerHTML = `
+          <td><strong>${c.codigo}</strong></td>
+          <td>${c.descuento}</td>
+          <td>${c.aplica}</td>
+          <td>${usos}</td>
+          <td><button class="boton-desactivar">Desactivar</button></td>
+        `;
+        fila.querySelector(".boton-desactivar").onclick = (e) => desactivarCodigo(c.id, c.codigo, e.target);
+        cuerpo.appendChild(fila);
+      }
+    } catch (err) {
+      cuerpo.innerHTML = `<tr><td colspan="5" class="sin-datos">No se pudieron cargar: ${err.message}</td></tr>`;
+    }
+  }
+
+  async function crearCodigo() {
+    const llave = localStorage.getItem(LLAVE_GUARDADA);
+    const boton = document.getElementById("codigos-form-boton");
+    const estado = document.getElementById("codigos-estado");
+    const cuerpo = {
+      codigo: document.getElementById("cod-codigo").value.trim(),
+      tipo: document.getElementById("cod-tipo").value,
+      valor: parseFloat(document.getElementById("cod-valor").value),
+      para_siempre: document.getElementById("cod-para-siempre").checked,
+      limite_usos: document.getElementById("cod-limite").value
+        ? parseInt(document.getElementById("cod-limite").value, 10) : null,
+    };
+    if (!cuerpo.codigo || !(cuerpo.valor > 0)) {
+      estado.textContent = "Escribe un código y un valor mayor a 0.";
+      estado.className = "aviso-estado mal";
+      estado.style.display = "block";
+      return;
+    }
+    boton.disabled = true;
+    boton.textContent = "Creando...";
+    try {
+      const r = await fetch(SERVIDOR + "/admin/codigos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + llave },
+        body: JSON.stringify(cuerpo),
+      });
+      const datos = await r.json();
+      if (!r.ok) throw new Error(datos.detail || "Error " + r.status);
+      estado.textContent = `Listo: el código "${datos.codigo}" ya funciona en la pantalla de pago.`;
+      estado.className = "aviso-estado ok";
+      document.getElementById("cod-codigo").value = "";
+      document.getElementById("cod-valor").value = "";
+      document.getElementById("cod-limite").value = "";
+      cargarCodigos();
+    } catch (err) {
+      estado.textContent = "No se pudo crear: " + err.message;
+      estado.className = "aviso-estado mal";
+    }
+    estado.style.display = "block";
+    boton.disabled = false;
+    boton.textContent = "Crear código";
+  }
+
+  async function desactivarCodigo(id, codigo, boton) {
+    if (!confirm(`¿Desactivar el código "${codigo}"? Ya no se va a poder usar en pagos nuevos.`)) return;
+    const llave = localStorage.getItem(LLAVE_GUARDADA);
+    boton.disabled = true;
+    try {
+      const r = await fetch(SERVIDOR + `/admin/codigos/${id}/desactivar`, {
+        method: "POST",
+        headers: { Authorization: "Bearer " + llave },
+      });
+      const datos = await r.json();
+      if (!r.ok) throw new Error(datos.detail || "Error " + r.status);
+      cargarCodigos();
+    } catch (err) {
+      alert("No se pudo desactivar: " + err.message);
+      boton.disabled = false;
+    }
+  }
+
+  function cambiarPestana(nombre) {
+    for (const boton of document.querySelectorAll(".pestana")) {
+      boton.classList.toggle("activa", boton.dataset.pestana === nombre);
+    }
+    for (const panel of document.querySelectorAll(".pestana-panel")) {
+      panel.classList.toggle("activa", panel.id === "pestana-" + nombre);
+    }
+  }
+
   function filtrarTabla() {
     const q = document.getElementById("buscador").value.trim().toLowerCase();
     for (const fila of document.querySelectorAll("#cuerpo-tabla tr")) {
@@ -336,6 +514,7 @@
     }
     filtrarTabla();
     cargarAviso();
+    cargarCodigos();
   }
 
   async function cargar() {

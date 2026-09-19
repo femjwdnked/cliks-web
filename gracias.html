@@ -9,39 +9,89 @@
   * { box-sizing: border-box; }
   body {
     margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
     background: #f5f8ff;
     color: #1c2430;
   }
   .tarjeta {
     background: white; border: 1px solid #eceff3;
-    border-radius: 14px; padding: 46px 42px; max-width: 420px; text-align: center;
+    border-radius: 14px; padding: 40px 36px; width: 100%; max-width: 520px;
     box-shadow: 0 20px 50px -30px rgba(16,24,40,0.25);
   }
+  .arriba { text-align: center; }
   .check {
     width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 22px;
     background: #e6f4ea; display: flex; align-items: center; justify-content: center;
   }
   h1 { font-size: 22px; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.01em; color: #101828; }
-  p { color: #667085; font-size: 14px; line-height: 1.55; margin: 0 0 26px; }
-  a {
+  .arriba > p { color: #667085; font-size: 14px; line-height: 1.55; margin: 0 0 24px; }
+  .boton-descarga {
     display: inline-block; padding: 13px 24px; border-radius: 8px;
     background: #2f6fed; color: white; text-decoration: none; font-weight: 700; font-size: 14.5px;
   }
+
+  .ayuda {
+    margin-top: 28px; padding: 20px 22px;
+    background: #fff8ec; border: 1px solid #fce3b3; border-radius: 12px;
+  }
+  .ayuda h2 { font-size: 15.5px; font-weight: 800; margin: 0 0 6px; color: #7a4a00; }
+  .ayuda .porque { font-size: 13px; line-height: 1.55; color: #7a5b16; margin: 0 0 14px; }
+  .sistema { margin-bottom: 10px; }
+  .sistema summary {
+    cursor: pointer; font-size: 13.5px; font-weight: 700; color: #101828;
+    padding: 6px 0; list-style: none;
+  }
+  .sistema summary::-webkit-details-marker { display: none; }
+  .sistema summary::after { content: " ▾"; color: #98a2b3; font-weight: 400; }
+  .sistema[open] summary::after { content: ""; }
+  .paso { display: flex; gap: 10px; align-items: flex-start; margin: 8px 0; font-size: 13.5px; line-height: 1.5; color: #344054; }
+  .num {
+    flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+    background: #2f6fed; color: white; font-size: 11.5px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .tip {
+    margin-top: 14px; padding-top: 12px; border-top: 1px dashed #f0d59a;
+    font-size: 12.5px; line-height: 1.55; color: #7a5b16;
+  }
+  .mas { margin-top: 12px; font-size: 12.5px; }
+  .mas a { color: #2f6fed; font-weight: 600; text-decoration: none; }
 </style>
 </head>
 <body>
   <div class="tarjeta">
-    <div class="check">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a9c5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4 10-10"/></svg>
+    <div class="arriba">
+      <div class="check">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a9c5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4 10-10"/></svg>
+      </div>
+      <h1>¡Listo, ya quedaste suscrito!</h1>
+      <p>Baja la app y entra con el mismo correo que usaste para pagar — tu cuenta ya va a aparecer activa.</p>
+      <a href="#" id="link-descargar" class="boton-descarga">Descargar Consultas SAT</a>
+      <div id="texto-descarga-otro" style="margin-top:12px; font-size:12px; color:#98a2b3;"></div>
     </div>
-    <h1>¡Listo, ya quedaste suscrito!</h1>
-    <p>Baja la app y entra con el mismo correo que usaste para pagar — tu cuenta ya va a aparecer activa.</p>
-    <a href="#" id="link-descargar">Descargar Consultas SAT</a>
-    <div id="texto-descarga-otro" style="margin-top:12px; font-size:12px; color:#98a2b3;"></div>
-    <div style="margin-top:22px; padding-top:18px; border-top:1px solid #eceff3; font-size:12.5px; color:#98a2b3;">
-      ⚠️ Al abrirla, tu sistema va a mostrar una advertencia — es normal.
-      <a href="instalar.html" style="font-weight:600;">Ve aquí qué hacer →</a>
+
+    <div class="ayuda" id="ayuda">
+      <h2>⚠️ Antes de abrirla: tu sistema va a mostrar una advertencia</h2>
+      <p class="porque">Es normal. Pasa con cualquier programa que no paga la firma de certificación (cuesta cientos de dólares al año). No significa que sea peligrosa. Sólo sale una vez. Haz esto:</p>
+
+      <div id="sistemas">
+        <details class="sistema" id="det-mac">
+          <summary>🍎 Si usas Mac</summary>
+          <div class="paso"><div class="num">1</div><div>En el aviso que sale, pica <strong>Listo</strong> (nunca "Enviar a la papelera").</div></div>
+          <div class="paso"><div class="num">2</div><div>Abre <strong>Ajustes del Sistema → Privacidad y seguridad</strong>.</div></div>
+          <div class="paso"><div class="num">3</div><div>Baja a <strong>Seguridad</strong> y dale <strong>"Abrir de todos modos"</strong>.</div></div>
+          <div class="paso"><div class="num">4</div><div>Confirma con tu Touch ID o contraseña y pica <strong>Abrir</strong>.</div></div>
+        </details>
+        <details class="sistema" id="det-win">
+          <summary>🪟 Si usas Windows</summary>
+          <div class="paso"><div class="num">1</div><div>Sale una ventana azul que dice <strong>"Windows protegió tu PC"</strong>. Dale a <strong>"Más información"</strong> (el texto chiquito).</div></div>
+          <div class="paso"><div class="num">2</div><div>Aparece un botón nuevo: <strong>"Ejecutar de todas formas"</strong>. Dale clic.</div></div>
+        </details>
+      </div>
+
+      <div class="tip">⏳ <strong>La primera vez tarda hasta 1 minuto en abrir sin mostrar nada.</strong> Da un solo doble clic y espera — si le picas varias veces, tarda más.</div>
+      <div class="mas"><a href="instalar.html">Ver la guía completa →</a> &nbsp;·&nbsp; ¿Dudas? <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a></div>
     </div>
   </div>
   <script>
@@ -54,6 +104,12 @@
     document.getElementById("link-descargar").href = BASE_DESCARGAS + ARCHIVO_PROPIO;
     document.getElementById("texto-descarga-otro").innerHTML =
       `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}" style="background:none; padding:0; color:#98a2b3; text-decoration:underline; font-weight:400; font-size:12px;">${TEXTO_OTRO}</a>`;
+
+    // Los pasos del sistema de esta persona van primero y ya abiertos;
+    // los del otro quedan plegados, a un clic.
+    const propio = document.getElementById(ES_MAC ? "det-mac" : "det-win");
+    propio.open = true;
+    document.getElementById("sistemas").prepend(propio);
   </script>
 </body>
 </html>

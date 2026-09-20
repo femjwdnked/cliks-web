@@ -44,6 +44,11 @@
     background: #2f6fed; color: white; font-size: 12px; font-weight: 700;
     display: flex; align-items: center; justify-content: center; margin-top: 1px;
   }
+  .descarga { background: #f5f8ff; border: 1px solid #dbe4f5; border-radius: 12px; padding: 22px 22px 18px; margin: 0 0 8px; text-align: center; }
+  .boton-descarga { display: inline-block; padding: 13px 24px; border-radius: 8px; background: #2f6fed; color: white; text-decoration: none; font-weight: 700; font-size: 14.5px; }
+  .descarga .otro { margin-top: 12px; font-size: 12px; color: #98a2b3; }
+  .descarga .otro a { color: #98a2b3; text-decoration: underline; }
+  .descarga .nota { margin: 14px 0 0; font-size: 13px; color: #667085; }
 </style>
 </head>
 <body>
@@ -58,6 +63,12 @@
 <div class="contenedor">
   <h1>Cómo instalar Consultas SAT sin espantarte</h1>
   <p class="sub">La primera vez que abras la app, tu sistema va a mostrar una advertencia. Es normal — aquí explicamos por qué y qué hacer.</p>
+
+  <div class="descarga">
+    <a href="#" id="link-descargar" class="boton-descarga">Descargar Consultas SAT</a>
+    <div id="texto-descarga-otro" class="otro"></div>
+    <p class="nota">Para usarla necesitas una cuenta: <a href="index.html#seccion-precio">empieza tu prueba gratis de 7 días</a>. Después de descargar, sigue los pasos de abajo para tu sistema.</p>
+  </div>
 
   <div class="destacado">
     <p><strong>¿Por qué aparece esto?</strong> Windows y Mac sólo dejan pasar sin avisos a los programas que pagaron una firma de certificación — cuesta varios cientos de dólares al año. Preferimos mantener el precio de la suscripción bajo en vez de cobrarte por eso. La advertencia no significa que el programa esté mal hecho ni sea peligroso: significa nada más que no pagamos ese sello. Sólo sale <strong>una vez por versión</strong>.</p>
@@ -87,6 +98,20 @@
   <h2>¿Sigue sin abrir?</h2>
   <p>Escríbenos a <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a> y te ayudamos directo.</p>
 </div>
+
+<script>
+  // Liga directa al archivo: "latest/download/<nombre>" siempre apunta al
+  // archivo de la versión más reciente publicada.
+  const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
+  const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
+  const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT.exe";
+  const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT.exe" : "ConsultasSAT-Mac.zip";
+  const TEXTO_OTRO = ES_MAC ? "¿Usas Windows? Descárgala aquí" : "¿Usas Mac? Descárgala aquí";
+
+  document.getElementById("link-descargar").href = BASE_DESCARGAS + ARCHIVO_PROPIO;
+  document.getElementById("texto-descarga-otro").innerHTML =
+    `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}">${TEXTO_OTRO}</a>`;
+</script>
 
 </body>
 </html>

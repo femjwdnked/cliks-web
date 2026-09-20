@@ -17,6 +17,9 @@
   a { color: #2f6fed; text-decoration: none; }
   .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
 
+  .pestana-captura { cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 999px; border: 1px solid #d0d5dd; background: #fff; color: #344054; }
+  .pestana-captura[aria-selected="true"] { background: #2f6fed; border-color: #2f6fed; color: #fff; }
+
   @media (max-width: 760px) {
     .hero-flex { flex-direction: column; }
     .hero-flex h1 { font-size: 30px !important; }
@@ -106,6 +109,28 @@
       <h3 style="font-size:16px; font-weight:700; margin:0 0 8px; color:#101828;">Tu PDF, listo</h3>
       <p style="font-size:14px; line-height:1.6; color:#667085; margin:0;">Guardado y ordenado por cliente, en tu propia computadora.</p>
     </div>
+  </div>
+</section>
+
+<section style="border-top:1px solid #eceff3; background:#f9fafb;">
+  <div class="contenedor" style="padding:72px 32px;">
+    <div style="text-align:center; margin-bottom:36px;">
+      <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Así se ve</div>
+      <h2 style="font-size:28px; font-weight:800; letter-spacing:-0.01em; margin:0 0 10px; color:#101828;">Todos tus clientes, de un vistazo</h2>
+      <p style="font-size:15px; line-height:1.6; color:#667085; margin:0 auto; max-width:540px;">Ves cuánto le queda a la e.firma de cada uno, qué documentos ya se descargaron y a quién le salió una opinión negativa.</p>
+    </div>
+    <div role="tablist" aria-label="Pantallas de la app" style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;">
+      <button type="button" role="tab" class="pestana-captura" data-captura="clientes" aria-selected="true">Clientes</button>
+      <button type="button" role="tab" class="pestana-captura" data-captura="consultas" aria-selected="false">Consultas</button>
+    </div>
+    <figure style="margin:0 auto; max-width:960px;">
+      <div style="border-radius:14px; overflow:hidden; border:1px solid #e4e7ec; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35); background:#fff;">
+        <img id="captura-clientes" src="imagenes/app-clientes.webp" width="1800" height="874" loading="lazy" alt="Pantalla Clientes de Consultas SAT: lista de clientes con los días que le quedan a cada e.firma" style="display:block; width:100%; height:auto;">
+        <img id="captura-consultas" src="imagenes/app-consultas.webp" width="1800" height="873" loading="lazy" alt="Pantalla Consultas de Consultas SAT: documentos descargados por cliente, con calendario de los últimos 90 días" style="display:none; width:100%; height:auto;">
+      </div>
+      <figcaption id="pie-captura" style="margin-top:14px; font-size:14px; line-height:1.5; color:#475467; text-align:center;">Tus clientes y los días que le quedan a cada e.firma</figcaption>
+    </figure>
+    <p style="text-align:center; font-size:12px; color:#98a2b3; margin:22px 0 0;">Clientes y datos de ejemplo.</p>
   </div>
 </section>
 
@@ -241,6 +266,25 @@
   if (DOMICILIO) {
     document.getElementById("domicilio").textContent = DOMICILIO;
   }
+
+  // Pestañas de las capturas de la app.
+  (function () {
+    const PIES = {
+      clientes: "Tus clientes y los días que le quedan a cada e.firma",
+      consultas: "Cada opinión y constancia, por cliente y con calendario de los últimos 90 días",
+    };
+    const pestanas = document.querySelectorAll(".pestana-captura");
+    pestanas.forEach(function (boton) {
+      boton.addEventListener("click", function () {
+        const cual = boton.dataset.captura;
+        pestanas.forEach(function (b) { b.setAttribute("aria-selected", b === boton ? "true" : "false"); });
+        for (const nombre in PIES) {
+          document.getElementById("captura-" + nombre).style.display = nombre === cual ? "block" : "none";
+        }
+        document.getElementById("pie-captura").textContent = PIES[cual];
+      });
+    });
+  })();
 
   // Mismos precios que precios.py (servidor_licencias) -- si cambian
   // allá, hay que cambiarlos aquí también, es la única duplicación.

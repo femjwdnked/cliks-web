@@ -190,6 +190,16 @@
         </label>
       </div>
 
+      <div style="text-align:left; border:1px solid #eceff3; border-radius:10px; padding:12px 14px; margin-bottom:18px;">
+        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; margin:0;">
+          <input type="checkbox" id="acepta-promos" style="width:16px; height:16px; margin-top:2px; flex-shrink:0; cursor:pointer;">
+          <span style="font-size:12.5px; color:#475467; line-height:1.5; font-weight:400;">
+            <strong>(Opcional)</strong> Quiero recibir novedades y promociones de Cliks por correo. Puedo darme de baja
+            cuando quiera, con un clic, y eso no afecta mi servicio.
+          </span>
+        </label>
+      </div>
+
       <button id="btn-pagar" onclick="pagar()" style="display:block; width:100%; padding:14px; border-radius:8px; border:none; background:#2f6fed; color:white; font-size:15px; font-weight:700; cursor:pointer;">Suscribirme</button>
       <div id="error" style="color:#d92d20; font-size:13px; margin-top:10px; display:none;"></div>
     </div>
@@ -377,6 +387,8 @@
           // que la persona aceptó los términos y el cargo recurrente.
           acepto_terminos: true,
           version_terminos: VERSION_TERMINOS,
+          // Casilla OPCIONAL, sin marcar de entrada: sólo si la persona la marca.
+          acepta_promociones: document.getElementById("acepta-promos").checked,
         }),
       });
       const datos = await respuesta.json();

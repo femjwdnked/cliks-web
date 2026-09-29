@@ -4,8 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="imagenes/favicon.png">
-<title>Cliks — Consultas SAT</title>
-<meta name="description" content="Descarga automática de tu opinión de cumplimiento y tu constancia de situación fiscal, directo del SAT.">
+<title>Cliks — Consultas SAT para contadores</title>
+<meta name="description" content="Descarga sola la opinión de cumplimiento y la constancia de situación fiscal de todos tus clientes, con su e.firma, y te avisa si a alguien le sale negativa. 7 días gratis.">
+<link rel="canonical" href="https://cliks.mx/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Cliks">
+<meta property="og:locale" content="es_MX">
+<meta property="og:url" content="https://cliks.mx/">
+<meta property="og:title" content="Consultas SAT: la opinión de cumplimiento de todos tus clientes, sin entrar al SAT">
+<meta property="og:description" content="Descarga sola la opinión de cumplimiento y la constancia de tus clientes, con su e.firma, y te avisa si a alguien le sale negativa. 7 días gratis.">
+<meta property="og:image" content="https://cliks.mx/imagenes/og-cliks.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cliks, Consultas SAT: pantalla con la lista de clientes y los días que le quedan a cada e.firma">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   * { box-sizing: border-box; }
   body {
@@ -46,16 +58,16 @@
   <div class="contenedor hero-flex" style="padding:64px 32px 56px; display:flex; align-items:center; gap:56px;">
     <div style="flex:1; min-width:0;">
       <div style="font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#2f6fed; margin-bottom:16px;">Software para contadores</div>
-      <h1 style="font-size:40px; font-weight:800; line-height:1.18; letter-spacing:-0.01em; margin:0 0 20px; color:#101828;">
-        Tu opinión de cumplimiento, sin entrar al SAT
+      <h1 style="font-size:40px; font-weight:800; line-height:1.18; letter-spacing:-0.01em; margin:0 0 20px; color:#101828; text-wrap:balance;">
+        La opinión de cumplimiento de todos tus clientes, sin entrar al SAT
       </h1>
       <p style="font-size:16px; line-height:1.6; color:#475467; margin:0 0 24px; max-width:460px;">
-        Consultas SAT descarga automático tu opinión de cumplimiento y tu constancia de situación fiscal, directo del portal del SAT con tu e.firma.
+        Consultas SAT entra sola al portal del SAT con la e.firma de cada cliente, descarga su opinión de cumplimiento y su constancia de situación fiscal, y <strong style="color:#101828;">te avisa cuando a alguien le sale negativa</strong>.
       </p>
       <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:28px;">
         <div style="display:flex; align-items:flex-start; gap:10px;">
           <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
-          <span style="font-size:14.5px; color:#1c2430;">Sin captcha, sin esperar, sin hacerlo a mano</span>
+          <span style="font-size:14.5px; color:#1c2430;">Cada día, solo: sin captcha, sin esperar, sin hacerlo a mano</span>
         </div>
         <div style="display:flex; align-items:flex-start; gap:10px;">
           <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
@@ -63,7 +75,15 @@
         </div>
         <div style="display:flex; align-items:flex-start; gap:10px;">
           <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
-          <span style="font-size:14.5px; color:#1c2430;">Descargas guardadas y ordenadas por cliente</span>
+          <span style="font-size:14.5px; color:#1c2430;">Aviso por Telegram o correo cuando un cliente sale negativo</span>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
+          <span style="font-size:14.5px; color:#1c2430;">Ves de un vistazo cuántos días le quedan a la e.firma de cada cliente</span>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
+          <span style="font-size:14.5px; color:#1c2430;">Descargas guardadas y ordenadas por cliente, en tu propia computadora</span>
         </div>
       </div>
       <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
@@ -264,7 +284,7 @@
 
   // Qué versión de los términos aceptó. Si algún día cambian, poder
   // demostrar cuál era la vigente el día que la persona contrató.
-  const VERSION_TERMINOS = "2026-08";
+  const VERSION_TERMINOS = "2026-09";
 
   // ⬇⬇⬇  ESCRIBE AQUÍ TU DOMICILIO  ⬇⬇⬇
   // La ley (art. 76 Bis III) obliga a mostrarlo antes de que alguien

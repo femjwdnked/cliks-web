@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://cliks.mx/">
 <meta property="og:title" content="Consultas SAT: la opinión de cumplimiento de todos tus clientes, sin entrar al SAT">
 <meta property="og:description" content="Descarga sola la opinión de cumplimiento y la constancia de tus clientes, con su e.firma, y te avisa si a alguien le sale negativa. 7 días gratis.">
-<meta property="og:image" content="https://cliks.mx/imagenes/og-cliks.jpg">
+<meta property="og:image" content="https://cliks.mx/imagenes/og-cliks.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Cliks, Consultas SAT: pantalla con la lista de clientes y los días que le quedan a cada e.firma">
@@ -31,6 +31,8 @@
 
   .pestana-captura { cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 999px; border: 1px solid #d0d5dd; background: #fff; color: #344054; }
   .pestana-captura[aria-selected="true"] { background: #2f6fed; border-color: #2f6fed; color: #fff; }
+  .pestana-video { cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 999px; border: 1px solid #d0d5dd; background: #fff; color: #344054; }
+  .pestana-video[aria-selected="true"] { background: #2f6fed; border-color: #2f6fed; color: #fff; }
 
   @media (max-width: 760px) {
     .hero-flex { flex-direction: column; }
@@ -92,7 +94,7 @@
       </div>
     </div>
 
-    <div style="flex:1; min-width:0;">
+    <div style="flex:1; min-width:0; position:relative;">
       <div style="position:relative; border-radius:16px; overflow:hidden; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35);">
         <img src="imagenes/hero-mujer.jpg" alt="Contadora trabajando en su computadora" style="display:block; width:100%; height:auto;">
         <div style="position:absolute; bottom:16px; right:16px; background:white; border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:8px; box-shadow:0 8px 20px -8px rgba(16,24,40,0.25);">
@@ -102,6 +104,25 @@
           <span style="font-size:12.5px; font-weight:700; color:#101828;">Opinión de cumplimiento lista</span>
         </div>
       </div>
+      <span class="cliks-mascota" data-tam="112" style="position:absolute; left:-22px; bottom:-30px; z-index:2;"></span>
+    </div>
+  </div>
+</section>
+
+<section style="border-top:1px solid #eceff3;">
+  <div class="contenedor" style="padding:64px 32px 8px; text-align:center;">
+    <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Míralo en un minuto</div>
+    <h2 style="font-size:28px; font-weight:800; letter-spacing:-0.01em; margin:0 0 10px; color:#101828;">Así funciona Consultas SAT</h2>
+    <p style="font-size:15px; line-height:1.6; color:#667085; margin:0 auto 26px; max-width:540px;">Sin voz y con subtítulos, para verlo donde estés. Clientes y datos de ejemplo.</p>
+    <div role="tablist" aria-label="Videos" style="display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-bottom:18px;">
+      <button type="button" role="tab" class="pestana-video" data-video="funciona" aria-selected="true">Cómo funciona (1 min)</button>
+      <button type="button" role="tab" class="pestana-video" data-video="empezar" aria-selected="false">Cómo empezar (46 s)</button>
+    </div>
+    <div style="margin:0 auto; max-width:900px; border-radius:14px; overflow:hidden; border:1px solid #e4e7ec; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35); background:#0f172a;">
+      <video id="video-cliks" controls playsinline preload="none" poster="imagenes/video-portada.jpg" style="display:block; width:100%; height:auto; aspect-ratio:16/9;">
+        <source src="videos/cliks-como-funciona.mp4" type="video/mp4">
+        Tu navegador no puede reproducir este video.
+      </video>
     </div>
   </div>
 </section>
@@ -255,7 +276,7 @@
   <span style="font-size:11.5px; color:#98a2b3;">© 2026 Cliks. Todos los derechos reservados.</span>
 </footer>
 
-<a href="https://wa.me/525566738980" target="_blank" rel="noopener" class="boton-soporte"
+<noscript><a href="https://wa.me/525566738980" target="_blank" rel="noopener" class="boton-soporte"
    style="position:fixed; bottom:24px; right:24px; height:52px; padding:0 20px 0 16px; border-radius:26px; background:#2f6fed; display:flex; align-items:center; gap:9px; box-shadow:0 12px 28px -8px rgba(47,111,237,0.55); z-index:20;">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="white" style="flex-shrink:0;">
     <path d="M12 3.5c-5 0-9 3.4-9 7.6 0 2.4 1.3 4.5 3.3 5.9-.1 1-.4 2.2-1.1 3.2 1.4-.2 2.7-.8 3.7-1.5.9.3 2 .5 3.1.5 5 0 9-3.4 9-7.6s-4-8.1-9-8.1z"/>
@@ -264,7 +285,7 @@
     <circle cx="15.7" cy="11.2" r="1.15" fill="#2f6fed"/>
   </svg>
   <span style="color:white; font-size:14.5px; font-weight:700;">Soporte</span>
-</a>
+</a></noscript>
 
 <script>
   const SERVIDOR = "https://servidor-licencias-37nv.onrender.com";
@@ -312,6 +333,26 @@
           document.getElementById("captura-" + nombre).style.display = nombre === cual ? "block" : "none";
         }
         document.getElementById("pie-captura").textContent = PIES[cual];
+      });
+    });
+  })();
+
+  // Videos de la portada: "cómo funciona" y "cómo empezar".
+  (function () {
+    const VIDEOS = {
+      funciona: { archivo: "videos/cliks-como-funciona.mp4", poster: "imagenes/video-portada.jpg" },
+      empezar: { archivo: "videos/cliks-como-empezar.mp4", poster: "imagenes/video-portada-empezar.jpg" },
+    };
+    const video = document.getElementById("video-cliks");
+    const pestanas = document.querySelectorAll(".pestana-video");
+    pestanas.forEach(function (boton) {
+      boton.addEventListener("click", function () {
+        const v = VIDEOS[boton.dataset.video];
+        pestanas.forEach(function (b) { b.setAttribute("aria-selected", b === boton ? "true" : "false"); });
+        video.pause();
+        video.poster = v.poster;
+        video.querySelector("source").src = v.archivo;
+        video.load();
       });
     });
   })();
@@ -426,5 +467,6 @@
 </script>
 
 <script src="visita.js" defer></script>
+<script src="mascota.js" defer></script>
 </body>
 </html>

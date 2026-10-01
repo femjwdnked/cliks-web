@@ -27,6 +27,21 @@
     background: #ffffff;
   }
   a { color: #2f6fed; text-decoration: none; }
+  /* Un toque de "cristal líquido", discreto: manchas suaves de color detrás y paneles translúcidos encima. */
+  html { background: #ffffff; }
+  body { background: transparent; }
+  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(900px 620px at 6% -6%, rgba(110,162,255,.30), transparent 62%),
+      radial-gradient(820px 600px at 100% 8%, rgba(181,139,255,.24), transparent 62%),
+      radial-gradient(760px 520px at 62% 100%, rgba(143,211,255,.20), transparent 62%); }
+  .cabecera-vidrio { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.58);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5); backdrop-filter: blur(20px) saturate(1.5);
+    border-bottom: 1px solid rgba(255,255,255,.75); box-shadow: 0 1px 0 rgba(16,24,40,.04), 0 14px 30px -26px rgba(26,42,122,.45); }
+  .vidrio { background: linear-gradient(135deg, rgba(255,255,255,.80), rgba(255,255,255,.56));
+    -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3);
+    border: 1px solid rgba(255,255,255,.9); box-shadow: 0 26px 50px -28px rgba(26,42,122,.38), 0 2px 8px -4px rgba(16,24,40,.08); }
+  .seccion-vidrio { background: rgba(249,250,251,.45); }
   .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
 
   .pestana-captura { cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 999px; border: 1px solid #d0d5dd; background: #fff; color: #344054; }
@@ -36,7 +51,7 @@
   .btn-descargar-header:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 14px 26px -10px rgba(47,111,237,.85), inset 0 1px 0 rgba(255,255,255,.3); }
   .btn-descargar-header:active { transform: translateY(0); }
   .btn-descargar-header .ic { width: 24px; height: 24px; border-radius: 50%; background: rgba(255,255,255,.2); display: inline-flex; align-items: center; justify-content: center; }
-  .paso-card { border: 1px solid #eceff3; border-radius: 16px; padding: 28px 24px; background: #fff; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+  .paso-card { border: 1px solid rgba(255,255,255,.9); border-radius: 22px; padding: 28px 24px; background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(255,255,255,.58)); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: 0 22px 44px -30px rgba(26,42,122,.35); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
   .paso-card:hover { transform: translateY(-4px); box-shadow: 0 22px 44px -24px rgba(16,24,40,.35); border-color: #dfe5f1; }
   .ic-tile { width: 60px; height: 60px; border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; }
   .ic-tile::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(160deg, rgba(255,255,255,.38) 0%, rgba(255,255,255,0) 46%); pointer-events: none; }
@@ -61,7 +76,7 @@
 
 <div id="banner-aviso" style="display:none; background:#2f6fed; color:white; text-align:center; padding:10px 16px; font-size:13.5px; font-weight:600;"></div>
 
-<header style="border-bottom: 1px solid #eceff3;">
+<header class="cabecera-vidrio">
   <div class="contenedor" style="display:flex; align-items:center; justify-content:space-between; padding:20px 32px;">
     <img src="imagenes/logo-cliks.png" alt="Cliks" style="height:26px; width:auto; display:block;">
     <a href="instalar.html" id="link-descargar-header" class="btn-descargar-header"><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v10"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M5 19h14"/></svg></span>¿Ya pagaste? Descarga la app</a>
@@ -159,7 +174,7 @@
   </div>
 </section>
 
-<section style="border-top:1px solid #eceff3; background:#f9fafb;">
+<section class="seccion-vidrio" style="border-top:1px solid rgba(255,255,255,.8);">
   <div class="contenedor" style="padding:72px 32px;">
     <div style="text-align:center; margin-bottom:36px;">
       <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Así se ve</div>
@@ -195,7 +210,7 @@
   </div>
 </section>
 
-<section id="seccion-precio" style="background:#f9fafb; border-top:1px solid #eceff3; border-bottom:1px solid #eceff3; scroll-margin-top:30px;">
+<section id="seccion-precio" class="seccion-vidrio" style="border-top:1px solid rgba(255,255,255,.8); border-bottom:1px solid rgba(255,255,255,.8); scroll-margin-top:30px;">
   <div class="contenedor" style="padding:72px 32px;">
     <div style="text-align:center; margin-bottom:36px;">
       <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Precio</div>
@@ -207,7 +222,7 @@
       <!-- Cada tarjeta se rellena con JS desde PLANES; aquí sólo el molde. -->
     </div>
 
-    <div style="max-width:420px; width:100%; margin:0 auto; background:white; border:1px solid #eceff3; border-radius:14px; padding:36px; text-align:center; box-shadow:0 12px 32px -20px rgba(16,24,40,0.18);">
+    <div class="vidrio" style="max-width:420px; width:100%; margin:0 auto; border-radius:26px; padding:36px; text-align:center;">
       <div id="resumen-plan" style="font-size:15px; font-weight:700; color:#101828; margin-bottom:4px;"></div>
       <p id="resumen-plan-nota" style="font-size:13px; color:#667085; margin:0 0 22px;"></p>
       <div style="text-align:left; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; border-top:1px solid #eceff3; padding-top:22px;">
@@ -276,7 +291,7 @@
 <!-- Datos de contacto: el artículo 76 Bis III de la Ley Federal de
      Protección al Consumidor obliga a mostrar domicilio y teléfono
      ANTES de que la persona contrate. No es opcional. -->
-<section style="background:#f9fafb; border-top:1px solid #eceff3;">
+<section class="seccion-vidrio" style="border-top:1px solid rgba(255,255,255,.8);">
   <div class="contenedor" style="padding:36px 32px; text-align:center;">
     <h3 style="font-size:15px; font-weight:700; margin:0 0 14px; color:#101828;">¿Necesitas ayuda antes de contratar?</h3>
     <div style="display:flex; gap:26px; justify-content:center; flex-wrap:wrap; font-size:13.5px; color:#475467;">

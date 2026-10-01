@@ -52,6 +52,7 @@
     <tr><td>Código anónimo de tu computadora</td><td>Lo genera la aplicación al registrar cada computadora (es un código derivado del equipo, no el identificador del equipo ni ningún dato tuyo o de tus archivos)</td><td>Comprobar que tu suscripción se usa sólo en las computadoras que incluye, y permitirte usar la aplicación unos días sin internet</td></tr>
     <tr><td>Visitas al sitio (anónimas)</td><td>Cuando abres cliks.mx: qué página ves y de qué enlace o sitio llegaste. No usamos cookies y no guardamos tu IP ni tu navegador: sólo sirven un momento para no contarte dos veces el mismo día, convertidos en un código que no se puede deshacer y que se borra a los dos días. Si tu navegador tiene activado "No rastrear", no se cuenta tu visita.</td><td>Saber cuántas personas visitan el sitio y qué enlaces funcionan, para mejorarlo.</td></tr>
     <tr><td>Datos para factura (opcional)</td><td>Los escribes tú en la pantalla de pago de Stripe, sólo si marcas la casilla «Estoy comprando en calidad de empresa» (también las personas físicas que piden factura) y los llenas: RFC, nombre o razón social, código postal fiscal, régimen fiscal y uso de CFDI.</td><td>Emitirte la factura (CFDI) de tus pagos. Si no los das, no se te emite factura y no pasa nada más. Los conservamos el tiempo que exigen las obligaciones fiscales aplicables.</td></tr>
+    <tr><td>Número de WhatsApp (opcional)</td><td>Lo escribes tú en la app (Configuración → Avisos) sólo si eliges recibir los avisos por WhatsApp, y lo confirmas con un código que te llega a ese WhatsApp.</td><td>Mandarte un mensaje corto que sólo dice que tienes un aviso en la app. <strong>El mensaje nunca lleva nombres de clientes, RFC ni resultados.</strong> Puedes desactivarlo cuando quieras desde la app y tu número se borra.</td></tr>
     <tr><td>Huella de tu tarjeta</td><td>La genera Stripe cuando pagas. No es el número de tu tarjeta, no permite conocerlo y no sirve para cobrar.</td><td>Detectar si una misma tarjeta se usa para abrir varias pruebas gratuitas.</td></tr>
     <tr><td>Autorización de novedades y promociones (opcional)</td><td>La das tú, con una casilla que aparece sin marcar cuando te suscribes.</td><td>Mandarte novedades y promociones de Cliks por correo. Guardamos que la diste y la fecha, y también la fecha de tu baja si te das de baja. Puedes retirarla cuando quieras.</td></tr>
     <tr><td>Cómo nos conociste (opcional)</td><td>Lo eliges tú en la pantalla de bienvenida de la app, la primera vez que la abres. Puedes dejarla en blanco.</td><td>Saber qué foros, grupos o recomendaciones nos traen usuarios, para mejorar el servicio. No se usa para nada más.</td></tr>
@@ -66,6 +67,7 @@
     <li>Avisarte sobre tu pago, tu prueba gratuita, o cambios importantes al servicio.</li>
     <li>Responder si nos escribes por soporte.</li>
     <li>Si los diste, emitirte la factura de tus pagos con los datos fiscales que escribiste.</li>
+    <li>Si lo activaste, mandarte por WhatsApp un aviso corto y genérico cuando un cliente tuyo salga con opinión negativa.</li>
     <li>Saber, si tú quieres decírnoslo, cómo nos conociste, para entender qué canales funcionan.</li>
     <li>Comprobar que tu suscripción se usa sólo en las computadoras que incluye tu plan.</li>
     <li>Detectar el uso repetido de la prueba gratuita con una misma tarjeta.</li>
@@ -79,6 +81,7 @@
     <li><strong>Stripe</strong> (procesa los pagos) — recibe directamente los datos de tu tarjeta, nunca nosotros.</li>
     <li><strong>Resend</strong> (manda nuestros correos: verificación, avisos de cobro y, si lo autorizaste, novedades y promociones) — recibe tu correo únicamente para poder enviártelos.</li>
     <li><strong>El proveedor autorizado de certificación (PAC)</strong> que timbra las facturas — recibe tus datos fiscales únicamente si pediste factura, y sólo para emitirla ante el SAT.</li>
+    <li><strong>Meta Platforms (WhatsApp)</strong> — recibe tu número y el aviso genérico únicamente si activaste los avisos por WhatsApp. Meta puede procesar los datos en el extranjero.</li>
     <li><strong>Render</strong> (aloja nuestro servidor) — donde vive la base de datos con tu correo y el estado de tu suscripción.</li>
   </ul>
 

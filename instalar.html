@@ -4,119 +4,249 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="imagenes/favicon.png">
-<title>Cliks — Cómo instalar sin espantarte</title>
-<meta name="description" content="Por qué tu sistema muestra una advertencia al abrir Consultas SAT por primera vez, y los pasos exactos para abrirla sin problema.">
+<title>Cliks — Cómo instalar Consultas SAT</title>
+<meta name="description" content="Descarga Consultas SAT para Mac o Windows y sigue los pasos con dibujos para abrirla la primera vez, cuando tu sistema muestra una advertencia.">
 <style>
   * { box-sizing: border-box; }
-  html { background: #ffffff; }
+  html { background: #ffffff; scroll-behavior: smooth; }
   body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
     background:
       radial-gradient(900px 620px at 6% -6%, rgba(110,162,255,.30), transparent 62%),
       radial-gradient(820px 600px at 100% 8%, rgba(181,139,255,.24), transparent 62%),
       radial-gradient(760px 520px at 62% 100%, rgba(143,211,255,.20), transparent 62%); }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
-    color: #1c2430;
-    background: transparent;
-    line-height: 1.62;
-  }
-  .contenedor { max-width: 720px; margin: 0 auto; padding: 0 24px 80px; }
-  header { position: sticky; top: 0; z-index: 50; margin-bottom: 40px; background: rgba(255,255,255,.58); -webkit-backdrop-filter: blur(20px) saturate(1.5); backdrop-filter: blur(20px) saturate(1.5); border-bottom: 1px solid rgba(255,255,255,.75); box-shadow: 0 14px 30px -26px rgba(26,42,122,.45); }
-  header .contenedor { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; max-width: 720px; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif; color: #1c2430; background: transparent; line-height: 1.5; }
   a { color: #2f6fed; }
-  h1 { font-size: 26px; font-weight: 800; margin: 0 0 8px; }
-  .sub { color: #667085; font-size: 15px; margin-bottom: 28px; }
-  h2 { font-size: 18px; font-weight: 700; margin: 40px 0 4px; color: #101828; display:flex; align-items:center; gap:8px; }
-  p, li { font-size: 14.5px; color: #344054; }
-  ol, ul { padding-left: 22px; }
-  li { margin-bottom: 10px; }
-  .destacado {
-    background: rgba(245,248,255,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.9); border-radius: 18px;
-    padding: 18px 20px; margin: 22px 0;
-  }
-  .destacado p { margin: 0; font-size: 14px; }
-  .aviso {
-    background: #fff8ec; border: 1px solid #fce3b3; border-radius: 10px;
-    padding: 16px 18px; margin: 16px 0;
-  }
-  .aviso p { margin: 0; font-size: 13.5px; color: #7a5b16; }
   strong { color: #101828; }
-  .paso {
-    display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px;
+  .contenedor { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+  header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.58); -webkit-backdrop-filter: blur(20px) saturate(1.5); backdrop-filter: blur(20px) saturate(1.5);
+    border-bottom: 1px solid rgba(255,255,255,.75); box-shadow: 0 1px 0 rgba(16,24,40,.04), 0 14px 30px -26px rgba(26,42,122,.45); }
+  header .contenedor { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; }
+  header img { height: 26px; width: auto; display: block; }
+  header .volver { font-size: 13.5px; font-weight: 700; text-decoration: none; }
+
+  /* Portada chica */
+  .tope { text-align: center; padding: 34px 0 6px; }
+  .tope .clik { position: relative; display: inline-block; width: 78px; margin-bottom: 6px; animation: flota 3.6s ease-in-out infinite; filter: drop-shadow(0 14px 14px rgba(36,64,160,.3)); }
+  .tope .clik img { display: block; width: 100%; height: auto; }
+  .tope .clik i { position: absolute; top: 44%; width: 5.2%; height: 12%; background: #1b1f3a; border-radius: 50%; }
+  .tope .clik i:nth-of-type(1) { left: 37.5%; } .tope .clik i:nth-of-type(2) { left: 57.5%; }
+  h1 { font-size: clamp(28px, 4.6vw, 40px); font-weight: 850; letter-spacing: -.03em; line-height: 1.08; margin: 0 0 10px; color: #0b1440; }
+  .sub { max-width: 560px; margin: 0 auto; color: #475467; font-size: 16px; }
+
+  /* Las dos descargas */
+  .descargas { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 26px auto 8px; max-width: 760px; }
+  .dl { position: relative; display: flex; align-items: center; gap: 16px; text-align: left; padding: 18px 20px; border-radius: 22px; text-decoration: none; color: inherit;
+    background: linear-gradient(135deg, rgba(255,255,255,.86), rgba(255,255,255,.6)); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,.95); box-shadow: 0 24px 44px -30px rgba(26,42,122,.5), 0 2px 8px -4px rgba(16,24,40,.08); transition: transform .15s ease, box-shadow .15s ease; }
+  .dl:hover { transform: translateY(-2px); box-shadow: 0 28px 48px -28px rgba(26,42,122,.6), 0 2px 8px -4px rgba(16,24,40,.1); }
+  .dl:focus-visible { outline: 3px solid #2f6fed; outline-offset: 3px; }
+  .dl .ico { flex: none; width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; color: #fff; box-shadow: 0 14px 22px -12px rgba(47,111,237,.8); }
+  .dl.mac .ico { background: linear-gradient(135deg, #7aa8ff, #2f6fed); }
+  .dl.win .ico { background: linear-gradient(135deg, #8ee0ff, #2f9fed); }
+  .dl b { display: block; font-size: 17px; color: #101828; }
+  .dl small { display: block; color: #667085; font-size: 13px; }
+  .dl .ir { margin-left: auto; flex: none; font-size: 13.5px; font-weight: 800; color: #fff; background: #2f6fed; border-radius: 999px; padding: 9px 16px; white-space: nowrap; }
+  .dl .tuya { position: absolute; top: -10px; right: 16px; background: #101828; color: #fff; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; letter-spacing: .04em; }
+  .nota-cuenta { text-align: center; font-size: 13.5px; color: #667085; margin: 12px 0 0; }
+
+  /* Pasos */
+  .pasos-titulo { text-align: center; margin: 38px 0 14px; }
+  .pasos-titulo h2 { font-size: 22px; letter-spacing: -.02em; margin: 0 0 4px; color: #101828; }
+  .pasos-titulo p { margin: 0; color: #667085; font-size: 14.5px; }
+  .tabs { display: inline-flex; gap: 4px; padding: 5px; border-radius: 999px; background: rgba(255,255,255,.75); border: 1px solid #e3e8f2; margin: 14px 0 20px; }
+  .tabs button { font: inherit; font-weight: 800; font-size: 14.5px; border: 0; background: transparent; color: #475467; padding: 9px 22px; border-radius: 999px; cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: #2f6fed; color: #fff; box-shadow: 0 10px 18px -10px rgba(47,111,237,.8); }
+  .tabs button:focus-visible { outline: 3px solid #2f6fed; outline-offset: 2px; }
+  .centro { text-align: center; }
+  .rejilla { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); text-align: left; }
+  .rejilla.tres { grid-template-columns: repeat(3, 1fr); }
+  .paso { background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(255,255,255,.62)); border: 1px solid rgba(255,255,255,.95); border-radius: 22px; padding: 14px 14px 16px;
+    box-shadow: 0 24px 44px -32px rgba(26,42,122,.5); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .paso .cabeza { display: flex; align-items: center; gap: 9px; }
+  .paso .n { flex: none; width: 24px; height: 24px; border-radius: 50%; background: #2f6fed; color: #fff; font-size: 12.5px; font-weight: 800; display: grid; place-items: center; }
+  .paso h3 { margin: 0; font-size: 15px; color: #101828; line-height: 1.25; }
+  .paso p { margin: 0; font-size: 13.5px; color: #475467; }
+
+  /* Dibujitos de las ventanas (no son capturas: son ilustraciones) */
+  .dib { position: relative; height: 150px; border-radius: 14px; background: linear-gradient(160deg, #e9f0ff, #f3ecff); overflow: hidden; display: grid; place-items: center; padding: 10px; }
+  .vent { width: 100%; max-width: 230px; background: #fff; border-radius: 10px; box-shadow: 0 14px 26px -14px rgba(16,24,40,.5); padding: 9px 10px; font-size: 10.5px; color: #344054; line-height: 1.3; }
+  .vent .t { font-weight: 800; color: #101828; font-size: 11px; margin-bottom: 3px; }
+  .vent .btns { display: flex; gap: 6px; margin-top: 8px; justify-content: flex-end; }
+  .b { border-radius: 6px; padding: 4px 9px; font-size: 10px; font-weight: 700; background: #eef1f6; color: #475467; position: relative; white-space: nowrap; }
+  .b.si { background: #2f6fed; color: #fff; }
+  .b.no { opacity: .55; text-decoration: line-through; }
+  .aqui { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2f6fed; animation: late 1.6s ease-in-out infinite; }
+  .aqui::after { content: ""; position: absolute; right: -9px; bottom: -13px; width: 16px; height: 16px; background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M5 3l14 8-6 2 4 7-3 1-4-7-5 4z' fill='%23101828' stroke='%23fff' stroke-width='1.5' stroke-linejoin='round'/></svg>"); }
+  .side { display: grid; grid-template-columns: 74px 1fr; gap: 8px; }
+  .side .menu div { padding: 3px 5px; border-radius: 5px; margin-bottom: 2px; font-size: 9.5px; color: #475467; }
+  .side .menu div.on { background: #2f6fed; color: #fff; font-weight: 700; }
+  .azul { background: #0f4a9e; color: #fff; }
+  .azul .t { color: #fff; font-size: 12px; }
+  .azul .vent-t { font-size: 9.5px; opacity: .9; }
+  .azul .b { background: rgba(255,255,255,.16); color: #fff; }
+  .azul .b.si { background: #fff; color: #0f4a9e; }
+  .azul u { color: #fff; text-decoration: underline; position: relative; font-weight: 700; }
+  .azul u.aqui { box-shadow: none; padding: 1px 3px; border-radius: 4px; outline: 2px solid #fff; outline-offset: 1px; }
+  .huella { width: 34px; height: 34px; border-radius: 50%; background: #e8efff; display: grid; place-items: center; margin: 2px auto 6px; color: #2f6fed; }
+
+  /* Tarjetitas de ayuda */
+  .avisos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 30px; }
+  .aviso { background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(255,255,255,.62)); border: 1px solid rgba(255,255,255,.95); border-radius: 22px; padding: 18px; box-shadow: 0 24px 44px -32px rgba(26,42,122,.5); }
+  .aviso .ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 10px; color: #fff; }
+  .aviso h3 { margin: 0 0 4px; font-size: 15.5px; color: #101828; }
+  .aviso p { margin: 0; font-size: 13.5px; color: #475467; }
+  .aviso.cuidado { background: #fff8ec; border-color: #fce3b3; }
+  .aviso.cuidado p { color: #7a5b16; }
+  .ayuda { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; text-align: center; margin: 30px 0 0; padding: 20px; border-radius: 22px; background: rgba(255,255,255,.55); border: 1px dashed #c8d3ea; }
+  .ayuda b { color: #101828; }
+  .legal { text-align: center; font-size: 12px; color: #98a2b3; margin: 18px 0 60px; }
+
+  @keyframes flota { 0%, 100% { transform: translateY(0) rotate(-1.4deg); } 50% { transform: translateY(-4%) rotate(1.4deg); } }
+  @keyframes late { 0%, 100% { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2f6fed; } 50% { box-shadow: 0 0 0 2px #fff, 0 0 0 7px rgba(47,111,237,.45); } }
+  @media (max-width: 860px) { .rejilla.tres { grid-template-columns: 1fr; } .avisos { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .descargas { grid-template-columns: 1fr; }
+    .tope { padding-top: 24px; }
+    .rejilla { grid-template-columns: 1fr; }
+    .dib { height: 140px; }
   }
-  .num {
-    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
-    background: #2f6fed; color: white; font-size: 12px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center; margin-top: 1px;
-  }
-  .descarga { background: rgba(245,248,255,.62); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.9); border-radius: 20px; padding: 22px 22px 18px; margin: 0 0 8px; text-align: center; }
-  .boton-descarga { display: inline-block; padding: 13px 24px; border-radius: 8px; background: #2f6fed; color: white; text-decoration: none; font-weight: 700; font-size: 14.5px; }
-  .descarga .otro { margin-top: 12px; font-size: 12px; color: #98a2b3; }
-  .descarga .otro a { color: #98a2b3; text-decoration: underline; }
-  .descarga .nota { margin: 14px 0 0; font-size: 13px; color: #667085; }
+  @media (prefers-reduced-motion: reduce) { .tope .clik, .aqui { animation: none; } html { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
 
 <header>
   <div class="contenedor">
-    <a href="index.html" style="font-weight:800; font-size:18px; color:#1c2430; text-decoration:none;">Cliks<span style="color:#2f6fed;">*</span></a>
-    <a href="index.html" style="font-size:13px; font-weight:600;">← Volver</a>
+    <a href="index.html" aria-label="Cliks, ir al inicio"><img src="imagenes/logo-cliks.png" alt="Cliks"></a>
+    <a class="volver" href="index.html">← Volver</a>
   </div>
 </header>
 
-<div class="contenedor">
-  <h1>Cómo instalar Consultas SAT sin espantarte</h1>
-  <p class="sub">La primera vez que abras la app, tu sistema va a mostrar una advertencia. Es normal — aquí explicamos por qué y qué hacer.</p>
+<main class="contenedor">
+  <section class="tope">
+    <span class="clik" aria-hidden="true"><img src="imagenes/mascota-cuerpo.webp" alt="" width="78" height="83"><i></i><i></i></span>
+    <h1>Instala Consultas SAT</h1>
+    <p class="sub">Descárgala, ábrela y listo. La primera vez tu computadora mostrará una advertencia: es normal, y aquí ves cómo pasarla en un minuto.</p>
 
-  <div class="descarga">
-    <a href="#" id="link-descargar" class="boton-descarga">Descargar Consultas SAT</a>
-    <div id="texto-descarga-otro" class="otro"></div>
-    <p class="nota">Para usarla necesitas una cuenta: <a href="index.html#seccion-precio">empieza tu prueba gratis de 7 días</a>. Después de descargar, sigue los pasos de abajo para tu sistema.</p>
-  </div>
+    <div class="descargas">
+      <a class="dl mac" id="dl-mac" href="#">
+        <span class="tuya" id="tuya-mac" hidden>TU COMPUTADORA</span>
+        <span class="ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg></span>
+        <span><b>Para Mac</b><small>Archivo .zip · macOS</small></span>
+        <span class="ir">Descargar</span>
+      </a>
+      <a class="dl win" id="dl-win" href="#">
+        <span class="tuya" id="tuya-win" hidden>TU COMPUTADORA</span>
+        <span class="ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+        <span><b>Para Windows</b><small>Archivo .exe · Windows 10 u 11</small></span>
+        <span class="ir">Descargar</span>
+      </a>
+    </div>
+    <p class="nota-cuenta">Para usarla necesitas una cuenta: <a href="index.html#seccion-precio">empieza tu prueba gratis de 7 días</a>.</p>
+  </section>
 
-  <div class="destacado">
-    <p><strong>¿Por qué aparece esto?</strong> Windows y Mac sólo dejan pasar sin avisos a los programas que pagaron una firma de certificación — cuesta varios cientos de dólares al año. Preferimos mantener el precio de la suscripción bajo en vez de cobrarte por eso. La advertencia no significa que el programa esté mal hecho ni sea peligroso: significa nada más que no pagamos ese sello. Sólo sale <strong>una vez por versión</strong>.</p>
-  </div>
+  <section aria-labelledby="titulo-pasos">
+    <div class="pasos-titulo centro">
+      <h2 id="titulo-pasos">Cómo abrirla la primera vez</h2>
+      <p>Sólo pasa una vez por versión. Elige tu computadora:</p>
+      <div class="tabs" role="tablist" aria-label="Tu computadora">
+        <button role="tab" id="tab-mac" aria-selected="true" aria-controls="panel-mac">Mac</button>
+        <button role="tab" id="tab-win" aria-selected="false" aria-controls="panel-win">Windows</button>
+      </div>
+    </div>
 
-  <h2>🍎 Si usas Mac</h2>
-  <p>En macOS 15 en adelante, "clic derecho → Abrir" ya no funciona. Sigue estos pasos:</p>
-  <div class="paso"><div class="num">1</div><p>En el aviso que aparece al abrir el archivo, pica <strong>Listo</strong> (o "Done"). <strong>Nunca</strong> "Enviar a la papelera".</p></div>
-  <div class="paso"><div class="num">2</div><p>Abre <strong>Ajustes del Sistema → Privacidad y seguridad</strong>.</p></div>
-  <div class="paso"><div class="num">3</div><p>Baja hasta la sección <strong>Seguridad</strong>: ahí aparece el aviso del bloqueo, con un botón <strong>"Abrir de todos modos"</strong>.</p></div>
-  <div class="paso"><div class="num">4</div><p>Dale clic, confirma con tu Touch ID o contraseña, y por último <strong>"Abrir"</strong> en la ventana final.</p></div>
+    <div id="panel-mac" role="tabpanel" aria-labelledby="tab-mac">
+      <div class="rejilla">
+        <article class="paso">
+          <div class="dib"><div class="vent"><div class="t">No se abrió “Consultas SAT”</div>Apple no pudo comprobar que no tenga software malicioso.<div class="btns"><span class="b no">Enviar a la papelera</span><span class="b si aqui">Listo</span></div></div></div>
+          <div class="cabeza"><span class="n">1</span><h3>Pica «Listo»</h3></div>
+          <p>En el aviso que sale al abrir el archivo. <strong>Nunca</strong> «Enviar a la papelera».</p>
+        </article>
+        <article class="paso">
+          <div class="dib"><div class="vent"><div class="side"><div class="menu"><div>Wi-Fi</div><div>Pantalla</div><div class="on aqui">Privacidad y seguridad</div></div><div><div class="t">Privacidad y seguridad</div>Ajustes del Sistema</div></div></div></div>
+          <div class="cabeza"><span class="n">2</span><h3>Abre los Ajustes</h3></div>
+          <p><strong>Ajustes del Sistema → Privacidad y seguridad</strong>.</p>
+        </article>
+        <article class="paso">
+          <div class="dib"><div class="vent"><div class="t">Seguridad</div>“Consultas SAT” se bloqueó para proteger tu Mac.<div class="btns"><span class="b si aqui">Abrir de todos modos</span></div></div></div>
+          <div class="cabeza"><span class="n">3</span><h3>«Abrir de todos modos»</h3></div>
+          <p>Baja hasta la sección <strong>Seguridad</strong>: ahí está el botón.</p>
+        </article>
+        <article class="paso">
+          <div class="dib"><div class="vent" style="text-align:center"><div class="huella" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 11v4M8 12a4 4 0 0 1 8 0v3M5 12a7 7 0 0 1 14 0M9 20c-1-2-1-4-1-6"/></svg></div><div class="t">Confirma con Touch ID</div><div class="btns" style="justify-content:center"><span class="b">Cancelar</span><span class="b si aqui">Abrir</span></div></div></div>
+          <div class="cabeza"><span class="n">4</span><h3>Confirma y «Abrir»</h3></div>
+          <p>Con tu Touch ID o tu contraseña, y al final «Abrir» en la ventana.</p>
+        </article>
+      </div>
+    </div>
 
-  <h2>🪟 Si usas Windows</h2>
-  <div class="paso"><div class="num">1</div><p>Al abrir el archivo descargado, sale una ventana azul: <strong>"Windows protegió tu PC"</strong>.</p></div>
-  <div class="paso"><div class="num">2</div><p>Dale clic a <strong>"Más información"</strong> (el texto chiquito, debajo del título).</p></div>
-  <div class="paso"><div class="num">3</div><p>Aparece un botón nuevo: <strong>"Ejecutar de todas formas"</strong>. Dale clic ahí.</p></div>
+    <div id="panel-win" role="tabpanel" aria-labelledby="tab-win" hidden>
+      <div class="rejilla tres">
+        <article class="paso">
+          <div class="dib"><div class="vent azul"><div class="t">Windows protegió tu PC</div><div class="vent-t">Windows Defender SmartScreen impidió el inicio de una aplicación no reconocida.</div><div class="vent-t" style="margin-top:6px"><u>Más información</u></div><div class="btns"><span class="b">No ejecutar</span></div></div></div>
+          <div class="cabeza"><span class="n">1</span><h3>Sale una ventana azul</h3></div>
+          <p>Al abrir el archivo descargado: «Windows protegió tu PC».</p>
+        </article>
+        <article class="paso">
+          <div class="dib"><div class="vent azul"><div class="t">Windows protegió tu PC</div><div class="vent-t">Windows Defender SmartScreen impidió el inicio de una aplicación no reconocida.</div><div class="vent-t" style="margin-top:6px"><u class="aqui">Más información</u></div><div class="btns"><span class="b">No ejecutar</span></div></div></div>
+          <div class="cabeza"><span class="n">2</span><h3>Dale a «Más información»</h3></div>
+          <p>Es el texto chiquito, debajo del título.</p>
+        </article>
+        <article class="paso">
+          <div class="dib"><div class="vent azul"><div class="t">Windows protegió tu PC</div><div class="vent-t">Aplicación: ConsultasSAT.exe</div><div class="btns" style="margin-top:12px"><span class="b si aqui">Ejecutar de todas formas</span><span class="b">No ejecutar</span></div></div></div>
+          <div class="cabeza"><span class="n">3</span><h3>«Ejecutar de todas formas»</h3></div>
+          <p>Aparece un botón nuevo. Dale clic ahí.</p>
+        </article>
+      </div>
+    </div>
+    <p class="nota-cuenta" style="margin-top:12px">Son dibujos de referencia: según tu versión del sistema, tu pantalla puede verse un poco distinta.</p>
+  </section>
 
-  <h2>⏳ La primera vez tarda en abrir</h2>
-  <p>Entre medio minuto y un minuto <strong>sin mostrar nada</strong> — ni ventana, ni reloj de arena. El archivo pesa más de 100 MB y el sistema tiene que desempacarlo entero antes de arrancar.</p>
-  <div class="aviso">
-    <p><strong>Un solo doble clic y espera.</strong> Si le picas varias veces porque parece que no pasa nada, arrancan varias copias peleándose entre sí y tarda todavía más.</p>
-  </div>
+  <section class="avisos" aria-label="Lo que conviene saber">
+    <div class="aviso">
+      <div class="ic" style="background:linear-gradient(135deg,#7aa8ff,#2f6fed)" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+      <h3>¿Por qué aparece la advertencia?</h3>
+      <p>Windows y Mac sólo dejan pasar sin avisos a los programas que pagaron una firma de certificación (cuesta varios cientos de dólares al año). Preferimos mantener bajo el precio. <strong>No significa que el programa sea peligroso.</strong></p>
+    </div>
+    <div class="aviso cuidado">
+      <div class="ic" style="background:linear-gradient(135deg,#f6b24a,#ee8a1f)" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 21h12M7 3c0 5 5 6 5 9s-5 4-5 9M17 3c0 5-5 6-5 9s5 4 5 9"/></svg></div>
+      <h3>La primera vez tarda en abrir</h3>
+      <p>Entre medio minuto y un minuto <strong>sin mostrar nada</strong>: el archivo pesa más de 100 MB y el sistema lo desempaca entero. <strong>Un solo doble clic y espera</strong>; si le picas varias veces se abren copias que se estorban.</p>
+    </div>
+    <div class="aviso">
+      <div class="ic" style="background:linear-gradient(135deg,#8ee0ff,#2f9fed)" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></div>
+      <h3>Hace falta Google Chrome</h3>
+      <p>El portal del SAT no funciona bien con otros navegadores, y la app usa Chrome por dentro para hacer las consultas. Si no lo tienes, instálalo antes de abrirla.</p>
+    </div>
+  </section>
 
-  <h2>🌐 Hace falta tener Google Chrome instalado</h2>
-  <p>El portal del SAT no funciona bien con ningún otro navegador — la app usa Chrome por dentro para entrar a hacer las consultas.</p>
-
-  <h2>¿Sigue sin abrir?</h2>
-  <p>Escríbenos a <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a> y te ayudamos directo.</p>
-</div>
+  <section class="ayuda">
+    <span><b>¿Sigue sin abrir?</b> Escríbenos a <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a> y te ayudamos directo.</span>
+  </section>
+  <p class="legal">© 2026 Cliks · Todos los derechos reservados</p>
+</main>
 
 <script>
-  // Liga directa al archivo: "latest/download/<nombre>" siempre apunta al
-  // archivo de la versión más reciente publicada.
+  // Liga directa al archivo: "latest/download/<nombre>" siempre apunta al archivo de la versión más reciente publicada.
   const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
   const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
-  const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT.exe";
-  const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT.exe" : "ConsultasSAT-Mac.zip";
-  const TEXTO_OTRO = ES_MAC ? "¿Usas Windows? Descárgala aquí" : "¿Usas Mac? Descárgala aquí";
+  document.getElementById("dl-mac").href = BASE_DESCARGAS + "ConsultasSAT-Mac.zip";
+  document.getElementById("dl-win").href = BASE_DESCARGAS + "ConsultasSAT.exe";
+  document.getElementById(ES_MAC ? "tuya-mac" : "tuya-win").hidden = false;
 
-  document.getElementById("link-descargar").href = BASE_DESCARGAS + ARCHIVO_PROPIO;
-  document.getElementById("texto-descarga-otro").innerHTML =
-    `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}">${TEXTO_OTRO}</a>`;
+  // Mac / Windows: se muestra la de tu computadora, y puedes cambiar. Con #windows o #mac en la liga se abre esa.
+  const PESTANAS = { mac: ["tab-mac", "panel-mac"], win: ["tab-win", "panel-win"] };
+  function mostrar(cual) {
+    for (const k in PESTANAS) {
+      const [tab, panel] = PESTANAS[k];
+      document.getElementById(tab).setAttribute("aria-selected", k === cual ? "true" : "false");
+      document.getElementById(panel).hidden = k !== cual;
+    }
+  }
+  for (const k in PESTANAS) document.getElementById(PESTANAS[k][0]).addEventListener("click", () => mostrar(k));
+  const deLaLiga = (location.hash || "").replace("#", "").toLowerCase();
+  mostrar(deLaLiga === "windows" || deLaLiga === "win" ? "win" : deLaLiga === "mac" ? "mac" : (ES_MAC ? "mac" : "win"));
 </script>
 
 <script src="visita.js" defer></script>

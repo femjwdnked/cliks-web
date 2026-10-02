@@ -14,11 +14,11 @@
     { p: "¿Qué es Cliks?", r: [["Es una app para Mac y Windows que baja por ti, con la e.firma, los documentos del SAT de tus clientes (opinión de cumplimiento y constancia de situación fiscal) y te avisa cuándo vence cada e.firma. Todo queda en tu computadora."]] },
     { p: "¿Cuánto cuesta y cómo es la prueba?", r: [["Empiezas con ", "7 días gratis", ": hoy no se te cobra nada y puedes cancelar cuando quieras. Los planes y precios están en ", { t: "«Elige cada cuánto quieres pagar»", h: "#seccion-precio" }, "."]] },
     { p: "¿Mi e.firma sale de mi computadora?", r: [["No. Se guarda cifrada en tu computadora y nunca se sube a ningún servidor nuestro: la app entra al portal del SAT desde tu propio equipo."]] },
-    { p: "¿Cómo cancelo?", r: [["Al instante y sin hablar con nadie, desde ", { t: "este enlace", h: CANCELAR }, ". Si cancelas durante la prueba, no se te cobra."]] },
+    { p: "¿Cómo cancelo?", r: [["Sin hablar con nadie, desde ", { t: "este enlace", h: CANCELAR }, ". No se te vuelve a cobrar y conservas el acceso hasta que termine lo que ya pagaste. Si cancelas durante la prueba, no se te cobra."]] },
     { p: "¿Dan factura?", r: [["Sí. En la pantalla de pago marca la casilla ", "«Estoy comprando en calidad de empresa»", " (también si eres persona física), escribe tu RFC y tu nombre o razón social como salen en tu constancia de situación fiscal, y llena código postal, régimen y uso de CFDI. La factura se emite cuando se hace el primer cobro (la prueba gratis no genera cobro)."], ["Si se te pasó, escríbenos a contacto@cliks.mx con esos datos."]] },
     { p: "Somos un despacho o empresa grande, ¿hay algo especial?", r: [["Sí, con gusto. Cuéntanos cuántas personas y computadoras son y si necesitan factura o una forma de pago distinta, y te respondemos con una propuesta a tu medida."], [{ t: "Pedir una cotización por WhatsApp", h: COTIZAR }, " o escribe a contacto@cliks.mx."]] },
     { p: "Ya pagué, ¿cómo la instalo?", r: [["Aquí está la guía paso a paso: ", { t: "Cómo instalar", h: "instalar.html" }, ". La primera vez, Windows o Mac muestran una advertencia normal con los programas nuevos; la guía explica qué hacer."]] },
-    { p: "¿Funciona en Mac y en Windows?", r: [["Sí, en las dos. Te pide tu correo para entrar y no necesitas contraseñas."]] }
+    { p: "¿Funciona en Mac y en Windows?", r: [["Sí, en las dos. Te pide tu correo y te manda un código para entrar. Si prefieres, también puedes crear una contraseña (es opcional)."]] }
   ];
   var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

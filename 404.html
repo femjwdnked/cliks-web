@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/imagenes/favicon.png">
+<title>No encontramos esta página — Cliks</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif; color: #1c2430; background: #fff;
+    display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  /* Rutas absolutas a propósito: esta página se muestra en CUALQUIER dirección que no exista (/a/b/c), así que nada puede ser relativo. */
+  .nav { display: flex; align-items: center; gap: 28px; margin: 18px 20px 0; padding: 10px 12px 10px 24px; border: 1px solid #edf0f6; border-radius: 999px; background: #fff; font-size: 15px; font-weight: 600; }
+  .nav img { height: 26px; width: auto; display: block; }
+  .nav .sp { flex: 1; }
+  .nav .link { color: #1c2430; }
+  .nav .go { background: #101828; color: #fff; border-radius: 999px; padding: 10px 20px; font-weight: 700; white-space: nowrap; }
+  main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 28px 20px 40px; position: relative; }
+  .escena { position: relative; width: clamp(190px, 34vw, 280px); margin-bottom: 22px; }
+  .clik { position: relative; display: block; width: 100%; filter: drop-shadow(0 30px 28px rgba(36,64,160,.35)); animation: flota 3.6s ease-in-out infinite; transform-origin: 50% 60%; }
+  .clik img { display: block; width: 100%; height: auto; user-select: none; }
+  .clik i { position: absolute; top: 42%; width: 5.2%; height: 15%; background: #1b1f3a; border-radius: 50%; }
+  .clik i:nth-of-type(1) { left: 37.5%; } .clik i:nth-of-type(2) { left: 57.5%; }
+  .globo { position: absolute; left: 66%; top: -16%; background: #fff; border-radius: 34px; padding: .16em .55em; font-size: clamp(34px, 6vw, 58px); font-weight: 850; letter-spacing: -.03em; color: #101828; white-space: nowrap;
+    box-shadow: 0 24px 40px -22px rgba(36,64,160,.55); animation: aparece .5s cubic-bezier(.3,1.4,.4,1) both .2s; transform-origin: 10% 100%; }
+  .globo::after { content: ""; position: absolute; left: 12%; bottom: -12px; width: 26px; height: 26px; background: #fff; transform: rotate(45deg); border-radius: 6px; }
+  .brillo { position: absolute; color: #9bb6ff; pointer-events: none; }
+  h1 { margin: 6px 0 6px; font-size: clamp(20px, 3.2vw, 24px); font-weight: 600; color: #344054; }
+  .volver { display: inline-block; margin-top: 14px; padding: 15px 34px; border-radius: 999px; background: #d7e3ff; font-weight: 800; font-size: 18px; color: #1c2430; transition: transform .15s ease, background .15s ease; }
+  .volver:hover { background: #c8d8ff; transform: translateY(-1px); }
+  .volver:focus-visible, .nav a:focus-visible { outline: 3px solid #2f6fed; outline-offset: 3px; }
+  .codigo { margin-top: 26px; color: #667085; font-weight: 700; font-size: 13px; letter-spacing: .08em; }
+  .banda { height: 70px; background: linear-gradient(120deg, #16257a, #3b2aa8); position: relative; flex: none; }
+  .banda::before, .banda::after { content: ""; position: absolute; bottom: 100%; background: #4fc3ff; border-radius: 160px 160px 0 0; }
+  .banda::before { left: 8%; width: min(26vw, 330px); height: 60px; }
+  .banda::after { right: 10%; width: min(19vw, 250px); height: 40px; background: #8fd3ff; border-radius: 130px 130px 0 0; }
+  @keyframes flota { 0%, 100% { transform: translateY(0) rotate(-1.4deg); } 50% { transform: translateY(-3%) rotate(1.4deg); } }
+  @keyframes aparece { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @media (max-width: 560px) {
+    .nav { gap: 14px; padding-left: 16px; margin: 12px 12px 0; }
+    .nav .link { display: none; }
+    .globo { left: 58%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .clik, .globo { animation: none; } }
+</style>
+</head>
+<body>
+  <nav class="nav" aria-label="Principal">
+    <a href="/" aria-label="Cliks, ir al inicio"><img src="/imagenes/logo-cliks.png" alt="Cliks" width="62" height="26"></a>
+    <a class="link" href="/#seccion-precio">Precios</a>
+    <a class="link" href="/instalar.html">Instalar</a>
+    <span class="sp"></span>
+    <a class="go" href="/#seccion-precio">Probar gratis</a>
+  </nav>
+
+  <main>
+    <div class="escena" aria-hidden="true">
+      <span class="clik"><img src="/imagenes/mascota-cuerpo.webp" alt="" width="360" height="384"><i></i><i></i></span>
+      <span class="globo">¡Ups!</span>
+      <span class="brillo" style="left:-22%; top:22%; font-size:30px">✦</span>
+      <span class="brillo" style="right:-26%; top:70%; font-size:24px; color:#cbd9ff">✦</span>
+    </div>
+    <h1>No encontramos esta página.</h1>
+    <a class="volver" href="/">Volver al inicio</a>
+    <div class="codigo">ERROR 404</div>
+  </main>
+
+  <div class="banda" aria-hidden="true"></div>
+</body>
+</html>

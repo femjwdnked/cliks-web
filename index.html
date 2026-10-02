@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://cliks.mx/">
 <meta property="og:title" content="Consultas SAT: la opinión de cumplimiento de todos tus clientes, sin entrar al SAT">
 <meta property="og:description" content="Descarga sola la opinión de cumplimiento y la constancia de tus clientes, con su e.firma, y te avisa si a alguien le sale negativa. 7 días gratis.">
-<meta property="og:image" content="https://cliks.mx/imagenes/og-cliks.jpg?v=2">
+<meta property="og:image" content="https://cliks.mx/imagenes/og-cliks.jpg?v=3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Cliks, Consultas SAT: pantalla con la lista de clientes y los días que le quedan a cada e.firma">
@@ -61,6 +61,183 @@
   .pestana-video { cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 999px; border: 1px solid #d0d5dd; background: #fff; color: #344054; }
   .pestana-video[aria-selected="true"] { background: #2f6fed; border-color: #2f6fed; color: #fff; }
 
+  /* Compra: interruptor de plazos + tarjeta (resumen azul con línea de tiempo | formulario). */
+  .pc-titulo { font-size: 30px; line-height: 1.1; letter-spacing: -.015em; text-align: center; margin: 0 0 24px; color: #101828; font-weight: 800; text-wrap: balance; }
+  .pc-seg { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; padding: 5px; border-radius: 999px; background: rgba(255,255,255,.72); border: 1px solid rgba(255,255,255,.95);
+    box-shadow: 0 14px 28px -22px rgba(26,42,122,.4); width: max-content; max-width: 100%; margin: 0 auto 36px; }
+  .pc-seg button { position: relative; font: inherit; font-size: 14px; font-weight: 700; color: #475467; background: transparent; border: 0; border-radius: 999px; padding: 11px 22px; cursor: pointer; transition: background .2s, color .2s; }
+  .pc-seg button[aria-pressed="true"] { background: linear-gradient(135deg, #4b86ff, #2358d6); color: #fff; box-shadow: 0 10px 18px -10px rgba(47,111,237,.9); }
+  .pc-seg button em { font-style: normal; font-size: 11px; font-weight: 800; background: #e4f7ee; color: #0b7a53; padding: 2px 8px; border-radius: 999px; margin-left: 8px; }
+  .pc-seg .pc-anual::before { content: "Mejor precio"; position: absolute; top: -13px; left: 50%; transform: translateX(-50%); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; background: #101828; color: #fff; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
+  /* El latido de "1 año": suave, para que el ojo caiga ahí. */
+  .pc-seg .pc-anual { animation: pc-latido 3.2s ease-in-out infinite; }
+  .pc-seg .pc-anual:hover, .pc-seg .pc-anual:focus-visible { animation-play-state: paused; }
+  @keyframes pc-latido { 0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(75,134,255,0); } 50% { transform: scale(1.03); box-shadow: 0 0 0 7px rgba(75,134,255,.2); } }
+  .pc-seg button:focus-visible, .pc-btn:focus-visible { outline: 3px solid rgba(47,111,237,.5); outline-offset: 2px; }
+
+  .pc-compra { position: relative; display: grid; grid-template-columns: 1fr 1.05fr; max-width: 1000px; margin: 0 auto; border-radius: 28px; }
+  .pc-azul { position: relative; z-index: 1; padding: 40px 42px; color: #fff; display: flex; flex-direction: column; justify-content: center; border-radius: 28px 0 0 28px; overflow: hidden;
+    background: radial-gradient(420px 260px at 90% 0%, rgba(255,255,255,.22), transparent 70%), radial-gradient(380px 300px at 0% 100%, rgba(150,120,255,.45), transparent 70%), linear-gradient(150deg, #3b7bff 0%, #2358d6 55%, #4a45e0 100%); }
+  .pc-etq { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.8); }
+  .pc-precio { font-size: 64px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .pc-precio small { font-size: 16px; color: rgba(255,255,255,.75); letter-spacing: 0; margin-left: 5px; }
+  .pc-precio .pc-tach { font-size: 22px; font-weight: 700; color: rgba(255,255,255,.62); text-decoration: line-through; text-decoration-thickness: 2px; margin-right: 12px; letter-spacing: 0; }
+  .pc-almes { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); margin-bottom: 14px; }
+  .pc-pastilla { display: inline-block; width: max-content; background: #fff; color: #0b7a53; font-weight: 800; font-size: 13px; padding: 6px 14px; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(0,0,0,.4); }
+  /* La línea de tiempo: se dibuja sola y los pasos aparecen uno por uno. */
+  .pc-linea { position: relative; margin-top: 30px; padding-left: 32px; display: grid; gap: 20px; }
+  .pc-linea::before { content: ""; position: absolute; left: 8px; top: 9px; bottom: 9px; width: 2px; border-radius: 2px; background: linear-gradient(rgba(255,255,255,.95), rgba(255,255,255,.25)); transform-origin: top; animation: pc-trazo 1.1s .2s ease-out both; }
+  @keyframes pc-trazo { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  .pc-linea > div { position: relative; font-size: 14px; line-height: 1.3; color: rgba(255,255,255,.88); animation: pc-aparece .5s ease-out both; }
+  .pc-linea > div:nth-child(1) { animation-delay: .15s; } .pc-linea > div:nth-child(2) { animation-delay: .55s; } .pc-linea > div:nth-child(3) { animation-delay: .95s; }
+  @keyframes pc-aparece { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .pc-linea b { display: block; font-size: 15px; color: #fff; }
+  .pc-linea > div::before { content: ""; position: absolute; left: -32px; top: 1px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.22); }
+  .pc-linea > div:nth-child(2)::before { background: rgba(255,255,255,.55); }
+  .pc-linea > div:nth-child(3)::before { background: #7ee2b8; animation: pc-ultimo 2.8s 1.6s ease-in-out infinite; }
+  @keyframes pc-ultimo { 0%,100% { box-shadow: 0 0 0 4px rgba(126,226,184,.25); } 50% { box-shadow: 0 0 0 8px rgba(126,226,184,.12); } }
+
+  .pc-der { position: relative; z-index: 1; padding: 38px 38px 32px; border-radius: 0 28px 28px 0; background: #fcfdff; }
+  .pc-entrada { width: 100%; padding: 14px 15px; border-radius: 13px; border: 1.5px solid #d6dbe6; background: #fff; font: inherit; font-size: 15px; color: #101828; transition: border-color .15s, box-shadow .15s; margin-bottom: 12px; }
+  .pc-entrada::placeholder { color: #98a2b3; }
+  .pc-entrada:focus { outline: none; border-color: #2f6fed; box-shadow: 0 0 0 4px rgba(47,111,237,.14); }
+  .pc-fila { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 8px; }
+  .pc-fila label { font-size: 14px; font-weight: 700; color: #101828; }
+  .pc-paso { display: inline-flex; align-items: center; border: 1.5px solid #d6dbe6; border-radius: 13px; background: #fff; overflow: hidden; }
+  .pc-paso button { width: 42px; height: 44px; border: 0; background: transparent; font: inherit; font-size: 21px; font-weight: 700; color: #2f6fed; cursor: pointer; }
+  .pc-paso button:hover { background: #eef3ff; }
+  .pc-paso input { width: 44px; height: 44px; text-align: center; border: 0; background: transparent; font: inherit; font-size: 16px; font-weight: 800; color: #101828; -moz-appearance: textfield; }
+  .pc-paso input::-webkit-outer-spin-button, .pc-paso input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .pc-paso input:focus { outline: none; }
+  .pc-total { min-height: 18px; font-size: 12.5px; color: #667085; margin: 0 0 12px; text-align: right; }
+  .pc-corto { display: flex; gap: 11px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: #475467; cursor: pointer; margin: 0 0 12px; font-weight: 400; }
+  .pc-corto input { width: 18px; height: 18px; accent-color: #2f6fed; flex: 0 0 auto; margin: 1px 0 0; cursor: pointer; }
+  .pc-corto b { color: #101828; }
+  .pc-mas { color: #2f6fed; font-weight: 700; font-size: 12.5px; cursor: pointer; background: none; border: 0; padding: 0; font-family: inherit; }
+  .pc-detalle { font-size: 12px; line-height: 1.55; color: #475467; margin: -4px 0 12px 29px; padding: 10px 12px; border-radius: 12px; background: rgba(246,248,252,.9); border: 1px solid #e1e7f2; }
+  .pc-btn { display: block; width: 100%; margin-top: 8px; padding: 16px; border: 0; border-radius: 15px; font: inherit; font-size: 16px; font-weight: 800; color: #fff; cursor: pointer;
+    background: linear-gradient(135deg, #4b86ff 0%, #2f6fed 55%, #2358d6 100%); box-shadow: 0 16px 28px -14px rgba(47,111,237,.85), inset 0 1px 0 rgba(255,255,255,.3); transition: transform .15s, filter .15s; }
+  .pc-btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.05); }
+  .pc-btn:disabled { opacity: .65; cursor: default; }
+  .pc-seguro { text-align: center; font-size: 12.5px; color: #667085; margin: 12px 0 0; }
+  .pc-factura { margin-top: 12px; }
+  .pc-factura p { font-size: 12px; color: #475467; line-height: 1.5; margin: 6px 0 0; }
+  .pc-empresa { max-width: 1000px; margin: 22px auto 0; border-radius: 20px; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; font-size: 13.5px; color: #475467; }
+  .pc-empresa strong { color: #101828; margin-right: 8px; }
+  .pc-empresa .pc-acc { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+  .pc-wa { display: inline-block; padding: 9px 18px; border-radius: 999px; background: #eaf1ff; color: #2f6fed; font-weight: 700; font-size: 13px; }
+
+  /* Cliks asoma por detrás del borde de la tarjeta; al escribir el correo se esconde. */
+  .pc-cm { --t: 84px; position: absolute; right: 34px; top: calc(var(--t) * -.80); width: var(--t); height: calc(var(--t) * 664 / 622); z-index: 0; pointer-events: none; }
+  .pc-cm-sombra { position: absolute; left: 18%; right: 18%; bottom: -7%; height: 9%; border-radius: 50%; background: radial-gradient(ellipse at center, rgba(40,50,120,.32), rgba(40,50,120,0) 70%); animation: pc-sombra 3.6s ease-in-out infinite; }
+  .pc-cm-giro { position: absolute; inset: 0; transition: transform .55s cubic-bezier(.3,.9,.3,1); }
+  .pc-cm-flota { position: absolute; inset: 0; animation: pc-flota 3.6s ease-in-out infinite; transform-origin: 50% 60%; }
+  .pc-cm img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; user-select: none; }
+  .pc-cm .o { position: absolute; top: 48.5%; width: 5%; height: 9.9%; border-radius: 50%; transform: translate(-50%,-50%) translate(var(--mx,0px), var(--my,0px)) scaleY(var(--b,1)); transition: transform .12s ease-out;
+    background: linear-gradient(135deg, #3d3b35 0%, #1b1b1c 55%, #0c0c0e 100%); box-shadow: calc(var(--t)*.008) calc(var(--t)*.011) calc(var(--t)*.014) rgba(15,25,95,.38), inset 0 calc(var(--t)*-.005) calc(var(--t)*.008) rgba(0,0,0,.45); }
+  .pc-cm .o::after { content: ""; position: absolute; left: 16%; top: 9%; width: 30%; height: 33%; border-radius: 50%; background: linear-gradient(#fff, rgba(255,255,255,.15)); opacity: .85; transform: rotate(14deg); }
+  .pc-cm .o.i { left: 41.6%; } .pc-cm .o.d { left: 58%; }
+  .pc-cm.p { --b: .1; }
+  .pc-cm.feliz .o { width: 9.6%; height: 4.2%; border-radius: 999px 999px 0 0; background: none; box-shadow: none; border: calc(var(--t)*.021) solid #17171a; border-bottom: none; top: 49.5%; }
+  .pc-cm.feliz .o::after { display: none; }
+  .pc-cm.lejos { --b: .1; }
+  .pc-cm.lejos .pc-cm-giro { transform: translateY(58%); }
+  @keyframes pc-flota { 0%,100% { transform: translateY(0) rotate(-1.6deg); } 50% { transform: translateY(-6%) rotate(1.6deg); } }
+  @keyframes pc-sombra { 0%,100% { transform: scaleX(1); opacity: .95; } 50% { transform: scaleX(.86); opacity: .6; } }
+
+  @media (max-width: 860px) {
+    .pc-compra { grid-template-columns: 1fr; max-width: 560px; }
+    .pc-azul { border-radius: 28px 28px 0 0; padding: 34px 26px 30px; }
+    .pc-der { border-radius: 0 0 28px 28px; padding: 28px 24px 26px; }
+    .pc-precio { font-size: 52px; }
+    .pc-cm { right: 20px; }
+    .pc-seg { margin-bottom: 84px; }
+    .pc-empresa { justify-content: center; text-align: center; }
+    .pc-empresa .pc-acc { justify-content: center; }
+  }
+  @media (max-width: 480px) {
+    .pc-cont { padding-left: 16px !important; padding-right: 16px !important; }
+    .pc-seg button { padding: 11px 11px; font-size: 13px; } .pc-seg button em { margin-left: 5px; padding: 2px 6px; font-size: 10px; }
+    .pc-titulo { font-size: 26px; }
+  }
+  @media (max-width: 400px) {
+    .pc-seg { gap: 2px; padding: 4px; } .pc-seg button { padding: 10px 8px; font-size: 12.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pc-seg .pc-anual, .pc-cm-flota, .pc-cm-sombra, .pc-linea::before, .pc-linea > div, .pc-linea > div::before { animation: none !important; }
+    .pc-cm-giro { transition: none; }
+  }
+
+
+  /* Portada: aurora de color, título grande y el resumen de la descarga del día (el celular) sobre la pantalla de la app.
+     El dibujo de la derecha se arma a su tamaño de diseño (700 x 690) y se escala con --k según el ancho de la ventana. */
+  .h4 { position: relative; overflow: hidden; background: #fff; }
+  .h4-aurora { position: absolute; left: 0; right: 0; top: 0; height: 100%;
+    background:
+      radial-gradient(560px 430px at 6% 20%, #a99bff, transparent 70%),
+      radial-gradient(600px 470px at 40% 2%, #62a8ff, transparent 70%),
+      radial-gradient(520px 400px at 82% 4%, #c7b4ff, transparent 70%),
+      radial-gradient(500px 420px at 100% 34%, #8fe3ff, transparent 72%),
+      radial-gradient(520px 420px at 20% 64%, #8fd9ff, transparent 70%), #d3dcff;
+    -webkit-clip-path: ellipse(150% 94% at 50% 0%); clip-path: ellipse(150% 94% at 50% 0%); }
+  .h4-cont { position: relative; max-width: 1280px !important; padding: 64px 56px 110px !important; display: flex; align-items: center; gap: 28px; }
+  .h4-texto { flex: 1; min-width: 0; }
+  .h4-pill { display: inline-flex; align-items: center; gap: 8px; background: #fff; border-radius: 999px; padding: 8px 18px; font-size: 14px; font-weight: 600; color: #1c2430; box-shadow: 0 8px 20px -10px rgba(10,37,64,.4); margin-bottom: 24px; }
+  .h4-pill span { color: #6b7488; }
+  .h4 h1 { font-size: clamp(46px, 6.2vw, 80px); font-weight: 850; line-height: .98; letter-spacing: -.04em; margin: 0 0 26px; color: #0b1440;
+    background: linear-gradient(95deg, #0b1440 0%, #16226b 55%, #2342b0 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .h4-p { font-size: 19px; line-height: 1.55; color: #1f2a44; margin: 0 0 30px; max-width: 470px; }
+  .h4-p strong { color: #0b1440; }
+  .h4-botones { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+  .h4-cta { display: inline-block; padding: 16px 32px; border-radius: 999px; background: #101828; color: #fff; font-size: 17px; font-weight: 700; box-shadow: 0 14px 26px -14px rgba(16,24,40,.7); transition: transform .15s ease; }
+  .h4-cta:hover { transform: translateY(-1px); }
+  .h4-enlace { font-size: 17px; font-weight: 700; color: #101828; }
+  .h4-nota { font-size: 13.5px; color: #344054; margin: 16px 0 0; }
+  .h4-visual { --k: 1; position: relative; flex: none; width: calc(700px * var(--k)); height: calc(690px * var(--k)); }
+  .h4-escala { position: absolute; left: 0; top: 0; width: 700px; height: 690px; transform: scale(var(--k)); transform-origin: 0 0; }
+  .h4-fondo { position: absolute; left: 130px; top: 40px; width: 640px; height: 640px; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 80px -30px rgba(10,37,64,.45); }
+  .h4-fondo img { display: block; width: 1100px; max-width: none; height: auto; margin-left: -26px; margin-top: -14px; }
+  .h4-tel { position: absolute; left: 0; top: 0; width: 330px; height: 640px; background: #fff; border-radius: 38px; padding: 26px 22px; box-shadow: 0 44px 80px -28px rgba(10,37,64,.55), 0 0 0 8px #f2f4f8; }
+  .h4-tel-cab { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .h4-tel-cab img { width: 38px; height: auto; display: block; }
+  .h4-tel-cab b { display: block; font-size: 16px; color: #101828; }
+  .h4-tel-cab small { font-size: 12.5px; color: #6b7488; }
+  .h4-chips { display: flex; gap: 8px; margin: 14px 0 8px; }
+  .h4-ch { display: inline-block; font-size: 12.5px; font-weight: 800; padding: 4px 11px; border-radius: 999px; }
+  .h4-ch.v { background: #e3f8ec; color: #0f7a4a; } .h4-ch.r { background: #ffe3e1; color: #c0261c; }
+  .h4-fila { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid #eef1f6; font-size: 14.5px; }
+  .h4-fila:last-of-type { border-bottom: 0; }
+  .h4-fila .a { width: 34px; height: 34px; border-radius: 10px; color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; flex: none; font-size: 15px; }
+  .h4-fila b { display: block; font-size: 14.5px; color: #101828; line-height: 1.2; } .h4-fila small { color: #6b7488; font-size: 12px; }
+  .h4-fila .h4-ch { margin-left: auto; }
+  .h4-boton { position: absolute; left: 22px; right: 22px; bottom: 22px; background: #101828; color: #fff; border-radius: 10px; padding: 14px; text-align: center; font-weight: 700; font-size: 15px; }
+  .h4-mascota { position: absolute; left: -26px; bottom: -22px; z-index: 3; }
+  @media (max-width: 1239px) { .h4-visual { --k: .86; } .h4-cont { padding-left: 40px !important; padding-right: 40px !important; } }
+  @media (max-width: 1060px) { .h4-visual { --k: .72; } .h4-cont { padding-left: 28px !important; padding-right: 28px !important; } }
+  @media (max-width: 480px) { .h4-pill span { display: none; } }
+  @media (max-width: 860px) {
+    .h4-cont { flex-direction: column; align-items: stretch; gap: 36px; padding: 44px 24px 80px !important; }
+    .h4 h1 { font-size: clamp(44px, 13vw, 64px); }
+    .h4-visual { --k: 1; width: auto; height: auto; display: flex; justify-content: center; }
+    .h4-escala { position: relative; width: min(330px, 100%); height: 640px; transform: none; }
+    .h4-fondo { display: none; }
+    .h4-tel { width: 100%; }
+    .h4-mascota { left: -8px; }
+  }
+
+  /* «Nada perdido entre carpetas»: el dibujo de los documentos ordenados por cliente (antes era una foto). */
+  .car-escena { flex: 1; min-width: 0; position: relative; border-radius: 30px; padding: 30px 26px; background: linear-gradient(135deg, #cfe0ff, #e4d9ff 55%, #cdeeff); box-shadow: 0 24px 60px -30px rgba(26,42,122,.45); }
+  .car-tarjeta { background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.95); border-radius: 22px; padding: 14px 16px 10px; box-shadow: 0 20px 40px -24px rgba(26,42,122,.5); }
+  .car-cab { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; font-size: 12px; font-weight: 700; color: #667085; }
+  .car-cab b { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; } .car-cab b:nth-child(2) { background: #febc2e; } .car-cab b:nth-child(3) { background: #28c840; } .car-cab span { margin-left: 8px; }
+  .car-cliente { display: flex; align-items: center; gap: 10px; margin: 10px 0 4px; font-weight: 800; font-size: 14.5px; color: #101828; }
+  .car-carpeta { width: 22px; height: 17px; border-radius: 3px 5px 5px 5px; background: linear-gradient(135deg, #7aa8ff, #2f6fed); position: relative; flex: none; }
+  .car-carpeta::before { content: ""; position: absolute; left: 0; top: -4px; width: 10px; height: 5px; border-radius: 3px 3px 0 0; background: #5b93ff; }
+  .car-doc { display: flex; align-items: center; gap: 10px; margin-left: 32px; padding: 7px 0; border-top: 1px solid #eef1f6; font-size: 13px; }
+  .car-doc b { display: block; font-size: 13px; color: #101828; } .car-doc small { color: #6b7488; font-size: 11.5px; }
+  .car-pdf { flex: none; width: 30px; height: 36px; border-radius: 5px; background: #fff; border: 1.5px solid #ffb3ad; color: #d92d20; font-size: 9px; font-weight: 800; display: grid; place-items: end center; padding-bottom: 4px; }
+  .car-chip { margin-left: auto; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; } .car-chip.v { background: #e3f8ec; color: #0f7a4a; } .car-chip.r { background: #ffe3e1; color: #c0261c; }
+  .car-mascota { position: absolute; right: -22px; bottom: -44px; z-index: 2; }
   @media (max-width: 760px) {
     .hero-flex { flex-direction: column; }
     .hero-flex h1 { font-size: 30px !important; }
@@ -83,55 +260,39 @@
   </div>
 </header>
 
-<section style="background:#f5f8ff;">
-  <div class="contenedor hero-flex" style="padding:64px 32px 56px; display:flex; align-items:center; gap:56px;">
-    <div style="flex:1; min-width:0;">
-      <div style="font-size:13px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#2f6fed; margin-bottom:16px;">Software para contadores</div>
-      <h1 style="font-size:40px; font-weight:800; line-height:1.18; letter-spacing:-0.01em; margin:0 0 20px; color:#101828; text-wrap:balance;">
-        La opinión de cumplimiento de todos tus clientes, sin entrar al SAT
-      </h1>
-      <p style="font-size:16px; line-height:1.6; color:#475467; margin:0 0 24px; max-width:460px;">
-        Consultas SAT entra sola al portal del SAT con la e.firma de cada cliente, descarga su opinión de cumplimiento y su constancia de situación fiscal, y <strong style="color:#101828;">te avisa cuando a alguien le sale negativa</strong>.
+<section class="h4">
+  <div class="h4-aurora" aria-hidden="true"></div>
+  <div class="contenedor hero-flex h4-cont">
+    <div class="h4-texto">
+      <span class="h4-pill"><span>Mac y Windows</span> Descarga diaria, a la hora que tú elijas</span>
+      <h1>Tus opiniones del SAT en un clic</h1>
+      <p class="h4-p">
+        Consultas SAT descarga sola la <strong>opinión de cumplimiento</strong> y la constancia de todos tus clientes, con su e.firma desde tu computadora, sin entrar al SAT, y <strong>te avisa si a alguien le sale negativa</strong>.
       </p>
-      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:28px;">
-        <div style="display:flex; align-items:flex-start; gap:10px;">
-          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
-          <span style="font-size:14.5px; color:#1c2430;">Cada día, solo: sin captcha, sin esperar, sin hacerlo a mano</span>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px;">
-          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
-          <span style="font-size:14.5px; color:#1c2430;">Tu e.firma se queda cifrada en tu computadora</span>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px;">
-          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
-          <span style="font-size:14.5px; color:#1c2430;">Aviso en tu computadora o por correo cuando un cliente sale negativo</span>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px;">
-          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
-          <span style="font-size:14.5px; color:#1c2430;">Ves de un vistazo cuántos días le quedan a la e.firma de cada cliente</span>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px;">
-          <span style="width:18px; height:18px; border-radius:50%; background:#2f6fed; color:white; font-size:11px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px;">✓</span>
-          <span style="font-size:14.5px; color:#1c2430;">Descargas guardadas y ordenadas por cliente, en tu propia computadora</span>
-        </div>
+      <div class="h4-botones">
+        <a href="#seccion-precio" onclick="mostrarPrecio(event)" class="h4-cta">Empezar gratis ›</a>
+        <a href="#video-cliks" class="h4-enlace">Ver cómo funciona ›</a>
       </div>
-      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
-        <a href="#seccion-precio" onclick="mostrarPrecio(event)" style="display:inline-block; padding:14px 28px; border-radius:8px; background:#2f6fed; color:white; font-size:15px; font-weight:700;">Empieza tu prueba gratis</a>
-        <span style="font-size:13px; color:#667085;">7 días · no se cobra hasta el día 8</span>
-      </div>
+      <p class="h4-nota">7 días gratis · no se cobra hasta el día 8 · tu e.firma se queda cifrada en tu computadora</p>
     </div>
 
-    <div style="flex:1; min-width:0; position:relative;">
-      <div style="position:relative; border-radius:16px; overflow:hidden; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35);">
-        <img src="imagenes/hero-mujer.jpg" alt="Contadora trabajando en su computadora" style="display:block; width:100%; height:auto;">
-        <div style="position:absolute; bottom:16px; right:16px; background:white; border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:8px; box-shadow:0 8px 20px -8px rgba(16,24,40,0.25);">
-          <span style="width:22px; height:22px; border-radius:50%; background:#e6f4ea; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a9c5c" stroke-width="3"><path d="m5 13 4 4 10-10"/></svg>
-          </span>
-          <span style="font-size:12.5px; font-weight:700; color:#101828;">Opinión de cumplimiento lista</span>
+    <div class="h4-visual">
+      <div class="h4-escala">
+        <div class="h4-fondo" aria-hidden="true"><img src="imagenes/app-consultas.webp?v=2" width="1800" height="1032" alt=""></div>
+        <div class="h4-tel" role="img" aria-label="Ejemplo del resumen de la descarga diaria: seis clientes, cinco con opinión positiva y uno con opinión negativa">
+          <div class="h4-tel-cab" aria-hidden="true"><img src="imagenes/mascota-cuerpo.webp" alt="" width="38" height="40"><div><b>Hoy, 08:00</b><small>Descarga diaria · 6 clientes</small></div></div>
+          <div class="h4-chips" aria-hidden="true"><span class="h4-ch v">5 positivos</span><span class="h4-ch r">1 negativo</span></div>
+          <div aria-hidden="true">
+            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#f6b24a,#ee8a1f)">E</span><div><b>Ejemplo Comercial</b><small>EJE010101AA1</small></div><span class="h4-ch v">Positivo</span></div>
+            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#6ea0ff,#2f6fed)">M</span><div><b>Muestra Consultores</b><small>MUE010101CC3</small></div><span class="h4-ch r">Negativo</span></div>
+            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#f57ab4,#e0408a)">L</span><div><b>Laboratorios Ficticios</b><small>LAB010101FF6</small></div><span class="h4-ch v">Positivo</span></div>
+            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#a78bfa,#6d4aff)">D</span><div><b>Demostración y Serv.</b><small>DEM010101BB2</small></div><span class="h4-ch v">Positivo</span></div>
+            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#4fdcae,#12a06e)">A</span><div><b>Ana Pérez Ejemplo</b><small>PEPA010101AB1</small></div><span class="h4-ch v">Positivo</span></div>
+          </div>
+          <div class="h4-boton" aria-hidden="true">Abrir los documentos</div>
         </div>
+        <span class="cliks-mascota h4-mascota" data-tam="112"></span>
       </div>
-      <span class="cliks-mascota" data-tam="112" style="position:absolute; left:-22px; bottom:-30px; z-index:2;"></span>
     </div>
   </div>
 </section>
@@ -146,8 +307,8 @@
       <button type="button" role="tab" class="pestana-video" data-video="empezar" aria-selected="false">Cómo empezar (46 s)</button>
     </div>
     <div style="margin:0 auto; max-width:900px; border-radius:14px; overflow:hidden; border:1px solid #e4e7ec; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35); background:#0f172a;">
-      <video id="video-cliks" controls playsinline preload="none" poster="imagenes/video-portada.jpg" style="display:block; width:100%; height:auto; aspect-ratio:16/9;">
-        <source src="videos/cliks-como-funciona.mp4" type="video/mp4">
+      <video id="video-cliks" controls playsinline preload="none" poster="imagenes/video-portada.jpg?v=3" style="display:block; width:100%; height:auto; aspect-ratio:16/9;">
+        <source src="videos/cliks-como-funciona.mp4?v=3" type="video/mp4">
         Tu navegador no puede reproducir este video.
       </video>
     </div>
@@ -187,8 +348,8 @@
     </div>
     <figure style="margin:0 auto; max-width:960px;">
       <div style="border-radius:14px; overflow:hidden; border:1px solid #e4e7ec; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35); background:#fff;">
-        <img id="captura-clientes" src="imagenes/app-clientes.webp" width="1800" height="874" loading="lazy" alt="Pantalla Clientes de Consultas SAT: lista de clientes con los días que le quedan a cada e.firma" style="display:block; width:100%; height:auto;">
-        <img id="captura-consultas" src="imagenes/app-consultas.webp" width="1800" height="873" loading="lazy" alt="Pantalla Consultas de Consultas SAT: documentos descargados por cliente, con calendario de los últimos 90 días" style="display:none; width:100%; height:auto;">
+        <img id="captura-clientes" src="imagenes/app-clientes.webp?v=2" width="1800" height="1032" loading="lazy" alt="Pantalla Clientes de Consultas SAT: lista de clientes con los días que le quedan a cada e.firma" style="display:block; width:100%; height:auto;">
+        <img id="captura-consultas" src="imagenes/app-consultas.webp?v=2" width="1800" height="1032" loading="lazy" alt="Pantalla Consultas de Consultas SAT: documentos descargados por cliente, con calendario de los últimos 90 días" style="display:none; width:100%; height:auto;">
       </div>
       <figcaption id="pie-captura" style="margin-top:14px; font-size:14px; line-height:1.5; color:#475467; text-align:center;">Tus clientes y los días que le quedan a cada e.firma</figcaption>
     </figure>
@@ -198,8 +359,17 @@
 
 <section style="border-top:1px solid #eceff3;">
   <div class="contenedor carpetas-flex" style="padding:0 32px 72px; display:flex; align-items:center; gap:56px;">
-    <div style="flex:1; min-width:0; border-radius:16px; overflow:hidden; box-shadow:0 24px 60px -30px rgba(16,24,40,0.3);">
-      <img src="imagenes/carpetas.jpg" alt="Documentos ordenados por cliente" style="display:block; width:100%; height:auto;">
+    <div class="car-escena" role="img" aria-label="Ejemplo de cómo se guardan los documentos: una carpeta por cliente, con su opinión de cumplimiento y su constancia ordenadas por fecha">
+      <div class="car-tarjeta" aria-hidden="true">
+        <div class="car-cab"><b></b><b></b><b></b><span>Consultas SAT · Documentos</span></div>
+        <div class="car-cliente"><span class="car-carpeta"></span>Muestra Consultores S.C.</div>
+        <div class="car-doc"><span class="car-pdf">PDF</span><div><b>Opinión de cumplimiento</b><small>2026-10-01 · 08:03</small></div><span class="car-chip r">Negativo</span></div>
+        <div class="car-doc"><span class="car-pdf">PDF</span><div><b>Constancia de situación fiscal</b><small>2026-09-30 · 08:03</small></div></div>
+        <div class="car-cliente"><span class="car-carpeta"></span>Ejemplo Comercial S. de R.L.</div>
+        <div class="car-doc"><span class="car-pdf">PDF</span><div><b>Opinión de cumplimiento</b><small>2026-10-01 · 08:03</small></div><span class="car-chip v">Positivo</span></div>
+        <div class="car-doc"><span class="car-pdf">PDF</span><div><b>Opinión de cumplimiento</b><small>2026-09-24 · 08:03</small></div><span class="car-chip v">Positivo</span></div>
+      </div>
+      <span class="cliks-mascota car-mascota" data-tam="96"></span>
     </div>
     <div style="flex:1; min-width:0;">
       <h2 style="font-size:28px; font-weight:800; letter-spacing:-0.01em; margin:0 0 14px; color:#101828;">Nada perdido entre carpetas</h2>
@@ -211,73 +381,71 @@
 </section>
 
 <section id="seccion-precio" class="seccion-vidrio" style="border-top:1px solid rgba(255,255,255,.8); border-bottom:1px solid rgba(255,255,255,.8); scroll-margin-top:30px;">
-  <div class="contenedor" style="padding:72px 32px;">
-    <div style="text-align:center; margin-bottom:36px;">
-      <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Precio</div>
-      <h2 style="font-size:26px; font-weight:800; color:#101828; margin:0;">Elige cada cuánto quieres pagar</h2>
-      <p style="font-size:14px; color:#667085; margin:8px 0 0;">Entre más tiempo elijas de una vez, más barato sale por mes.</p>
+  <div class="contenedor pc-cont" style="padding:64px 32px 60px;">
+    <h2 class="pc-titulo">Elige tu plan</h2>
+    <div id="planes" class="pc-seg" role="group" aria-label="Plazo del plan">
+      <!-- Los cuatro plazos se dibujan con JS desde PLANES. -->
     </div>
 
-    <div id="planes" style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; max-width:920px; margin:0 auto 40px;">
-      <!-- Cada tarjeta se rellena con JS desde PLANES; aquí sólo el molde. -->
-    </div>
+    <div class="pc-compra">
+      <span class="pc-cm" id="pc-cm" aria-hidden="true">
+        <span class="pc-cm-sombra"></span>
+        <span class="pc-cm-giro"><span class="pc-cm-flota"><img src="imagenes/mascota-cuerpo.webp" alt="" width="360" height="384" decoding="async"><i class="o i"></i><i class="o d"></i></span></span>
+      </span>
 
-    <div class="vidrio" style="max-width:420px; width:100%; margin:0 auto; border-radius:26px; padding:36px; text-align:center;">
-      <div id="resumen-plan" style="font-size:15px; font-weight:700; color:#101828; margin-bottom:4px;"></div>
-      <p id="resumen-plan-nota" style="font-size:13px; color:#667085; margin:0 0 22px;"></p>
-      <div style="text-align:left; display:flex; flex-direction:column; gap:10px; margin-bottom:26px; border-top:1px solid #eceff3; padding-top:22px;">
-        <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">7 días de prueba gratis, no se cobra hasta el día 8</span></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">Tu e.firma nunca sale de tu computadora</span></div>
-        <div style="display:flex; gap:10px; align-items:flex-start;"><span style="color:#2f6fed;">✓</span><span style="font-size:14px;">Cancela cuando quieras</span></div>
+      <div class="pc-azul">
+        <div id="resumen-plan" class="pc-etq"></div>
+        <div id="resumen-total" class="pc-precio"></div>
+        <div id="resumen-mes" class="pc-almes"></div>
+        <span id="resumen-ahorro" class="pc-pastilla"></span>
+        <div class="pc-linea">
+          <div><b>Hoy · $0</b>Empiezas tus 7 días gratis</div>
+          <div><b>Antes del cobro</b>Te avisamos por correo</div>
+          <div><b id="linea-cobro">Día 8</b>Se cobra, o cancelas antes sin costo</div>
+        </div>
       </div>
 
-      <label for="correo" style="display:block; text-align:left; font-size:13px; font-weight:600; color:#1c2430; margin:0 0 6px;">Tu correo</label>
-      <input id="correo" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email"
-             style="width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid #d0d5dd; font-size:14.5px; margin-bottom:16px; box-sizing:border-box;">
+      <div class="pc-der vidrio" style="border-radius:0 28px 28px 0; background:#fcfdff;">
+        <input id="correo" class="pc-entrada" type="email" placeholder="Tu correo" autocomplete="email" aria-label="Tu correo">
+        <div class="pc-fila">
+          <label for="asientos">Personas</label>
+          <div class="pc-paso">
+            <button type="button" id="menos-asientos" aria-label="Una persona menos">−</button>
+            <input id="asientos" type="number" min="1" value="1" inputmode="numeric">
+            <button type="button" id="mas-asientos" aria-label="Una persona más">+</button>
+          </div>
+        </div>
+        <p id="resumen-plan-nota" class="pc-total" aria-live="polite"></p>
 
-      <label for="asientos" style="display:block; text-align:left; font-size:13px; font-weight:600; color:#1c2430; margin:0 0 6px;">¿Para cuántas personas?</label>
-      <input id="asientos" type="number" min="1" value="1"
-             style="width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid #d0d5dd; font-size:14.5px; margin-bottom:20px; box-sizing:border-box;">
-
-      <div style="text-align:left; background:#f9fafb; border:1px solid #eceff3; border-radius:10px; padding:12px 14px; margin-bottom:18px;">
-        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; margin:0;">
-          <input type="checkbox" id="acepto" style="width:16px; height:16px; margin-top:2px; flex-shrink:0; cursor:pointer;">
-          <span style="font-size:12.5px; color:#475467; line-height:1.5; font-weight:400;">
-            Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos y condiciones</a> y el
-            <a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a>, y autorizo el
-            <strong>cargo recurrente</strong> según el plan elegido, al terminar la prueba de 7 días. La
-            suscripción se renueva sola al terminar cada periodo; se me avisará por correo 5 días hábiles
-            antes de cada cargo y puedo cancelar cuando quiera, sin penalización.
-          </span>
+        <label class="pc-corto">
+          <input type="checkbox" id="acepto">
+          <span id="texto-acepto"></span>
         </label>
-      </div>
-
-      <div style="text-align:left; border:1px solid #eceff3; border-radius:10px; padding:12px 14px; margin-bottom:18px;">
-        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; margin:0;">
-          <input type="checkbox" id="acepta-promos" style="width:16px; height:16px; margin-top:2px; flex-shrink:0; cursor:pointer;">
-          <span style="font-size:12.5px; color:#475467; line-height:1.5; font-weight:400;">
-            <strong>(Opcional)</strong> Quiero recibir novedades y promociones de Cliks por correo. Puedo darme de baja
-            cuando quiera, con un clic, y eso no afecta mi servicio.
-          </span>
+        <div class="pc-detalle" id="detalle-acepto" hidden>
+          Acepto los Términos y condiciones y el Aviso de privacidad, y autorizo el cargo recurrente según el plan elegido, al terminar la prueba de 7 días.
+          La suscripción se renueva sola al terminar cada periodo; se me avisará por correo antes de cada cargo y puedo cancelar cuando quiera, sin penalización.
+        </div>
+        <label class="pc-corto">
+          <input type="checkbox" id="acepta-promos">
+          <span>Quiero recibir novedades y promociones <span style="color:#98a2b3;">(opcional)</span></span>
         </label>
-      </div>
 
-      <div style="text-align:left; background:#f5f8ff; border:1px solid #dbe6ff; border-radius:10px; padding:11px 14px; margin-bottom:18px; font-size:12.5px; color:#475467; line-height:1.5;">
-        <strong style="color:#101828;">¿Necesitas factura?</strong> En la siguiente pantalla marca la casilla
-        <strong>«Estoy comprando en calidad de empresa»</strong> (también si eres persona física) y escribe tu RFC. No es obligatorio.
+        <button id="btn-pagar" class="pc-btn" onclick="pagar()">Empezar mis 7 días gratis</button>
+        <div id="error" style="color:#d92d20; font-size:13px; margin-top:12px; text-align:center; display:none;"></div>
+        <p class="pc-seguro">Pago seguro con Stripe</p>
+        <div class="pc-factura">
+          <button type="button" class="pc-mas" id="btn-factura" aria-expanded="false">¿Necesitas factura?</button>
+          <p id="texto-factura" hidden>En la siguiente pantalla marca la casilla <strong>«Estoy comprando en calidad de empresa»</strong> (también si eres persona física) y escribe tu RFC. No es obligatorio.</p>
+        </div>
       </div>
-
-      <button id="btn-pagar" onclick="pagar()" style="display:block; width:100%; padding:14px; border-radius:8px; border:none; background:#2f6fed; color:white; font-size:15px; font-weight:700; cursor:pointer;">Suscribirme</button>
-      <div id="error" style="color:#d92d20; font-size:13px; margin-top:10px; display:none;"></div>
     </div>
 
-    <div style="max-width:520px; margin:26px auto 0; text-align:center; font-size:14px; line-height:1.55; color:#475467;">
-      <strong style="color:#101828;">¿Despacho grande o empresa?</strong><br>
-      Cuéntanos cuántas personas y computadoras son y si necesitan factura o una forma de pago distinta,
-      y te respondemos con una propuesta a tu medida.<br>
-      <a href="https://wa.me/525566738980?text=Hola%2C%20somos%20un%20despacho%20o%20empresa%20y%20queremos%20una%20cotizaci%C3%B3n%20de%20Cliks."
-         target="_blank" rel="noopener" style="display:inline-block; margin-top:10px; padding:10px 18px; border-radius:999px; background:#eaf1ff; color:#2f6fed; font-weight:700; text-decoration:none; font-size:13.5px;">Pedir una cotización por WhatsApp</a>
-      <span style="display:block; margin-top:8px; font-size:12.5px;">o escribe a <a href="mailto:contacto@cliks.mx?subject=Cotizaci%C3%B3n%20para%20mi%20despacho%20o%20empresa">contacto@cliks.mx</a></span>
+    <div class="vidrio pc-empresa">
+      <span><strong>¿Despacho grande o empresa?</strong>Te respondemos con una propuesta a tu medida.</span>
+      <span class="pc-acc">
+        <a class="pc-wa" href="https://wa.me/525566738980?text=Hola%2C%20somos%20un%20despacho%20o%20empresa%20y%20queremos%20una%20cotizaci%C3%B3n%20de%20Cliks." target="_blank" rel="noopener">Pedir cotización por WhatsApp</a>
+        <a href="mailto:contacto@cliks.mx?subject=Cotizaci%C3%B3n%20para%20mi%20despacho%20o%20empresa">contacto@cliks.mx</a>
+      </span>
     </div>
   </div>
 </section>
@@ -341,7 +509,7 @@
 
   // Qué versión de los términos aceptó. Si algún día cambian, poder
   // demostrar cuál era la vigente el día que la persona contrató.
-  const VERSION_TERMINOS = "2026-09";
+  const VERSION_TERMINOS = "2026-10";
 
   // ⬇⬇⬇  ESCRIBE AQUÍ TU DOMICILIO  ⬇⬇⬇
   // La ley (art. 76 Bis III) obliga a mostrarlo antes de que alguien
@@ -376,8 +544,8 @@
   // Videos de la portada: "cómo funciona" y "cómo empezar".
   (function () {
     const VIDEOS = {
-      funciona: { archivo: "videos/cliks-como-funciona.mp4", poster: "imagenes/video-portada.jpg" },
-      empezar: { archivo: "videos/cliks-como-empezar.mp4", poster: "imagenes/video-portada-empezar.jpg" },
+      funciona: { archivo: "videos/cliks-como-funciona.mp4?v=3", poster: "imagenes/video-portada.jpg?v=3" },
+      empezar: { archivo: "videos/cliks-como-empezar.mp4?v=3", poster: "imagenes/video-portada-empezar.jpg?v=3" },
     };
     const video = document.getElementById("video-cliks");
     const pestanas = document.querySelectorAll(".pestana-video");
@@ -395,44 +563,86 @@
 
   // Mismos precios que precios.py (servidor_licencias) -- si cambian
   // allá, hay que cambiarlos aquí también, es la única duplicación.
+  // "extra" es lo que cuesta cada persona de más en ese plan
+  // (49 al año, prorrateado: 4, 12, 24 y 49), igual que en precios.py.
   const PLANES = {
-    1:  { nombre: "1 mes",   precio: 69,  recomendado: false },
-    3:  { nombre: "3 meses", precio: 180, recomendado: false },
-    6:  { nombre: "6 meses", precio: 330, recomendado: false },
-    12: { nombre: "1 año",   precio: 499, recomendado: true  },
+    1:  { nombre: "1 mes",   precio: 69,  extra: 4,  cada: "al mes" },
+    3:  { nombre: "3 meses", precio: 180, extra: 12, cada: "cada 3 meses" },
+    6:  { nombre: "6 meses", precio: 330, extra: 24, cada: "cada 6 meses" },
+    12: { nombre: "1 año",   precio: 499, extra: 49, cada: "al año" },
   };
   let PLAN_ELEGIDO = 12;
 
-  function pintarPlanes() {
-    const contenedor = document.getElementById("planes");
-    contenedor.innerHTML = "";
-    for (const meses of [1, 3, 6, 12]) {
-      const plan = PLANES[meses];
-      const porMes = plan.precio / meses;
-      const activo = meses === PLAN_ELEGIDO;
-      const tarjeta = document.createElement("div");
-      tarjeta.style.cssText = `
-        cursor:pointer; width:190px; text-align:center; border-radius:12px; padding:22px 16px;
-        border:2px solid ${activo ? "#2f6fed" : "#eceff3"};
-        background:${activo ? "#eaf1ff" : "white"};
-        box-shadow:${activo ? "0 8px 20px -10px rgba(47,111,237,0.4)" : "none"};
-        transition:border-color .15s, background .15s;
-      `;
-      tarjeta.innerHTML = `
-        ${plan.recomendado ? '<div style="font-size:10.5px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; color:#2f6fed; margin-bottom:8px;">Recomendado</div>' : '<div style="height:17px;"></div>'}
-        <div style="font-size:14px; font-weight:700; color:#101828; margin-bottom:6px;">${plan.nombre}</div>
-        <div style="font-size:26px; font-weight:800; color:#101828;">$${plan.precio}</div>
-        <div style="font-size:12px; color:#667085; margin-top:2px;">MXN, equivale a $${porMes.toFixed(0)}/mes</div>
-      `;
-      tarjeta.onclick = () => { PLAN_ELEGIDO = meses; pintarPlanes(); };
-      contenedor.appendChild(tarjeta);
+  (function () {
+    const $ = (id) => document.getElementById(id);
+    const peso = (n) => "$" + n.toLocaleString("es-MX");
+    const personas = () => Math.max(1, parseInt($("asientos").value, 10) || 1);
+    const totalPrimerCobro = () => { const p = PLANES[PLAN_ELEGIDO]; return p.precio + p.extra * (personas() - 1); };
+
+    function pintarPlazos() {
+      let h = "";
+      for (const m of [1, 3, 6, 12]) {
+        const p = PLANES[m], ahorro = Math.round((1 - p.precio / (69 * m)) * 100);
+        h += `<button type="button" data-meses="${m}" aria-pressed="${m === PLAN_ELEGIDO}"${m === 12 ? ' class="pc-anual"' : ""}>${p.nombre}${m === 12 ? `<em>−${ahorro}%</em>` : ""}</button>`;
+      }
+      $("planes").innerHTML = h;
     }
-    const plan = PLANES[PLAN_ELEGIDO];
-    document.getElementById("resumen-plan").textContent = `Plan de ${plan.nombre} -- $${plan.precio} MXN`;
-    document.getElementById("resumen-plan-nota").textContent =
-      "Incluye 1 persona. Cada persona extra tiene costo adicional, prorrateado según el plan.";
-  }
-  pintarPlanes();
+
+    function pintar() {
+      const p = PLANES[PLAN_ELEGIDO], base = 69 * PLAN_ELEGIDO, ahorro = base - p.precio;
+      $("resumen-plan").textContent = "Plan de " + p.nombre;
+      $("resumen-total").innerHTML = (ahorro > 0 ? `<span class="pc-tach">${peso(base)}</span>` : "") + peso(p.precio) + "<small>MXN</small>";
+      $("resumen-mes").textContent = PLAN_ELEGIDO === 1 ? "Se renueva cada mes" : peso(Math.round(p.precio / PLAN_ELEGIDO)) + " al mes";
+      $("resumen-ahorro").textContent = ahorro > 0 ? "Ahorras " + peso(ahorro) : "Mes a mes";
+      $("linea-cobro").textContent = "Día 8 · " + peso(totalPrimerCobro());
+      $("resumen-plan-nota").textContent = personas() > 1 ? personas() + " personas: " + peso(totalPrimerCobro()) + " MXN en el primer cobro" : "";
+      // La casilla dice el monto exacto del plan elegido: ahí está el consentimiento al cargo.
+      $("texto-acepto").innerHTML = 'Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos</a>, el ' +
+        '<a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a> y el cobro de <b>' + peso(totalPrimerCobro()) + " " + p.cada +
+        '</b> al terminar los 7 días gratis. <button type="button" class="pc-mas" id="ver-detalle" aria-expanded="false">Ver detalle</button>';
+      $("ver-detalle").onclick = (e) => {
+        e.preventDefault();
+        const d = $("detalle-acepto"); d.hidden = !d.hidden;
+        e.target.setAttribute("aria-expanded", String(!d.hidden));
+      };
+    }
+
+    $("planes").addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      PLAN_ELEGIDO = +b.dataset.meses; pintarPlazos(); pintar();
+      if (PLAN_ELEGIDO === 12) feliz(1400);
+    });
+    $("mas-asientos").onclick = () => { $("asientos").value = Math.min(50, personas() + 1); pintar(); };
+    $("menos-asientos").onclick = () => { $("asientos").value = Math.max(1, personas() - 1); pintar(); };
+    $("asientos").addEventListener("input", pintar);
+    $("btn-factura").onclick = () => { const t = $("texto-factura"); t.hidden = !t.hidden; $("btn-factura").setAttribute("aria-expanded", String(!t.hidden)); };
+
+    // ---- Cliks: sigue el cursor con los ojos, parpadea, se alegra y se esconde mientras escribes el correo ----
+    const cm = $("pc-cm"), ojos = cm.querySelectorAll(".o");
+    const quieto = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let escribiendo = false, timerFeliz = null;
+    const mira = (x, y) => ojos.forEach((o) => { o.style.setProperty("--mx", x + "px"); o.style.setProperty("--my", y + "px"); });
+    function feliz(ms) { if (escribiendo) return; cm.classList.add("feliz"); clearTimeout(timerFeliz); timerFeliz = setTimeout(() => cm.classList.remove("feliz"), ms || 1200); }
+    if (!quieto) {
+      addEventListener("pointermove", (e) => {
+        if (escribiendo) return;
+        const r = cm.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height * .5);
+        const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 220), m = r.width * .03;
+        mira(dx / d * k * m, dy / d * k * m * .7);
+      }, { passive: true });
+      (function parpadeo() {
+        if (!escribiendo) { cm.classList.add("p"); setTimeout(() => { if (!escribiendo) cm.classList.remove("p"); }, 140); }
+        setTimeout(parpadeo, 2200 + Math.random() * 2800);
+      })();
+    }
+    $("correo").addEventListener("focus", () => { escribiendo = true; cm.classList.remove("feliz"); cm.classList.add("lejos"); });
+    $("correo").addEventListener("blur", () => { escribiendo = false; cm.classList.remove("lejos", "p"); mira(0, 0); setTimeout(() => feliz(1300), 350); });
+    $("acepto").addEventListener("change", (e) => { if (e.target.checked) feliz(1500); });
+    $("acepta-promos").addEventListener("change", (e) => { if (e.target.checked) feliz(1500); });
+
+    pintarPlazos(); pintar();
+  })();
 
   function mostrarPrecio(e) {
     if (e) e.preventDefault();
@@ -497,7 +707,7 @@
       errorEl.textContent = "No se pudo conectar: " + err.message;
       errorEl.style.display = "block";
       boton.disabled = false;
-      boton.textContent = "Suscribirme";
+      boton.textContent = "Empezar mis 7 días gratis";
     }
   }
 </script>

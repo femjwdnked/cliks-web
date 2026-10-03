@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" type="image/png" href="/imagenes/favicon.png">
+<title>Conectar tu celular — Cliks</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif; color: #1c2430; min-height: 100vh;
+    background: radial-gradient(900px 520px at 8% -8%, rgba(47,111,237,.18), transparent 60%), radial-gradient(800px 500px at 100% 0%, rgba(168,85,247,.14), transparent 55%), #f5f7ff; }
+  a { color: inherit; text-decoration: none; }
+  .nav { display: flex; align-items: center; margin: 14px 16px 0; padding: 10px 22px; border: 1px solid #edf0f6; border-radius: 999px; background: #fff; }
+  .nav img { height: 26px; width: auto; display: block; }
+  main { max-width: 460px; margin: 0 auto; padding: 22px 18px 50px; text-align: center; }
+  .clik { position: relative; display: inline-block; width: 150px; filter: drop-shadow(0 22px 22px rgba(36,64,160,.32)); animation: flota 3.6s ease-in-out infinite; }
+  .clik img { display: block; width: 100%; height: auto; }
+  .clik i { position: absolute; top: 42%; width: 5.2%; height: 15%; background: #1b1f3a; border-radius: 50%; }
+  .clik i:nth-of-type(1) { left: 37.5%; } .clik i:nth-of-type(2) { left: 57.5%; }
+  h1 { margin: 14px 0 6px; font-size: 25px; letter-spacing: -.02em; color: #0b1440; }
+  p { margin: 0 0 14px; color: #475467; font-size: 15.5px; line-height: 1.5; }
+  .tarjeta { background: rgba(255,255,255,.88); border: 1px solid #fff; border-radius: 26px; padding: 22px 20px; box-shadow: 0 26px 50px -30px rgba(26,42,122,.5); margin-top: 16px; }
+  .boton { display: block; width: 100%; padding: 16px 20px; border: 0; border-radius: 999px; font: inherit; font-size: 17px; font-weight: 800; cursor: pointer; margin: 10px 0 0; }
+  .principal { background: linear-gradient(135deg, #3573ee, #2358d6); color: #fff; box-shadow: 0 16px 28px -14px rgba(47,111,237,.8); }
+  .suave { background: #eef2ff; color: #2f6fed; }
+  .tiendas { display: flex; gap: 10px; margin-top: 12px; }
+  .tiendas a { flex: 1; padding: 13px 8px; border-radius: 16px; background: #101828; color: #fff; font-weight: 700; font-size: 14px; }
+  .nota { font-size: 13px; color: #667085; margin-top: 16px; }
+  .ok { color: #0b7a53; font-weight: 700; min-height: 20px; margin: 8px 0 0; font-size: 14px; }
+  .pronto { display: inline-block; margin: 6px 0 0; padding: 6px 14px; border-radius: 999px; background: #fff1d6; border: 1px solid #f1cf86; color: #b54708; font-size: 13.5px; font-weight: 700; }
+  [hidden] { display: none !important; }
+  @keyframes flota { 0%, 100% { transform: translateY(0) rotate(-1.4deg); } 50% { transform: translateY(-3%) rotate(1.4deg); } }
+  @media (prefers-reduced-motion: reduce) { .clik { animation: none; } }
+</style>
+</head>
+<body>
+  <nav class="nav" aria-label="Principal"><a href="/" aria-label="Cliks, ir al inicio"><img src="/imagenes/logo-cliks.png" alt="Cliks" width="62" height="26"></a></nav>
+  <main>
+    <span class="clik" aria-hidden="true"><img src="/imagenes/mascota-cuerpo.webp" alt="" width="360" height="384"><i></i><i></i></span>
+    <h1>Conectar tu celular</h1>
+    <p id="pronto" class="pronto" role="note">Próximamente: la app de Cliks para celular todavía no está en las tiendas.</p>
+
+    <!-- Con código: se ve en el celular al escanear el QR de la app de la computadora -->
+    <div id="con-codigo" hidden>
+      <p>Toca el botón y se abre la app de Cliks con tu cuenta lista.</p>
+      <div class="tarjeta">
+        <a id="abrir" class="boton principal" href="#">Abrir en la app de Cliks</a>
+        <button id="copiar" type="button" class="boton suave">Copiar código</button>
+        <p id="copiado" class="ok" role="status"></p>
+        <p class="nota">¿Todavía no la tienes? Instálala y vuelve a escanear el QR de tu computadora.</p>
+        <div class="tiendas" id="tiendas" hidden>
+          <a id="tienda-ios" href="#" hidden>App Store</a>
+          <a id="tienda-android" href="#" hidden>Google Play</a>
+        </div>
+      </div>
+      <p class="nota">🔒 El código lleva la llave que abre tus datos: no lo compartas con nadie. Este enlace no lo guarda ni lo manda a ningún servidor de Cliks: se queda en tu celular.</p>
+    </div>
+
+    <!-- Sin código: alguien abrió esta dirección a mano -->
+    <div id="sin-codigo" hidden>
+      <p>Esta página se abre desde el <strong>código QR</strong> de la app de Cliks de tu computadora:</p>
+      <div class="tarjeta"><p style="margin:0"><strong>Configuración → Celular → Conectar mi celular</strong>, y escanea el código con la cámara de tu celular.</p></div>
+      <p class="nota">¿Dudas? Escríbenos a <a href="mailto:contacto@cliks.mx" style="text-decoration:underline">contacto@cliks.mx</a>.</p>
+    </div>
+  </main>
+
+<script>
+(function () {
+  "use strict";
+  // Enlaces de las tiendas: se rellenan cuando la app se publique (si están vacíos, esos botones no se ven).
+  var TIENDAS = { ios: "", android: "" };
+  // «Próximamente» se ve mientras no haya ninguna tienda; cuando se rellene alguna de las dos, desaparece solo.
+  if (TIENDAS.ios || TIENDAS.android) document.getElementById("pronto").hidden = true;
+  var PREFIJO = "CLIKS1:";
+  var crudo = "";
+  try { crudo = decodeURIComponent((location.hash || "").replace(/^#/, "")); } catch (e) { crudo = ""; }
+  var idx = crudo.toUpperCase().indexOf(PREFIJO);
+  // Un código tiene la forma CLIKS1:<llave>.<secreto>.<correo>; si no se parece, se trata como si no hubiera.
+  var codigo = idx >= 0 ? crudo.slice(idx).split(/\s/)[0] : "";
+  var valido = /^CLIKS1:[A-Za-z0-9_-]{40,50}\.[A-Za-z0-9_-]{22,64}\.[^\s@]+@[^\s@]+$/i.test(codigo);
+
+  document.getElementById(valido ? "con-codigo" : "sin-codigo").hidden = false;
+  if (!valido) return;
+
+  var enlace = "cliks://vincular?c=" + encodeURIComponent(codigo);
+  document.getElementById("abrir").href = enlace;
+
+  // El código ya está en una variable: se quita de la dirección para que no se quede en la barra ni en el historial.
+  try { history.replaceState(null, "", location.pathname); } catch (e) { /* sin historial: no pasa nada */ }
+
+  var hayTienda = false;
+  [["ios", "tienda-ios"], ["android", "tienda-android"]].forEach(function (par) {
+    var url = TIENDAS[par[0]];
+    if (url) { var a = document.getElementById(par[1]); a.href = url; a.hidden = false; hayTienda = true; }
+  });
+  document.getElementById("tiendas").hidden = !hayTienda;
+
+  var copiado = document.getElementById("copiado");
+  document.getElementById("copiar").addEventListener("click", function () {
+    var listo = function () { copiado.textContent = "Código copiado. Ábrelo pegándolo en la app."; };
+    var fallo = function () { copiado.textContent = "No se pudo copiar. Mantén presionado el código para copiarlo."; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(codigo).then(listo, fallo);
+    else fallo();
+  });
+
+  // En un celular, intenta abrir la app sola; si no la tiene, el botón sigue ahí.
+  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) setTimeout(function () { location.href = enlace; }, 500);
+})();
+</script>
+</body>
+</html>

@@ -8,6 +8,9 @@
   var CORREO = "mailto:contacto@cliks.mx?subject=" + encodeURIComponent("Duda sobre Cliks");
   var COTIZAR = "https://wa.me/525566738980?text=" + encodeURIComponent("Hola, somos un despacho o empresa y queremos una cotización de Cliks.");
   var CANCELAR = "https://billing.stripe.com/p/login/5kQcMY9Lz4Mz1Cs0IoefC00";
+  // El asistente con IA vive en nuestro servidor (la llave nunca está en esta página). Si está apagado o no contesta, el chat sigue como siempre.
+  var API = "https://servidor-licencias-37nv.onrender.com";
+  var ENLACES_OK = [CANCELAR, "https://wa.me/525566738980"], DOMINIOS_OK = ["cliks.mx", "www.cliks.mx"];
 
   // Las dudas de quien visita el sitio. Cada respuesta son párrafos; un trozo puede ser texto o un enlace {t, h}.
   var FAQ = [
@@ -57,8 +60,19 @@
     ".cm-pie p{margin:0 0 8px;font-size:12.5px;color:#667085}",
     ".cm-btn{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;border-radius:999px;padding:10px 14px;font-weight:700;font-size:13.5px;margin:0 0 7px}",
     ".cm-btn.wa{background:linear-gradient(180deg,#4a98ff,#2f6fed);color:#fff;box-shadow:0 12px 22px -12px rgba(47,111,237,.8)}.cm-btn.co{background:rgba(255,255,255,.65);color:#344054;border:1px solid rgba(255,255,255,.95);font-weight:600}",
+    ".cm-msg{max-width:88%;margin:0 0 8px;padding:9px 12px;border-radius:16px;font-size:13.5px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere}",
+    ".cm-msg.yo{margin-left:auto;background:linear-gradient(180deg,#4a98ff,#2f6fed);color:#fff;border-bottom-right-radius:6px}",
+    ".cm-msg.ia{background:rgba(255,255,255,.82);color:#344054;border:1px solid rgba(255,255,255,.95);border-bottom-left-radius:6px;box-shadow:0 8px 18px -14px rgba(26,42,122,.4)}",
+    ".cm-msg.ia a{color:#2f6fed;font-weight:600}",
+    ".cm-msg.pensando{color:#667085}.cm-msg.pensando i{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:#98a2b3;animation:cm-pto 1.1s infinite ease-in-out}.cm-msg.pensando i:nth-child(2){animation-delay:.15s}.cm-msg.pensando i:nth-child(3){animation-delay:.3s}",
+    "@keyframes cm-pto{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}",
+    ".cm-form{display:flex;gap:6px;margin:0 0 6px}",
+    ".cm-form input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.95);background:rgba(255,255,255,.8);border-radius:999px;padding:10px 14px;font:inherit;font-size:13.5px;color:#101828}.cm-form input:focus{outline:2px solid #2f6fed}",
+    ".cm-form button{border:0;border-radius:999px;padding:0 16px;font:inherit;font-weight:700;font-size:13.5px;color:#fff;background:linear-gradient(180deg,#4a98ff,#2f6fed);cursor:pointer}.cm-form button:disabled,.cm-form input:disabled{opacity:.55;cursor:default}",
+    ".cm-aviso-ia{margin:0 0 8px !important;font-size:11.5px !important;color:#667085}",
+    ".cm-pie details{margin:0}.cm-pie summary{cursor:pointer;font-size:12.5px;color:#475467;font-weight:600;padding:2px 0}",
     "@media (max-width:760px){.cm-soporte{right:8px;bottom:8px}.cm-soporte .cm{--t:70px}.cm-burbuja{display:none}.cm-panel{right:8px;bottom:92px;max-height:calc(100vh - 110px)}}",
-    "@media (prefers-reduced-motion:reduce){.cm-flota,.cm-sombra{animation:none}.cm .o{transition:none}}"
+    "@media (prefers-reduced-motion:reduce){.cm-flota,.cm-sombra,.cm-msg.pensando i{animation:none}.cm .o{transition:none}}"
   ].join("");
   var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
@@ -69,7 +83,8 @@
     return m;
   }
   // --- el chat de ayuda ---
-  var panel = null, cuerpo = null, abierto = false;
+  var panel = null, cuerpo = null, pie = null, subtitulo = null, abierto = false;
+  var ia = { activo: false, revisado: false, boleto: "", historial: [], esperando: false };
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; }
   function parrafo(partes) {
     var p = el("p", "cm-resp");
@@ -81,9 +96,101 @@
     });
     return p;
   }
-  function lista() {
+  // ¿Está prendido el asistente con IA? Se pregunta una vez; si no contesta pronto, se sigue sin él.
+  function revisaIA(cuando) {
+    if (ia.revisado) { cuando && cuando(); return; }
+    ia.revisado = true;
+    var fin = function () { cuando && cuando(); };
+    if (!window.fetch) { fin(); return; }
+    var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { ctl && ctl.abort(); }, 9000);
+    fetch(API + "/asistente/estado", { cache: "no-store", signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { return r.ok ? r.json() : {}; })
+      .then(function (d) { ia.activo = !!d && d.activo === true && typeof d.boleto === "string"; ia.boleto = ia.activo ? d.boleto : ""; })
+      .catch(function () {})
+      .then(function () { clearTimeout(t); fin(); });
+  }
+  // Sólo se hacen links los de la lista; cualquier otra dirección que venga en la respuesta se muestra como texto.
+  function enlazable(u) {
+    u = u.replace(/[.,;:!?]+$/, "");
+    if (ENLACES_OK.indexOf(u) >= 0 || ENLACES_OK.some(function (e) { return u.indexOf(e + "?") === 0; })) return true;
+    var m = /^https:\/\/([^\/:?#]+)(?:[\/:?#]|$)/i.exec(u); return !!m && DOMINIOS_OK.indexOf(m[1].toLowerCase()) >= 0;
+  }
+  function conEnlaces(p, texto) {
+    var re = /https?:\/\/[^\s)\]>"']+/g, i = 0, m;
+    while ((m = re.exec(texto))) {
+      p.appendChild(document.createTextNode(texto.slice(i, m.index)));
+      var u = m[0].replace(/[.,;:!?]+$/, ""), resto = m[0].slice(u.length);
+      if (enlazable(u)) { var a = el("a", "", u.indexOf("wa.me") > 0 ? "WhatsApp" : u.indexOf("stripe") > 0 ? "este enlace" : u.replace(/^https:\/\//, "")); a.href = u; a.target = "_blank"; a.rel = "noopener"; p.appendChild(a); }
+      else p.appendChild(document.createTextNode(m[0]));
+      if (resto) p.appendChild(document.createTextNode(resto));
+      i = m.index + m[0].length;
+    }
+    p.appendChild(document.createTextNode(texto.slice(i)));
+  }
+  function mensaje(quien, texto) {
+    var d = el("div", "cm-msg " + quien); if (quien === "ia") conEnlaces(d, texto); else d.textContent = texto;
+    cuerpo.appendChild(d); cuerpo.scrollTop = cuerpo.scrollHeight; return d;
+  }
+  function botonPersona() {
+    var wa = el("a", "cm-btn wa", "Hablar con una persona (WhatsApp)"); wa.href = WHATSAPP; wa.target = "_blank"; wa.rel = "noopener"; cuerpo.appendChild(wa); cuerpo.scrollTop = cuerpo.scrollHeight;
+  }
+  function conversacion() {
     cuerpo.textContent = "";
-    cuerpo.appendChild(el("p", "cm-saludo", "¡Hola! Soy la mascota de Cliks. ¿Qué quieres saber?"));
+    var v = el("button", "cm-volver", "← Otras preguntas"); v.type = "button"; v.addEventListener("click", lista); cuerpo.appendChild(v);
+  }
+  function enviar(texto, campo, boton) {
+    texto = texto.replace(/\s+/g, " ").trim(); if (!texto || ia.esperando) return;
+    if (!ia.historial.length) conversacion();
+    ia.historial.push({ rol: "usuario", texto: texto.slice(0, 600) }); mensaje("yo", texto);
+    ia.esperando = true; campo.value = ""; campo.disabled = boton.disabled = true;
+    var pens = el("div", "cm-msg ia pensando"); pens.setAttribute("aria-label", "Escribiendo"); pens.appendChild(el("i")); pens.appendChild(el("i")); pens.appendChild(el("i")); cuerpo.appendChild(pens); cuerpo.scrollTop = cuerpo.scrollHeight;
+    var listo = function (txt, persona, guardar) {
+      pens.remove(); ia.esperando = false; campo.disabled = boton.disabled = false; mensaje("ia", txt); if (persona) botonPersona();
+      if (guardar) ia.historial.push({ rol: "asistente", texto: txt.slice(0, 600) });      // los avisos de error no cuentan como parte de la plática
+      campo.focus();
+    };
+    var pregunta = function (reintento) {
+      var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { ctl && ctl.abort(); }, 40000);
+      fetch(API + "/asistente/preguntar", { method: "POST", headers: { "Content-Type": "application/json" }, signal: ctl ? ctl.signal : undefined, body: JSON.stringify({ boleto: ia.boleto, mensajes: ia.historial.slice(-8) }) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, estado: r.status, d: d }; }); })
+        .then(function (x) {
+          clearTimeout(t);
+          if (x.ok && typeof x.d.respuesta === "string") { listo(x.d.respuesta, x.d.necesita_persona === true, true); return; }
+          if (x.estado === 401 && !reintento) {                      // el boleto venció (la visita fue larga): se pide otro y se repite UNA vez
+            ia.revisado = false; ia.activo = false;
+            revisaIA(function () { if (ia.activo) pregunta(true); else { pintaPie(); listo("Ahora mismo no puedo contestar. Escríbenos por WhatsApp y una persona te ayuda.", true, false); } });
+            return;
+          }
+          if (x.estado === 404) { ia.activo = false; pintaPie(); }
+          var detalle = typeof x.d.detail === "string" ? x.d.detail : "Ahora mismo no puedo contestar. Escríbenos por WhatsApp y una persona te ayuda.";
+          listo(detalle, true, false);
+        })
+        .catch(function () { clearTimeout(t); listo("No pude conectarme. Revisa tu internet o escríbenos por WhatsApp y una persona te ayuda.", true, false); });
+    };
+    pregunta(false);
+  }
+  function pintaPie() {
+    if (!pie) return;
+    pie.textContent = "";
+    if (subtitulo) subtitulo.textContent = ia.activo ? "Asistente con IA · puede equivocarse" : "Respuestas al momento";
+    if (ia.activo) {
+      var f = el("form", "cm-form"), campo = el("input"); campo.type = "text"; campo.maxLength = 600; campo.placeholder = "Escribe tu duda…"; campo.setAttribute("aria-label", "Escribe tu duda");
+      campo.autocomplete = "off"; var b = el("button", "", "Enviar"); b.type = "submit"; f.appendChild(campo); f.appendChild(b);
+      f.addEventListener("submit", function (e) { e.preventDefault(); enviar(campo.value, campo, b); });
+      pie.appendChild(f);
+      pie.appendChild(el("p", "cm-aviso-ia", "Es una IA: puede equivocarse. No escribas contraseñas, tarjetas ni datos de tu e.firma."));
+      var d = el("details"); d.appendChild(el("summary", "", "¿Prefieres hablar con una persona?")); d.appendChild(contactos()); pie.appendChild(d);
+    } else {
+      pie.appendChild(el("p", "", "¿No encontraste lo que buscabas?")); pie.appendChild(contactos());
+    }
+  }
+  function contactos() {
+    var c = el("div"), wa = el("a", "cm-btn wa", "Hablar con una persona (WhatsApp)"); wa.href = WHATSAPP; wa.target = "_blank"; wa.rel = "noopener";
+    var co = el("a", "cm-btn co", "Escribirnos un correo"); co.href = CORREO; c.appendChild(wa); c.appendChild(co); return c;
+  }
+  function lista() {
+    cuerpo.textContent = ""; ia.historial = []; ia.esperando = false;
+    cuerpo.appendChild(el("p", "cm-saludo", ia.activo ? "¡Hola! Soy el asistente con IA de Cliks. Escribe tu duda abajo o elige una de estas:" : "¡Hola! Soy la mascota de Cliks. ¿Qué quieres saber?"));
     FAQ.forEach(function (f, i) {
       var b = el("button", "cm-q", f.p); b.type = "button"; b.addEventListener("click", function () { respuesta(i); }); cuerpo.appendChild(b);
     });
@@ -97,17 +204,18 @@
   }
   function construye() {
     panel = el("div", "cm-panel"); panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Ayuda de Cliks");
-    var cab = el("div", "cm-cab"), t = el("div"); t.appendChild(el("b", "", "Ayuda de Cliks")); t.appendChild(el("small", "", "Respuestas al momento"));
+    var cab = el("div", "cm-cab"), t = el("div"); t.appendChild(el("b", "", "Ayuda de Cliks")); subtitulo = el("small", "", "Respuestas al momento"); t.appendChild(subtitulo);
     var x = el("button", "cm-x", "×"); x.type = "button"; x.setAttribute("aria-label", "Cerrar"); x.addEventListener("click", cierra);
     cab.appendChild(t); cab.appendChild(x); panel.appendChild(cab);
     cuerpo = el("div", "cm-cuerpo"); panel.appendChild(cuerpo);
-    var pie = el("div", "cm-pie"); pie.appendChild(el("p", "", "¿No encontraste lo que buscabas?"));
-    var wa = el("a", "cm-btn wa", "Hablar con una persona (WhatsApp)"); wa.href = WHATSAPP; wa.target = "_blank"; wa.rel = "noopener";
-    var co = el("a", "cm-btn co", "Escribirnos un correo"); co.href = CORREO;
-    pie.appendChild(wa); pie.appendChild(co); panel.appendChild(pie);
+    pie = el("div", "cm-pie"); panel.appendChild(pie); pintaPie();
     document.body.appendChild(panel); lista();
   }
-  function abre() { if (!panel) construye(); else lista(); panel.classList.add("abierto"); abierto = true; }
+  function abre() {
+    if (!panel) construye(); else if (!ia.esperando) lista();
+    panel.classList.add("abierto"); abierto = true;
+    revisaIA(function () { if (ia.activo && panel) { pintaPie(); if (!ia.historial.length && !ia.esperando) lista(); } });
+  }
   function cierra() { if (panel) panel.classList.remove("abierto"); abierto = false; }
   window.cliksAyuda = { abrir: abre, cerrar: cierra };
   addEventListener("keydown", function (e) { if (e.key === "Escape" && abierto) cierra(); });
@@ -133,6 +241,7 @@
         setTimeout(function () { a.classList.add("dice"); sessionStorage.setItem("cm-dijo", "1"); setTimeout(function () { a.classList.remove("dice"); }, 5500); }, 7000);
       }
     } catch (e) {}
+    setTimeout(function () { revisaIA(); }, 2500);          // así, al abrir el chat ya se sabe (y el servidor ya despertó)
     // Cualquier botón con data-abrir-ayuda abre el mismo chat (por ejemplo, el del pie de la página).
     document.addEventListener("click", function (e) { var t = e.target.closest && e.target.closest("[data-abrir-ayuda]"); if (t) { e.preventDefault(); abre(); } });
     // los ojitos siguen el mouse o el dedo

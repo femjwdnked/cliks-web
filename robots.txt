@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /c.html
+Disallow: /gracias.html
+Disallow: /panel.html
+
+Sitemap: https://cliks.mx/sitemap.xml

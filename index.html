@@ -467,7 +467,7 @@
       <span>o por WhatsApp: <a href="https://wa.me/525566738980">55 6673 8980</a></span>
       <span><a href="https://billing.stripe.com/p/login/5kQcMY9Lz4Mz1Cs0IoefC00" target="_blank" rel="noopener">Cancelar mi suscripción</a></span>
     </div>
-    <p id="domicilio" style="font-size:12.5px; color:#667085; margin:14px 0 0;"></p>
+    <p id="domicilio" style="font-size:12.5px; color:#667085; margin:14px 0 0;">Cliks · Calle Buenavista 53, Pueblo La Magdalena, C.P. 10910, La Magdalena Contreras, Ciudad de México · <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a></p>
   </div>
 </section>
 
@@ -511,16 +511,8 @@
   // demostrar cuál era la vigente el día que la persona contrató.
   const VERSION_TERMINOS = "2026-10";
 
-  // ⬇⬇⬇  ESCRIBE AQUÍ TU DOMICILIO  ⬇⬇⬇
-  // La ley (art. 76 Bis III) obliga a mostrarlo antes de que alguien
-  // contrate. Ejemplo: "Av. Reforma 123, Col. Centro, CDMX, C.P. 06000".
-  // Mientras esté vacío, simplemente no se muestra nada -- pero el
-  // requisito legal sigue sin cumplirse.
-  const DOMICILIO = "";
-
-  if (DOMICILIO) {
-    document.getElementById("domicilio").textContent = DOMICILIO;
-  }
+  // El domicilio (art. 76 Bis III de la Ley Federal de Protección al Consumidor) está escrito directo en el
+  // <p id="domicilio"> de la sección «¿Necesitas ayuda antes de contratar?»: así se ve aunque no corra JavaScript.
 
   // Pestañas de las capturas de la app.
   (function () {

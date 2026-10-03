@@ -642,6 +642,17 @@
     document.getElementById("correo").focus({ preventScroll: true });
   }
 
+  // El botón se apaga ("Abriendo pago...") mientras se abre la pantalla de Stripe. Si la persona regresa con la flecha
+  // «atrás» (por ejemplo porque se equivocó de correo), Safari y Chrome devuelven la página TAL COMO SE QUEDÓ: con el
+  // botón apagado. Por eso cada vez que la página se muestra de nuevo, el botón vuelve a quedar listo.
+  function restablecerBotonDePago() {
+    const boton = document.getElementById("btn-pagar");
+    if (!boton) return;
+    boton.disabled = false;
+    boton.textContent = "Empezar mis 7 días gratis";
+  }
+  window.addEventListener("pageshow", restablecerBotonDePago);
+
   async function pagar() {
     const correo = document.getElementById("correo").value.trim();
     const asientos = parseInt(document.getElementById("asientos").value, 10);

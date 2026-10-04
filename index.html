@@ -83,6 +83,11 @@
   .pc-precio small { font-size: 16px; color: rgba(255,255,255,.75); letter-spacing: 0; margin-left: 5px; }
   .pc-precio .pc-tach { font-size: 22px; font-weight: 700; color: rgba(255,255,255,.62); text-decoration: line-through; text-decoration-thickness: 2px; margin-right: 12px; letter-spacing: 0; }
   .pc-almes { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); margin-bottom: 14px; }
+  .pc-promo { display: block; width: max-content; max-width: 100%; margin: -6px auto 22px; padding: 8px 18px; border-radius: 999px; background: linear-gradient(135deg, #3573EE, #5B5BE6); color: #fff; font-size: 14.5px; font-weight: 700; text-align: center; box-shadow: 0 14px 28px -14px rgba(47,111,237,.7); }
+  .pc-promo b { font-weight: 900; font-variant-numeric: tabular-nums; }
+  .pc-promo[hidden], .h4-promo[hidden] { display: none; }
+  .h4-promo { display: inline-block; margin: 0 0 10px; padding: 5px 13px; border-radius: 999px; background: #E6EDFF; color: #2358D6; font-size: 13.5px; font-weight: 800; }
+  .pc-iva { font-size: 12px; color: #667085; margin: 6px 0 0; text-align: center; }
   .pc-pastilla { display: inline-block; width: max-content; background: #fff; color: #0b7a53; font-weight: 800; font-size: 13px; padding: 6px 14px; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(0,0,0,.4); }
   /* La línea de tiempo: se dibuja sola y los pasos aparecen uno por uno. */
   .pc-linea { position: relative; margin-top: 30px; padding-left: 32px; display: grid; gap: 20px; }
@@ -273,6 +278,7 @@
         <a href="#seccion-precio" onclick="mostrarPrecio(event)" class="h4-cta">Empezar gratis ›</a>
         <a href="#video-cliks" class="h4-enlace">Ver cómo funciona ›</a>
       </div>
+      <p id="promo-hero" class="h4-promo" hidden></p>
       <p class="h4-nota">7 días gratis · no se cobra hasta el día 8 · tu e.firma se queda cifrada en tu computadora</p>
     </div>
 
@@ -369,7 +375,7 @@
         <div class="car-doc"><span class="car-pdf">PDF</span><div><b>Opinión de cumplimiento</b><small>2026-10-01 · 08:03</small></div><span class="car-chip v">Positivo</span></div>
         <div class="car-doc"><span class="car-pdf">PDF</span><div><b>Opinión de cumplimiento</b><small>2026-09-24 · 08:03</small></div><span class="car-chip v">Positivo</span></div>
       </div>
-      <span class="cliks-mascota car-mascota" data-tam="96"></span>
+      <span class="cliks-mascota car-mascota" data-tam="96" data-color="lavanda"></span>
     </div>
     <div style="flex:1; min-width:0;">
       <h2 style="font-size:28px; font-weight:800; letter-spacing:-0.01em; margin:0 0 14px; color:#101828;">Nada perdido entre carpetas</h2>
@@ -383,6 +389,7 @@
 <section id="seccion-precio" class="seccion-vidrio" style="border-top:1px solid rgba(255,255,255,.8); border-bottom:1px solid rgba(255,255,255,.8); scroll-margin-top:30px;">
   <div class="contenedor pc-cont" style="padding:64px 32px 60px;">
     <h2 class="pc-titulo">Elige tu plan</h2>
+    <p id="promo" class="pc-promo" hidden></p>
     <div id="planes" class="pc-seg" role="group" aria-label="Plazo del plan">
       <!-- Los cuatro plazos se dibujan con JS desde PLANES. -->
     </div>
@@ -390,7 +397,7 @@
     <div class="pc-compra">
       <span class="pc-cm" id="pc-cm" aria-hidden="true">
         <span class="pc-cm-sombra"></span>
-        <span class="pc-cm-giro"><span class="pc-cm-flota"><img src="imagenes/mascota-cuerpo.webp" alt="" width="360" height="384" decoding="async"><i class="o i"></i><i class="o d"></i></span></span>
+        <span class="pc-cm-giro"><span class="pc-cm-flota"><img src="imagenes/mascota-hielo.webp" alt="" width="360" height="384" decoding="async"><i class="o i"></i><i class="o d"></i></span></span>
       </span>
 
       <div class="pc-azul">
@@ -407,15 +414,7 @@
 
       <div class="pc-der vidrio" style="border-radius:0 28px 28px 0; background:#fcfdff;">
         <input id="correo" class="pc-entrada" type="email" placeholder="Tu correo" autocomplete="email" aria-label="Tu correo">
-        <div class="pc-fila">
-          <label for="asientos">Personas</label>
-          <div class="pc-paso">
-            <button type="button" id="menos-asientos" aria-label="Una persona menos">−</button>
-            <input id="asientos" type="number" min="1" value="1" inputmode="numeric">
-            <button type="button" id="mas-asientos" aria-label="Una persona más">+</button>
-          </div>
-        </div>
-        <p id="resumen-plan-nota" class="pc-total" aria-live="polite"></p>
+        <p id="resumen-plan-nota" class="pc-total">Una licencia es para <strong>una persona</strong> (hasta 2 computadoras). ¿Son varias en tu equipo? Cada quien contrata la suya con su correo; si son muchas, <a href="mailto:contacto@cliks.mx" style="text-decoration:underline">escríbenos</a> y vemos tu caso.</p>
 
         <label class="pc-corto">
           <input type="checkbox" id="acepto">
@@ -509,7 +508,7 @@
 
   // Qué versión de los términos aceptó. Si algún día cambian, poder
   // demostrar cuál era la vigente el día que la persona contrató.
-  const VERSION_TERMINOS = "2026-10";
+  const VERSION_TERMINOS = "2026-10c";
 
   // El domicilio (art. 76 Bis III de la Ley Federal de Protección al Consumidor) está escrito directo en el
   // <p id="domicilio"> de la sección «¿Necesitas ayuda antes de contratar?»: así se ve aunque no corra JavaScript.
@@ -553,41 +552,42 @@
     });
   })();
 
-  // Mismos precios que precios.py (servidor_licencias) -- si cambian
-  // allá, hay que cambiarlos aquí también, es la única duplicación.
-  // "extra" es lo que cuesta cada persona de más en ese plan
-  // (49 al año, prorrateado: 4, 12, 24 y 49), igual que en precios.py.
+  // PRECIOS: los que valen HOY los dice el servidor (GET /precios): el de lanzamiento mientras queden lugares, y el de lista después.
+  // Lo de aquí es sólo el arranque (el precio de LISTA, con IVA incluido) por si el servidor tardara: nunca se muestra una promoción
+  // que el servidor no haya confirmado. Mismos precios de lista que precios.py (servidor_licencias), la única duplicación.
+  // Cada licencia es de UNA persona (desde el 3-oct-2026 ya no se venden «asientos adicionales»).
   const PLANES = {
-    1:  { nombre: "1 mes",   precio: 69,  extra: 4,  cada: "al mes" },
-    3:  { nombre: "3 meses", precio: 180, extra: 12, cada: "cada 3 meses" },
-    6:  { nombre: "6 meses", precio: 330, extra: 24, cada: "cada 6 meses" },
-    12: { nombre: "1 año",   precio: 499, extra: 49, cada: "al año" },
+    1:  { nombre: "1 mes",   precio: 99,  lista: 99,  cada: "al mes" },
+    3:  { nombre: "3 meses", precio: 269, lista: 269, cada: "cada 3 meses" },
+    6:  { nombre: "6 meses", precio: 479, lista: 479, cada: "cada 6 meses" },
+    12: { nombre: "1 año",   precio: 899, lista: 899, cada: "al año" },
   };
+  let LANZ = { activo: false, quedan: 0, cupo: 10 };
   let PLAN_ELEGIDO = 12;
+  let repintar = () => {};
 
   (function () {
     const $ = (id) => document.getElementById(id);
     const peso = (n) => "$" + n.toLocaleString("es-MX");
-    const personas = () => Math.max(1, parseInt($("asientos").value, 10) || 1);
-    const totalPrimerCobro = () => { const p = PLANES[PLAN_ELEGIDO]; return p.precio + p.extra * (personas() - 1); };
+    const totalPrimerCobro = () => PLANES[PLAN_ELEGIDO].precio;
 
     function pintarPlazos() {
       let h = "";
       for (const m of [1, 3, 6, 12]) {
-        const p = PLANES[m], ahorro = Math.round((1 - p.precio / (69 * m)) * 100);
+        const p = PLANES[m], ahorro = Math.round((1 - p.precio / (PLANES[1].precio * m)) * 100);
         h += `<button type="button" data-meses="${m}" aria-pressed="${m === PLAN_ELEGIDO}"${m === 12 ? ' class="pc-anual"' : ""}>${p.nombre}${m === 12 ? `<em>−${ahorro}%</em>` : ""}</button>`;
       }
       $("planes").innerHTML = h;
     }
 
     function pintar() {
-      const p = PLANES[PLAN_ELEGIDO], base = 69 * PLAN_ELEGIDO, ahorro = base - p.precio;
+      // Con lanzamiento, lo tachado es el precio de LISTA de ese plan; sin lanzamiento, lo que costarían los meses sueltos.
+      const p = PLANES[PLAN_ELEGIDO], base = LANZ.activo ? p.lista : PLANES[1].precio * PLAN_ELEGIDO, ahorro = base - p.precio;
       $("resumen-plan").textContent = "Plan de " + p.nombre;
-      $("resumen-total").innerHTML = (ahorro > 0 ? `<span class="pc-tach">${peso(base)}</span>` : "") + peso(p.precio) + "<small>MXN</small>";
+      $("resumen-total").innerHTML = (ahorro > 0 ? `<span class="pc-tach">${peso(base)}</span>` : "") + peso(p.precio) + "<small>MXN · IVA incluido</small>";
       $("resumen-mes").textContent = PLAN_ELEGIDO === 1 ? "Se renueva cada mes" : peso(Math.round(p.precio / PLAN_ELEGIDO)) + " al mes";
-      $("resumen-ahorro").textContent = ahorro > 0 ? "Ahorras " + peso(ahorro) : "Mes a mes";
+      $("resumen-ahorro").textContent = LANZ.activo ? "Precio de lanzamiento · ahorras " + peso(ahorro) : (ahorro > 0 ? "Ahorras " + peso(ahorro) : "Mes a mes");
       $("linea-cobro").textContent = "Día 8 · " + peso(totalPrimerCobro());
-      $("resumen-plan-nota").textContent = personas() > 1 ? personas() + " personas: " + peso(totalPrimerCobro()) + " MXN en el primer cobro" : "";
       // La casilla dice el monto exacto del plan elegido: ahí está el consentimiento al cargo.
       $("texto-acepto").innerHTML = 'Acepto los <a href="terminos.html" target="_blank" rel="noopener">Términos</a>, el ' +
         '<a href="privacidad.html" target="_blank" rel="noopener">Aviso de privacidad</a> y el cobro de <b>' + peso(totalPrimerCobro()) + " " + p.cada +
@@ -604,9 +604,6 @@
       PLAN_ELEGIDO = +b.dataset.meses; pintarPlazos(); pintar();
       if (PLAN_ELEGIDO === 12) feliz(1400);
     });
-    $("mas-asientos").onclick = () => { $("asientos").value = Math.min(50, personas() + 1); pintar(); };
-    $("menos-asientos").onclick = () => { $("asientos").value = Math.max(1, personas() - 1); pintar(); };
-    $("asientos").addEventListener("input", pintar);
     $("btn-factura").onclick = () => { const t = $("texto-factura"); t.hidden = !t.hidden; $("btn-factura").setAttribute("aria-expanded", String(!t.hidden)); };
 
     // ---- Cliks: sigue el cursor con los ojos, parpadea, se alegra y se esconde mientras escribes el correo ----
@@ -633,7 +630,32 @@
     $("acepto").addEventListener("change", (e) => { if (e.target.checked) feliz(1500); });
     $("acepta-promos").addEventListener("change", (e) => { if (e.target.checked) feliz(1500); });
 
-    pintarPlazos(); pintar();
+    // ---- La promoción: sólo se muestra si el servidor confirma que todavía quedan lugares; se apaga sola al llegar a la décima venta ----
+    function pintarPromocion() {
+      const n = LANZ.quedan, lugares = n === 1 ? "queda 1 lugar" : "quedan " + n + " lugares";
+      $("promo").hidden = !LANZ.activo;
+      $("promo-hero").hidden = !LANZ.activo;
+      if (LANZ.activo) {
+        $("promo").innerHTML = "Precio de lanzamiento · <b>" + lugares + "</b> de " + LANZ.cupo + " · lo conservas mientras no canceles";
+        $("promo-hero").textContent = "Precio de lanzamiento para las primeras " + LANZ.cupo + " licencias";
+      }
+    }
+    async function cargarPrecios() {
+      try {
+        const r = await fetch(SERVIDOR + "/precios");
+        if (!r.ok) throw new Error();
+        const d = await r.json();
+        for (const m of [1, 3, 6, 12]) {
+          const x = d.planes[String(m)];
+          PLANES[m].precio = x.precio; PLANES[m].lista = x.lista;
+        }
+        LANZ = d.lanzamiento;
+      } catch (e) { /* sin respuesta: se queda el precio de lista y ninguna promoción */ }
+    }
+    repintar = () => { pintarPlazos(); pintar(); pintarPromocion(); };
+    window.cargarPrecios = async () => { await cargarPrecios(); repintar(); };
+    repintar();
+    cargarPrecios().then(repintar);
   })();
 
   function mostrarPrecio(e) {
@@ -655,7 +677,6 @@
 
   async function pagar() {
     const correo = document.getElementById("correo").value.trim();
-    const asientos = parseInt(document.getElementById("asientos").value, 10);
     const errorEl = document.getElementById("error");
     const boton = document.getElementById("btn-pagar");
 
@@ -663,11 +684,6 @@
 
     if (!correo.includes("@") || !correo.includes(".")) {
       errorEl.textContent = "Escribe un correo válido.";
-      errorEl.style.display = "block";
-      return;
-    }
-    if (!asientos || asientos < 1) {
-      errorEl.textContent = "El número de personas tiene que ser al menos 1.";
       errorEl.style.display = "block";
       return;
     }
@@ -689,8 +705,11 @@
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           correo: correo,
-          asientos: asientos,
+          asientos: 1,                       // una licencia = una persona
           duracion_meses: PLAN_ELEGIDO,
+          // El precio que la persona está viendo y aceptando. Si el servidor tiene otro (p. ej. justo se acabó el lanzamiento),
+          // responde 409 en vez de cobrar algo distinto a lo que se aceptó.
+          precio_mostrado_centavos: PLANES[PLAN_ELEGIDO].precio * 100,
           url_exito: window.location.origin + "/gracias.html",
           url_cancelado: window.location.href,
           // Queda registrado con fecha: la ley exige poder demostrar
@@ -702,6 +721,16 @@
         }),
       });
       const datos = await respuesta.json();
+      if (respuesta.status === 409) {
+        // Los precios cambiaron mientras decidía: se actualizan en pantalla y hay que volver a aceptar con el monto nuevo.
+        await window.cargarPrecios();
+        document.getElementById("acepto").checked = false;
+        errorEl.textContent = datos.detail + " Ahora el plan de " + PLANES[PLAN_ELEGIDO].nombre + " cuesta $" + PLANES[PLAN_ELEGIDO].precio.toLocaleString("es-MX") + " (IVA incluido).";
+        errorEl.style.display = "block";
+        boton.disabled = false;
+        boton.textContent = "Empezar mis 7 días gratis";
+        return;
+      }
       if (!respuesta.ok) {
         throw new Error(datos.detail || "No se pudo abrir el pago.");
       }

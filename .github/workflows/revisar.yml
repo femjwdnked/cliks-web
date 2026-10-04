@@ -1,0 +1,29 @@
+# Revisión automática de la página (cliks.mx): corre sola en cada cambio que se sube.
+#   1) revisar_sitio.py: enlaces, imágenes, títulos, mapa del sitio, páginas privadas y que los precios coincidan.
+#   2) humo_navegador.py: abre la página en un Chrome de verdad y prueba el selector de plan, el pago y el botón al regresar.
+# Aviso honesto: GitHub Pages publica al subir, haya o no pasado esta revisión; si falla, llega el aviso por correo y se corrige.
+
+name: Revisar la página
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Revisión estática
+        run: python pruebas/revisar_sitio.py
+      - name: Prueba en el navegador
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+          python pruebas/humo_navegador.py

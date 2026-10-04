@@ -76,10 +76,10 @@
   ].join("");
   var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
-  function crear(tam, estado, sigue) {
+  function crear(tam, estado, sigue, color) {
     var m = document.createElement("span"); m.className = "cm" + (estado === "feliz" ? " feliz" : ""); m.style.setProperty("--t", tam + "px");
     if (sigue) m.setAttribute("data-sigue", "1");
-    m.innerHTML = '<span class="cm-sombra"></span><span class="cm-flota"><img src="imagenes/mascota-cuerpo.webp" alt="" width="360" height="384" decoding="async"><i class="o i"></i><i class="o d"></i></span>';
+    m.innerHTML = '<span class="cm-sombra"></span><span class="cm-flota"><img src="imagenes/mascota-' + (color || "cuerpo") + '.webp" alt="" width="360" height="384" decoding="async"><i class="o i"></i><i class="o d"></i></span>';
     return m;
   }
   // --- el chat de ayuda ---
@@ -226,7 +226,7 @@
   }
   function inicia() {
     document.querySelectorAll(".cliks-mascota").forEach(function (h) {
-      var m = crear(parseInt(h.getAttribute("data-tam") || "110", 10), h.getAttribute("data-estado"), true); h.appendChild(m); parpadea(m);
+      var m = crear(parseInt(h.getAttribute("data-tam") || "110", 10), h.getAttribute("data-estado"), true, h.getAttribute("data-color")); h.appendChild(m); parpadea(m);
     });
     // Botón de soporte
     // Sigue siendo un enlace a WhatsApp por si el script falla; con el script, abre el chat de ayuda.

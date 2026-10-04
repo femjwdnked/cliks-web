@@ -66,15 +66,15 @@
     ".cm-msg.yo{margin-left:auto;background:linear-gradient(180deg,rgba(74,152,255,.93),rgba(47,111,237,.93));color:#fff;border-bottom-right-radius:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 18px -12px rgba(47,111,237,.8)}",
     ".cm-msg.ia{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#283142;border:1px solid rgba(255,255,255,.85);border-bottom-left-radius:6px;box-shadow:0 8px 18px -14px rgba(26,42,122,.4),inset 0 1px 0 rgba(255,255,255,.85)}",
     ".cm-msg.ia a{color:#2f6fed;font-weight:600}",
-    ".cm-msg.pensando{color:#667085}.cm-msg.pensando i{display:inline-block;width:6px;height:6px;margin:0 2px;border-radius:50%;background:#98a2b3;animation:cm-pto 1.1s infinite ease-in-out}.cm-msg.pensando i:nth-child(2){animation-delay:.15s}.cm-msg.pensando i:nth-child(3){animation-delay:.3s}",
-    "@keyframes cm-pto{0%,80%,100%{opacity:.3;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}",
+    ".cm-msg.pensando{color:#667085;display:flex;align-items:center;gap:10px;padding:6px 14px 6px 8px}.cm-msg.pensando canvas{width:44px;height:44px;flex:none}",
+    ".cm-msg.ia{position:relative;overflow:hidden}.cm-msg .cm-mos{position:absolute;inset:0;display:grid;pointer-events:none}.cm-msg .cm-mos i{border-radius:2px;margin:1px;opacity:0}",
     ".cm-form{display:flex;gap:6px;margin:0 0 6px}",
     ".cm-form input{flex:1;min-width:0;border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.55);box-shadow:inset 0 1px 2px rgba(16,24,40,.06);border-radius:999px;padding:10px 14px;font:inherit;font-size:13.5px;color:#101828}.cm-form input:focus{outline:2px solid #2f6fed}",
     ".cm-form button{border:0;border-radius:999px;padding:0 16px;font:inherit;font-weight:700;font-size:13.5px;color:#fff;background:linear-gradient(180deg,rgba(74,152,255,.95),rgba(47,111,237,.95));box-shadow:inset 0 1px 0 rgba(255,255,255,.45);cursor:pointer}.cm-form button:disabled,.cm-form input:disabled{opacity:.55;cursor:default}",
     ".cm-aviso-ia{margin:0 0 8px !important;font-size:11.5px !important;color:#667085}",
     ".cm-pie details{margin:0}.cm-pie summary{cursor:pointer;font-size:12.5px;color:#475467;font-weight:600;padding:2px 0}",
     "@media (max-width:760px){.cm-soporte{right:8px;bottom:8px}.cm-soporte .cm{--t:70px}.cm-burbuja{display:none}.cm-panel{right:8px;bottom:92px;max-height:calc(100vh - 110px)}}",
-    "@media (prefers-reduced-motion:reduce){.cm-flota,.cm-sombra,.cm-msg.pensando i{animation:none}.cm .o{transition:none}}"
+    "@media (prefers-reduced-motion:reduce){.cm-flota,.cm-sombra{animation:none}.cm .o{transition:none}}"
   ].join("");
   var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
@@ -129,6 +129,44 @@
     }
     p.appendChild(document.createTextNode(texto.slice(i)));
   }
+  // El orbe de «pensando»: un globo de puntos que gira con partículas en órbita (lo dibuja un canvas; se detiene solo al quitarse de la página).
+  function orbe(lienzo) {
+    var cx = lienzo.getContext("2d"), W = lienzo.width, N = 110, P = [], t0 = performance.now(), quieto = window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches;
+    for (var i = 0; i < N; i++) { var y = 1 - 2 * (i + .5) / N, r = Math.sqrt(1 - y * y), a = i * 2.399963; P.push([Math.cos(a) * r, y, Math.sin(a) * r]); }
+    function dibuja(ahora) {
+      if (!document.body.contains(lienzo)) return;
+      var t = quieto ? 0 : (ahora - t0) / 1000, c = W / 2, R = W * .34, tilt = .5, ang = t * .35;
+      cx.clearRect(0, 0, W, W);
+      for (var k = 0; k < N; k++) {
+        var p = P[k], x = p[0] * Math.cos(ang) + p[2] * Math.sin(ang), z = -p[0] * Math.sin(ang) + p[2] * Math.cos(ang);
+        var y2 = p[1] * Math.cos(tilt) - z * Math.sin(tilt), z2 = p[1] * Math.sin(tilt) + z * Math.cos(tilt), d = (z2 + 1) / 2;
+        cx.fillStyle = "rgba(47,111,237," + (.3 + .55 * d) + ")"; cx.beginPath(); cx.arc(c + x * R, c + y2 * R, (1.2 + 1.5 * d) * W / 96, 0, 6.283); cx.fill();
+      }
+      for (var o = 0; o < 3; o++) for (var j = 0; j < 8; j++) {
+        var an = t * (1.1 + o * .35) + j / 8 * 6.283 + o * 2.1, rot = o * 1.05 + .4, ox = Math.cos(an) * R * 1.18, oy = Math.sin(an) * R * 1.18 * (.32 + .12 * o);
+        cx.fillStyle = "rgba(109,93,246," + (.35 + .5 * ((Math.sin(an) + 1) / 2)) + ")"; cx.beginPath();
+        cx.arc(c + ox * Math.cos(rot) - oy * Math.sin(rot), c + ox * Math.sin(rot) + oy * Math.cos(rot), 2.2 * W / 96, 0, 6.283); cx.fill();
+      }
+      if (!quieto) requestAnimationFrame(dibuja);
+    }
+    requestAnimationFrame(dibuja);
+  }
+  // Al llegar una respuesta, la burbuja se «revela» con un mosaico de cuadritos (rápido; con «reducir movimiento» no se hace).
+  function revela(burbuja) {
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+    var cols = 12, filas = 4, colores = ["#2f6fed", "#4a98ff", "#6d5df6", "#8fb7ff", "#b9a8fb"], mos = el("div", "cm-mos"), celdas = [], hijos = [];
+    mos.style.gridTemplateColumns = "repeat(" + cols + ",1fr)"; mos.style.gridTemplateRows = "repeat(" + filas + ",1fr)";
+    for (var i = 0; i < cols * filas; i++) { var c = el("i"); c.style.background = colores[Math.floor(Math.random() * colores.length)]; mos.appendChild(c); celdas.push(c); }
+    for (var h = 0; h < burbuja.childNodes.length; h++) hijos.push(burbuja.childNodes[h]);
+    burbuja.style.color = "transparent"; for (var q = 0; q < hijos.length; q++) if (hijos[q].style) hijos[q].style.opacity = "0";
+    burbuja.appendChild(mos);
+    celdas.forEach(function (c) {
+      var d = Math.random() * 380; c.style.transition = "opacity .16s ease " + d + "ms"; void c.offsetWidth; c.style.opacity = ".92";
+      setTimeout(function () { c.style.transition = "opacity .3s ease"; c.style.opacity = "0"; }, d + 260 + Math.random() * 260);
+    });
+    setTimeout(function () { burbuja.style.color = ""; for (var q = 0; q < hijos.length; q++) if (hijos[q].style) hijos[q].style.opacity = ""; }, 380);
+    setTimeout(function () { if (mos.parentNode) mos.parentNode.removeChild(mos); }, 1100);
+  }
   function mensaje(quien, texto) {
     var d = el("div", "cm-msg " + quien); if (quien === "ia") conEnlaces(d, texto); else d.textContent = texto;
     cuerpo.appendChild(d); cuerpo.scrollTop = cuerpo.scrollHeight; return d;
@@ -145,9 +183,9 @@
     if (!ia.historial.length) conversacion();
     ia.historial.push({ rol: "usuario", texto: texto.slice(0, 600) }); mensaje("yo", texto);
     ia.esperando = true; campo.value = ""; campo.disabled = boton.disabled = true;
-    var pens = el("div", "cm-msg ia pensando"); pens.setAttribute("aria-label", "Escribiendo"); pens.appendChild(el("i")); pens.appendChild(el("i")); pens.appendChild(el("i")); cuerpo.appendChild(pens); cuerpo.scrollTop = cuerpo.scrollHeight;
+    var pens = el("div", "cm-msg ia pensando"); pens.setAttribute("aria-label", "Escribiendo"); var lienzo = el("canvas"); lienzo.width = lienzo.height = 132; pens.appendChild(lienzo); pens.appendChild(el("span", "", "Pensando…")); cuerpo.appendChild(pens); orbe(lienzo); cuerpo.scrollTop = cuerpo.scrollHeight;
     var listo = function (txt, persona, guardar) {
-      pens.remove(); ia.esperando = false; campo.disabled = boton.disabled = false; mensaje("ia", txt); if (persona) botonPersona();
+      pens.remove(); ia.esperando = false; campo.disabled = boton.disabled = false; revela(mensaje("ia", txt)); if (persona) botonPersona();
       if (guardar) ia.historial.push({ rol: "asistente", texto: txt.slice(0, 600) });      // los avisos de error no cuentan como parte de la plática
       campo.focus();
     };

@@ -44,8 +44,6 @@
   .seccion-vidrio { background: rgba(249,250,251,.45); }
   .contenedor { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
 
-  .pestana-captura { cursor: pointer; font: inherit; font-size: 14px; font-weight: 700; padding: 9px 20px; border-radius: 999px; border: 1px solid #d0d5dd; background: #fff; color: #344054; }
-  .pestana-captura[aria-selected="true"] { background: #2f6fed; border-color: #2f6fed; color: #fff; }
   .btn-descargar-header { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px 10px 14px; border-radius: 999px; color: #fff; font-size: 13.5px; font-weight: 700; white-space: nowrap;
     background: linear-gradient(135deg, #4b86ff 0%, #2f6fed 55%, #2358d6 100%); box-shadow: 0 10px 22px -10px rgba(47,111,237,.75), inset 0 1px 0 rgba(255,255,255,.28); transition: transform .15s ease, box-shadow .15s ease, filter .15s ease; }
   .btn-descargar-header:hover { transform: translateY(-1px); filter: brightness(1.05); box-shadow: 0 14px 26px -10px rgba(47,111,237,.85), inset 0 1px 0 rgba(255,255,255,.3); }
@@ -318,6 +316,7 @@
         Tu navegador no puede reproducir este video.
       </video>
     </div>
+    <p style="font-size:13px; line-height:1.55; color:#667085; margin:14px auto 0; max-width:620px;">El video es una demostración con datos de ejemplo. La velocidad real de descarga depende del SAT y puede variar.</p>
   </div>
 </section>
 
@@ -338,28 +337,6 @@
       <h3 style="font-size:16px; font-weight:700; margin:0 0 8px; color:#101828;">Tu PDF, listo</h3>
       <p style="font-size:14px; line-height:1.6; color:#667085; margin:0;">Guardado y ordenado por cliente, en tu propia computadora.</p>
     </div>
-  </div>
-</section>
-
-<section class="seccion-vidrio" style="border-top:1px solid rgba(255,255,255,.8);">
-  <div class="contenedor" style="padding:72px 32px;">
-    <div style="text-align:center; margin-bottom:36px;">
-      <div style="font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:#667085; margin-bottom:10px;">Así se ve</div>
-      <h2 style="font-size:28px; font-weight:800; letter-spacing:-0.01em; margin:0 0 10px; color:#101828;">Todos tus clientes, de un vistazo</h2>
-      <p style="font-size:15px; line-height:1.6; color:#667085; margin:0 auto; max-width:540px;">Ves cuánto le queda a la e.firma de cada uno, qué documentos ya se descargaron y a quién le salió una opinión negativa.</p>
-    </div>
-    <div role="tablist" aria-label="Pantallas de la app" style="display:flex; justify-content:center; gap:8px; margin-bottom:20px;">
-      <button type="button" role="tab" class="pestana-captura" data-captura="clientes" aria-selected="true">Clientes</button>
-      <button type="button" role="tab" class="pestana-captura" data-captura="consultas" aria-selected="false">Consultas</button>
-    </div>
-    <figure style="margin:0 auto; max-width:960px;">
-      <div style="border-radius:14px; overflow:hidden; border:1px solid #e4e7ec; box-shadow:0 24px 60px -30px rgba(16,24,40,0.35); background:#fff;">
-        <img id="captura-clientes" src="imagenes/app-clientes.webp?v=2" width="1800" height="1032" loading="lazy" alt="Pantalla Clientes de Consultas SAT: lista de clientes con los días que le quedan a cada e.firma" style="display:block; width:100%; height:auto;">
-        <img id="captura-consultas" src="imagenes/app-consultas.webp?v=2" width="1800" height="1032" loading="lazy" alt="Pantalla Consultas de Consultas SAT: documentos descargados por cliente, con calendario de los últimos 90 días" style="display:none; width:100%; height:auto;">
-      </div>
-      <figcaption id="pie-captura" style="margin-top:14px; font-size:14px; line-height:1.5; color:#475467; text-align:center;">Tus clientes y los días que le quedan a cada e.firma</figcaption>
-    </figure>
-    <p style="text-align:center; font-size:12px; color:#98a2b3; margin:22px 0 0;">Clientes y datos de ejemplo.</p>
   </div>
 </section>
 
@@ -512,25 +489,6 @@
 
   // El domicilio (art. 76 Bis III de la Ley Federal de Protección al Consumidor) está escrito directo en el
   // <p id="domicilio"> de la sección «¿Necesitas ayuda antes de contratar?»: así se ve aunque no corra JavaScript.
-
-  // Pestañas de las capturas de la app.
-  (function () {
-    const PIES = {
-      clientes: "Tus clientes y los días que le quedan a cada e.firma",
-      consultas: "Cada opinión y constancia, por cliente y con calendario de los últimos 90 días",
-    };
-    const pestanas = document.querySelectorAll(".pestana-captura");
-    pestanas.forEach(function (boton) {
-      boton.addEventListener("click", function () {
-        const cual = boton.dataset.captura;
-        pestanas.forEach(function (b) { b.setAttribute("aria-selected", b === boton ? "true" : "false"); });
-        for (const nombre in PIES) {
-          document.getElementById("captura-" + nombre).style.display = nombre === cual ? "block" : "none";
-        }
-        document.getElementById("pie-captura").textContent = PIES[cual];
-      });
-    });
-  })();
 
   // Videos de la portada: "cómo funciona" y "cómo empezar".
   (function () {

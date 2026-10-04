@@ -38,30 +38,27 @@
     background: #2f6fed; color: white; text-decoration: none; font-weight: 700; font-size: 14.5px;
   }
 
-  .ayuda {
-    margin-top: 28px; padding: 20px 22px;
-    background: #fff8ec; border: 1px solid #fce3b3; border-radius: 12px;
-  }
-  .ayuda h2 { font-size: 15.5px; font-weight: 800; margin: 0 0 6px; color: #7a4a00; }
-  .ayuda .porque { font-size: 13px; line-height: 1.55; color: #7a5b16; margin: 0 0 14px; }
-  .sistema { margin-bottom: 10px; }
-  .sistema summary {
-    cursor: pointer; font-size: 13.5px; font-weight: 700; color: #101828;
-    padding: 6px 0; list-style: none;
-  }
-  .sistema summary::-webkit-details-marker { display: none; }
-  .sistema summary::after { content: " ▾"; color: #98a2b3; font-weight: 400; }
-  .sistema[open] summary::after { content: ""; }
-  .paso { display: flex; gap: 10px; align-items: flex-start; margin: 8px 0; font-size: 13.5px; line-height: 1.5; color: #344054; }
+  /* Recuadro «Un paso rápido antes de abrirla»: el título va en ROJO a propósito, para que se lea antes de abrir la app. */
+  .ayuda { margin-top: 28px; }
+  .ayuda .cab { display: flex; gap: 12px; align-items: flex-start; }
+  .ayuda .escudo { flex: 0 0 38px; height: 38px; border-radius: 12px; background: #fdecea; color: #d92d20; display: flex; align-items: center; justify-content: center; }
+  .ayuda h2 { font-size: 16.5px; font-weight: 800; margin: 0 0 3px; color: #d92d20; letter-spacing: -0.005em; }
+  .ayuda .porque { font-size: 12.8px; line-height: 1.5; color: #667085; margin: 0; }
+  .seg { display: none; background: #eef2f9; border-radius: 11px; padding: 3px; margin: 16px 0 14px; }
+  .js .seg { display: flex; }
+  .seg button { flex: 1; border: 0; background: none; padding: 8px 0; border-radius: 9px; font: inherit; font-size: 13px; font-weight: 700; color: #667085; cursor: pointer; }
+  .seg button[aria-selected="true"] { background: #fff; color: #101828; box-shadow: 0 2px 8px -3px rgba(16,24,40,.25); }
+  .pasos { margin-top: 14px; }
+  .js .pasos { margin-top: 0; }
+  .paso { position: relative; display: flex; gap: 12px; align-items: flex-start; padding-bottom: 13px; font-size: 13.5px; line-height: 1.45; color: #344054; }
+  .paso:last-child { padding-bottom: 0; }
+  .paso:not(:last-child)::before { content: ""; position: absolute; left: 11px; top: 25px; bottom: 1px; width: 2px; background: #d7e3fb; }
   .num {
-    flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
-    background: #2f6fed; color: white; font-size: 11.5px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+    background: #2f6fed; color: white; font-size: 12px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
   }
-  .tip {
-    margin-top: 14px; padding-top: 12px; border-top: 1px dashed #f0d59a;
-    font-size: 12.5px; line-height: 1.55; color: #7a5b16;
-  }
+  .tip { margin-top: 16px; display: flex; gap: 8px; align-items: flex-start; background: #f3f7ff; border-radius: 11px; padding: 10px 12px; font-size: 12.5px; line-height: 1.45; color: #44546f; }
   .mas { margin-top: 12px; font-size: 12.5px; }
   .mas a { color: #2f6fed; font-weight: 600; text-decoration: none; }
 </style>
@@ -77,25 +74,31 @@
     </div>
 
     <div class="ayuda" id="ayuda">
-      <h2>⚠️ Antes de abrirla: tu sistema va a mostrar una advertencia</h2>
-      <p class="porque">Es normal. Pasa con cualquier programa que no paga la firma de certificación (cuesta cientos de dólares al año). No significa que sea peligrosa. Sólo sale una vez. Haz esto:</p>
-
-      <div id="sistemas">
-        <details class="sistema" id="det-mac">
-          <summary>🍎 Si usas Mac</summary>
-          <div class="paso"><div class="num">1</div><div>En el aviso que sale, pica <strong>Listo</strong> (nunca "Enviar a la papelera").</div></div>
-          <div class="paso"><div class="num">2</div><div>Abre <strong>Ajustes del Sistema → Privacidad y seguridad</strong>.</div></div>
-          <div class="paso"><div class="num">3</div><div>Baja a <strong>Seguridad</strong> y dale <strong>"Abrir de todos modos"</strong>.</div></div>
-          <div class="paso"><div class="num">4</div><div>Confirma con tu Touch ID o contraseña y pica <strong>Abrir</strong>.</div></div>
-        </details>
-        <details class="sistema" id="det-win">
-          <summary>🪟 Si usas Windows</summary>
-          <div class="paso"><div class="num">1</div><div>Sale una ventana azul que dice <strong>"Windows protegió tu PC"</strong>. Dale a <strong>"Más información"</strong> (el texto chiquito).</div></div>
-          <div class="paso"><div class="num">2</div><div>Aparece un botón nuevo: <strong>"Ejecutar de todas formas"</strong>. Dale clic.</div></div>
-        </details>
+      <div class="cab">
+        <div class="escudo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div>
+          <h2>Un paso rápido antes de abrirla</h2>
+          <p class="porque">Tu sistema mostrará un aviso porque Cliks aún no paga la firma de certificación (cuesta cientos de dólares al año). No significa que sea peligrosa y sale solo la primera vez.</p>
+        </div>
       </div>
 
-      <div class="tip">⏳ <strong>La primera vez tarda hasta 1 minuto en abrir sin mostrar nada.</strong> Da un solo doble clic y espera — si le picas varias veces, tarda más.</div>
+      <div class="seg" role="tablist" aria-label="Tu sistema">
+        <button type="button" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="true">🍎 Mac</button>
+        <button type="button" role="tab" id="tab-win" aria-controls="panel-win" aria-selected="false">🪟 Windows</button>
+      </div>
+
+      <div class="pasos" id="panel-mac" role="tabpanel" aria-labelledby="tab-mac">
+        <div class="paso"><div class="num">1</div><div>En el aviso que sale, pica <strong>Listo</strong> (nunca "Enviar a la papelera").</div></div>
+        <div class="paso"><div class="num">2</div><div>Abre <strong>Ajustes del Sistema → Privacidad y seguridad</strong>.</div></div>
+        <div class="paso"><div class="num">3</div><div>Baja a <strong>Seguridad</strong> y dale <strong>"Abrir de todos modos"</strong>.</div></div>
+        <div class="paso"><div class="num">4</div><div>Confirma con tu Touch ID o contraseña y pica <strong>Abrir</strong>.</div></div>
+      </div>
+      <div class="pasos" id="panel-win" role="tabpanel" aria-labelledby="tab-win">
+        <div class="paso"><div class="num">1</div><div>Sale una ventana azul que dice <strong>"Windows protegió tu PC"</strong>. Dale a <strong>"Más información"</strong> (el texto chiquito).</div></div>
+        <div class="paso"><div class="num">2</div><div>Aparece un botón nuevo: <strong>"Ejecutar de todas formas"</strong>. Dale clic.</div></div>
+      </div>
+
+      <div class="tip">⏳ <span><strong>La primera vez tarda hasta 1 minuto en abrir sin mostrar nada.</strong> Da un solo doble clic y espera — si le picas varias veces, tarda más.</span></div>
       <div class="mas"><a href="instalar.html">Ver la guía completa →</a> &nbsp;·&nbsp; ¿Dudas? <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a></div>
     </div>
   </div>
@@ -110,11 +113,17 @@
     document.getElementById("texto-descarga-otro").innerHTML =
       `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}" style="background:none; padding:0; color:#98a2b3; text-decoration:underline; font-weight:400; font-size:12px;">${TEXTO_OTRO}</a>`;
 
-    // Los pasos del sistema de esta persona van primero y ya abiertos;
-    // los del otro quedan plegados, a un clic.
-    const propio = document.getElementById(ES_MAC ? "det-mac" : "det-win");
-    propio.open = true;
-    document.getElementById("sistemas").prepend(propio);
+    // Pestañas Mac / Windows: la de tu sistema sale primero y abierta. Sin JavaScript se ven las dos listas.
+    document.documentElement.classList.add("js");
+    function mostrar(mac) {
+      document.getElementById("panel-mac").hidden = !mac;
+      document.getElementById("panel-win").hidden = mac;
+      document.getElementById("tab-mac").setAttribute("aria-selected", String(mac));
+      document.getElementById("tab-win").setAttribute("aria-selected", String(!mac));
+    }
+    document.getElementById("tab-mac").addEventListener("click", () => mostrar(true));
+    document.getElementById("tab-win").addEventListener("click", () => mostrar(false));
+    mostrar(ES_MAC);
   </script>
 <script src="visita.js" defer></script>
 <script src="mascota.js" defer></script>

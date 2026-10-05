@@ -5,12 +5,13 @@
 (function () {
   "use strict";
   var WHATSAPP = "https://wa.me/525566738980?text=" + encodeURIComponent("Hola, tengo una duda sobre Cliks.");
+  var INSTAGRAM = "https://ig.me/m/cliks.mx";               // abre el mensaje directo a @cliks.mx en Instagram
   var CORREO = "mailto:contacto@cliks.mx?subject=" + encodeURIComponent("Duda sobre Cliks");
   var COTIZAR = "https://wa.me/525566738980?text=" + encodeURIComponent("Hola, somos un despacho o empresa y queremos una cotización de Cliks.");
   var CANCELAR = "https://billing.stripe.com/p/login/5kQcMY9Lz4Mz1Cs0IoefC00";
   // El asistente con IA vive en nuestro servidor (la llave nunca está en esta página). Si está apagado o no contesta, el chat sigue como siempre.
   var API = "https://servidor-licencias-37nv.onrender.com";
-  var ENLACES_OK = [CANCELAR, "https://wa.me/525566738980"], DOMINIOS_OK = ["cliks.mx", "www.cliks.mx"];
+  var ENLACES_OK = [CANCELAR, "https://wa.me/525566738980", INSTAGRAM], DOMINIOS_OK = ["cliks.mx", "www.cliks.mx"];
 
   // Las dudas de quien visita el sitio. Cada respuesta son párrafos; un trozo puede ser texto o un enlace {t, h}.
   var FAQ = [
@@ -122,7 +123,7 @@
     while ((m = re.exec(texto))) {
       p.appendChild(document.createTextNode(texto.slice(i, m.index)));
       var u = m[0].replace(/[.,;:!?]+$/, ""), resto = m[0].slice(u.length);
-      if (enlazable(u)) { var a = el("a", "", u.indexOf("wa.me") > 0 ? "WhatsApp" : u.indexOf("stripe") > 0 ? "este enlace" : u.replace(/^https:\/\//, "")); a.href = u; a.target = "_blank"; a.rel = "noopener"; p.appendChild(a); }
+      if (enlazable(u)) { var a = el("a", "", u.indexOf("wa.me") > 0 ? "WhatsApp" : u.indexOf("ig.me") > 0 ? "Instagram" : u.indexOf("stripe") > 0 ? "este enlace" : u.replace(/^https:\/\//, "")); a.href = u; a.target = "_blank"; a.rel = "noopener"; p.appendChild(a); }
       else p.appendChild(document.createTextNode(m[0]));
       if (resto) p.appendChild(document.createTextNode(resto));
       i = m.index + m[0].length;
@@ -172,7 +173,8 @@
     cuerpo.appendChild(d); cuerpo.scrollTop = cuerpo.scrollHeight; return d;
   }
   function botonPersona() {
-    var wa = el("a", "cm-btn wa", "Hablar con una persona (WhatsApp)"); wa.href = WHATSAPP; wa.target = "_blank"; wa.rel = "noopener"; cuerpo.appendChild(wa); cuerpo.scrollTop = cuerpo.scrollHeight;
+    var ig = el("a", "cm-btn wa", "Escribirnos por Instagram"); ig.href = INSTAGRAM; ig.target = "_blank"; ig.rel = "noopener"; cuerpo.appendChild(ig);
+    var wa = el("a", "cm-btn co", "o por WhatsApp"); wa.href = WHATSAPP; wa.target = "_blank"; wa.rel = "noopener"; cuerpo.appendChild(wa); cuerpo.scrollTop = cuerpo.scrollHeight;
   }
   function conversacion() {
     cuerpo.textContent = "";
@@ -198,11 +200,11 @@
           if (x.ok && typeof x.d.respuesta === "string") { listo(x.d.respuesta, x.d.necesita_persona === true, true); return; }
           if (x.estado === 401 && !reintento) {                      // el boleto venció (la visita fue larga): se pide otro y se repite UNA vez
             ia.revisado = false; ia.activo = false;
-            revisaIA(function () { if (ia.activo) pregunta(true); else { pintaPie(); listo("Ahora mismo no puedo contestar. Escríbenos por WhatsApp y una persona te ayuda.", true, false); } });
+            revisaIA(function () { if (ia.activo) pregunta(true); else { pintaPie(); listo("Ahora mismo no puedo contestar. Escríbenos por Instagram o WhatsApp y una persona te ayuda.", true, false); } });
             return;
           }
           if (x.estado === 404) { ia.activo = false; pintaPie(); }
-          var detalle = typeof x.d.detail === "string" ? x.d.detail : "Ahora mismo no puedo contestar. Escríbenos por WhatsApp y una persona te ayuda.";
+          var detalle = typeof x.d.detail === "string" ? x.d.detail : "Ahora mismo no puedo contestar. Escríbenos por Instagram o WhatsApp y una persona te ayuda.";
           listo(detalle, true, false);
         })
         .catch(function () { clearTimeout(t); listo("No pude conectarme. Revisa tu internet o escríbenos por WhatsApp y una persona te ayuda.", true, false); });
@@ -225,8 +227,9 @@
     }
   }
   function contactos() {
-    var c = el("div"), wa = el("a", "cm-btn wa", "Hablar con una persona (WhatsApp)"); wa.href = WHATSAPP; wa.target = "_blank"; wa.rel = "noopener";
-    var co = el("a", "cm-btn co", "Escribirnos un correo"); co.href = CORREO; c.appendChild(wa); c.appendChild(co); return c;
+    var c = el("div"), ig = el("a", "cm-btn wa", "Escribirnos por Instagram"); ig.href = INSTAGRAM; ig.target = "_blank"; ig.rel = "noopener";
+    var wa = el("a", "cm-btn co", "Escribirnos por WhatsApp"); wa.href = WHATSAPP; wa.target = "_blank"; wa.rel = "noopener";
+    var co = el("a", "cm-btn co", "Escribirnos un correo"); co.href = CORREO; c.appendChild(ig); c.appendChild(wa); c.appendChild(co); return c;
   }
   // «¡Buenas tardes! ¿Cómo estás? Hoy es sábado 3 de octubre.» según la hora y la fecha de quien visita (se arma aquí, sin mandar nada a nadie).
   function saludoDeHoy() {

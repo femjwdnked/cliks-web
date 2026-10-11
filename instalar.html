@@ -194,7 +194,7 @@
           <p>Es el texto chiquito, debajo del título.</p>
         </article>
         <article class="paso">
-          <div class="dib"><div class="vent azul"><div class="t">Windows protegió tu PC</div><div class="vent-t">Aplicación: ConsultasSAT-Instalador.exe</div><div class="btns" style="margin-top:12px"><span class="b si aqui">Ejecutar de todas formas</span><span class="b">No ejecutar</span></div></div></div>
+          <div class="dib"><div class="vent azul"><div class="t">Windows protegió tu PC</div><div class="vent-t">Aplicación: ConsultasSAT.exe</div><div class="btns" style="margin-top:12px"><span class="b si aqui">Ejecutar de todas formas</span><span class="b">No ejecutar</span></div></div></div>
           <div class="cabeza"><span class="n">3</span><h3>«Ejecutar de todas formas»</h3></div>
           <p>Aparece un botón nuevo. Dale clic ahí.</p>
         </article>
@@ -232,7 +232,7 @@
   const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
   const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
   document.getElementById("dl-mac").href = BASE_DESCARGAS + "ConsultasSAT-Mac.zip";
-  document.getElementById("dl-win").href = BASE_DESCARGAS + "ConsultasSAT-Instalador.exe";
+  document.getElementById("dl-win").href = BASE_DESCARGAS + "ConsultasSAT.exe";
   document.getElementById(ES_MAC ? "tuya-mac" : "tuya-win").hidden = false;
 
   // Mac / Windows: se muestra la de tu computadora, y puedes cambiar. Con #windows o #mac en la liga se abre esa.

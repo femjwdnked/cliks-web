@@ -187,9 +187,9 @@
   .h4-texto { flex: 1; min-width: 0; }
   .h4-pill { display: inline-flex; align-items: center; gap: 8px; background: #fff; border-radius: 999px; padding: 8px 18px; font-size: 14px; font-weight: 600; color: #1c2430; box-shadow: 0 8px 20px -10px rgba(10,37,64,.4); margin-bottom: 24px; }
   .h4-pill span { color: #6b7488; }
-  .h4-ia { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 22px; padding: 12px 22px; border-radius: 999px; background: linear-gradient(180deg, #4a98ff, #2f6fed); color: #fff; font-size: 17px; font-weight: 700; letter-spacing: -0.005em; box-shadow: 0 16px 30px -14px rgba(47,111,237,.75), inset 0 1px 0 rgba(255,255,255,.55); transition: transform .15s ease; }
-  .h4-ia:hover { transform: translateY(-1px); }
-  .h4-ia svg { flex: none; }
+  .h4-ia { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 22px; padding: 6px 13px; border-radius: 999px; background: rgba(47,111,237,.07); color: #2f6fed; font-size: 13px; font-weight: 600; letter-spacing: .01em; border: 1px solid rgba(47,111,237,.2); box-shadow: none; transition: background .15s ease; }
+  .h4-ia:hover { background: rgba(47,111,237,.13); }
+  .h4-ia svg { flex: none; width: 14px; height: 14px; fill: currentColor; }
   .ia-niveles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; max-width: 900px; margin: 30px auto 0; text-align: left; align-items: stretch; }
   .ia-nivel { position: relative; border: 1px solid rgba(255,255,255,.9); border-radius: 22px; padding: 22px 20px; background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(255,255,255,.55)); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: 0 22px 44px -30px rgba(26,42,122,.35); }
   .ia-nivel h3 { font-size: 17px; font-weight: 800; margin: 12px 0 6px; color: #101828; }
@@ -433,6 +433,27 @@
     <p id="promo" class="pc-promo" hidden></p>
     <div id="planes" class="pc-seg" role="group" aria-label="Plazo del plan">
       <!-- Los cuatro plazos se dibujan con JS desde PLANES. -->
+    </div>
+
+    <style>
+      .pc-incluye { max-width:620px; margin:14px auto 26px; }
+      .pc-incluye-tit { font-size:12.5px; font-weight:600; color:#667085; margin:0 0 16px; text-align:center; }
+      .pc-incluye-tit span { color:#2f6fed; font-weight:700; }
+      .pc-lista { list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:12px 28px; }
+      .pc-lista li { display:flex; align-items:center; gap:9px; font-size:13.5px; line-height:1.35; color:#475467; }
+      .pc-lista li svg { flex:none; }
+      @media (max-width:640px) { .pc-lista { grid-template-columns:1fr; gap:10px; } }
+    </style>
+    <div class="pc-incluye">
+      <p class="pc-incluye-tit">Los 4 planes incluyen <span>exactamente lo mismo</span>. Solo cambia el plazo.</p>
+      <ul class="pc-lista">
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2f6fed" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Opinión de cumplimiento, cada día</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2f6fed" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Constancia de situación fiscal</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2f6fed" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Clientes ilimitados</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2f6fed" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aviso el mismo día si sale negativa</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2f6fed" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Tu e.firma, cifrada en tu equipo</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2f6fed" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Para Mac y Windows</li>
+      </ul>
     </div>
 
     <div class="pc-compra">

@@ -105,8 +105,8 @@
   <script>
     const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
     const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
-    const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT.exe";
-    const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT.exe" : "ConsultasSAT-Mac.zip";
+    const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT-Instalador.exe";
+    const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT-Instalador.exe" : "ConsultasSAT-Mac.zip";
     const TEXTO_OTRO = ES_MAC ? "¿Usas Windows? Descárgala aquí" : "¿Usas Mac? Descárgala aquí";
 
     document.getElementById("link-descargar").href = BASE_DESCARGAS + ARCHIVO_PROPIO;

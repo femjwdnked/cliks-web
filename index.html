@@ -172,7 +172,7 @@
   }
 
 
-  /* Portada: aurora de color, título grande y el resumen de la descarga del día (el celular) sobre la pantalla de la app.
+  /* Portada: aurora de color, título grande y la pantalla de la app.
      El dibujo de la derecha se arma a su tamaño de diseño (700 x 690) y se escala con --k según el ancho de la ventana. */
   .h4 { position: relative; overflow: hidden; background: #fff; }
   .h4-aurora { position: absolute; left: 0; right: 0; top: 0; height: 100%;
@@ -216,29 +216,14 @@
     background: linear-gradient(95deg, #0b1440 0%, #16226b 55%, #2342b0 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
   .h4-p { font-size: 19px; line-height: 1.55; color: #1f2a44; margin: 0 0 30px; max-width: 470px; }
   .h4-p strong { color: #0b1440; }
-  .h4-botones { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
   .h4-cta { display: inline-block; padding: 16px 32px; border-radius: 999px; background: #101828; color: #fff; font-size: 17px; font-weight: 700; box-shadow: 0 14px 26px -14px rgba(16,24,40,.7); transition: transform .15s ease; }
   .h4-cta:hover { transform: translateY(-1px); }
   .h4-enlace { font-size: 17px; font-weight: 700; color: #101828; }
   .h4-nota { font-size: 13.5px; color: #344054; margin: 16px 0 0; }
   .h4-visual { --k: 1; position: relative; flex: none; width: calc(700px * var(--k)); height: calc(690px * var(--k)); }
   .h4-escala { position: absolute; left: 0; top: 0; width: 700px; height: 690px; transform: scale(var(--k)); transform-origin: 0 0; }
-  .h4-fondo { position: absolute; left: 130px; top: 40px; width: 640px; height: 640px; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 80px -30px rgba(10,37,64,.45); }
+  .h4-fondo { position: absolute; left: 40px; top: 25px; width: 640px; height: 640px; border-radius: 18px; overflow: hidden; box-shadow: 0 40px 80px -30px rgba(10,37,64,.45); }
   .h4-fondo img { display: block; width: 1100px; max-width: none; height: auto; margin-left: -26px; margin-top: -14px; }
-  .h4-tel { position: absolute; left: 0; top: 0; width: 330px; height: 640px; background: #fff; border-radius: 38px; padding: 26px 22px; box-shadow: 0 44px 80px -28px rgba(10,37,64,.55), 0 0 0 8px #f2f4f8; }
-  .h4-tel-cab { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .h4-tel-cab img { width: 38px; height: auto; display: block; }
-  .h4-tel-cab b { display: block; font-size: 16px; color: #101828; }
-  .h4-tel-cab small { font-size: 12.5px; color: #6b7488; }
-  .h4-chips { display: flex; gap: 8px; margin: 14px 0 8px; }
-  .h4-ch { display: inline-block; font-size: 12.5px; font-weight: 800; padding: 4px 11px; border-radius: 999px; }
-  .h4-ch.v { background: #e3f8ec; color: #0f7a4a; } .h4-ch.r { background: #ffe3e1; color: #c0261c; }
-  .h4-fila { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid #eef1f6; font-size: 14.5px; }
-  .h4-fila:last-of-type { border-bottom: 0; }
-  .h4-fila .a { width: 34px; height: 34px; border-radius: 10px; color: #fff; font-weight: 800; display: flex; align-items: center; justify-content: center; flex: none; font-size: 15px; }
-  .h4-fila b { display: block; font-size: 14.5px; color: #101828; line-height: 1.2; } .h4-fila small { color: #6b7488; font-size: 12px; }
-  .h4-fila .h4-ch { margin-left: auto; }
-  .h4-boton { position: absolute; left: 22px; right: 22px; bottom: 22px; background: #101828; color: #fff; border-radius: 10px; padding: 14px; text-align: center; font-weight: 700; font-size: 15px; }
   .h4-mascota { position: absolute; left: -26px; bottom: -22px; z-index: 3; }
   @media (max-width: 1239px) { .h4-visual { --k: .86; } .h4-cont { padding-left: 40px !important; padding-right: 40px !important; } }
   @media (max-width: 1060px) { .h4-visual { --k: .72; } .h4-cont { padding-left: 28px !important; padding-right: 28px !important; } }
@@ -247,10 +232,10 @@
     .h4-cont { flex-direction: column; align-items: stretch; gap: 36px; padding: 44px 24px 80px !important; }
     .h4 h1 { font-size: clamp(44px, 13vw, 64px); }
     .h4-visual { --k: 1; width: auto; height: auto; display: flex; justify-content: center; }
-    .h4-escala { position: relative; width: min(330px, 100%); height: 640px; transform: none; }
-    .h4-fondo { display: none; }
-    .h4-tel { width: 100%; }
-    .h4-mascota { left: -8px; }
+    .h4-escala { position: relative; width: 100%; max-width: 520px; height: auto; transform: none; }
+    .h4-fondo { position: relative; left: 0; top: 0; width: 100%; height: auto; aspect-ratio: 1; }
+    .h4-fondo img { width: 172%; margin-left: -4%; margin-top: -2%; }
+      .h4-mascota { left: -8px; }
   }
 
   /* «Nada perdido entre carpetas»: el dibujo de los documentos ordenados por cliente (antes era una foto). */
@@ -309,18 +294,6 @@
     <div class="h4-visual">
       <div class="h4-escala">
         <div class="h4-fondo" aria-hidden="true"><img src="imagenes/app-consultas.webp?v=2" width="1800" height="1032" alt=""></div>
-        <div class="h4-tel" role="img" aria-label="Ejemplo del resumen de la descarga diaria: seis clientes, cinco con opinión positiva y uno con opinión negativa">
-          <div class="h4-tel-cab" aria-hidden="true"><img src="imagenes/mascota-cuerpo.webp" alt="" width="38" height="40"><div><b>Hoy, 08:00</b><small>Descarga diaria · 6 clientes</small></div></div>
-          <div class="h4-chips" aria-hidden="true"><span class="h4-ch v">5 positivos</span><span class="h4-ch r">1 negativo</span></div>
-          <div aria-hidden="true">
-            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#f6b24a,#ee8a1f)">E</span><div><b>Ejemplo Comercial</b><small>EJE010101AA1</small></div><span class="h4-ch v">Positivo</span></div>
-            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#6ea0ff,#2f6fed)">M</span><div><b>Muestra Consultores</b><small>MUE010101CC3</small></div><span class="h4-ch r">Negativo</span></div>
-            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#f57ab4,#e0408a)">L</span><div><b>Laboratorios Ficticios</b><small>LAB010101FF6</small></div><span class="h4-ch v">Positivo</span></div>
-            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#a78bfa,#6d4aff)">D</span><div><b>Demostración y Serv.</b><small>DEM010101BB2</small></div><span class="h4-ch v">Positivo</span></div>
-            <div class="h4-fila"><span class="a" style="background:linear-gradient(135deg,#4fdcae,#12a06e)">A</span><div><b>Ana Pérez Ejemplo</b><small>PEPA010101AB1</small></div><span class="h4-ch v">Positivo</span></div>
-          </div>
-          <div class="h4-boton" aria-hidden="true">Abrir los documentos</div>
-        </div>
         <span class="cliks-mascota h4-mascota" data-tam="112"></span>
       </div>
     </div>

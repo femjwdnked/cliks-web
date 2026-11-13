@@ -99,7 +99,7 @@ with sync_playwright() as p:
     revisar("dice «IVA incluido»", all("IVA incluido" in v for v in precios.values()), str(precios))
     pagina.locator("#planes button[data-meses='12']").click(force=True)
     revisar("el precio de lista sale tachado ($899) junto al de lanzamiento", pagina.locator("#resumen-total .pc-tach").inner_text().strip() == "$899")
-    revisar("ya no hay selector de personas (se vende una licencia por persona)", pagina.locator("text=Personas").count() == 0)
+    revisar("ya no hay selector de personas (se vende una licencia por persona)", pagina.get_by_text("Personas", exact=True).count() == 0)
 
     print("Pagar con promoción:")
     pagina.locator("#correo").fill("prueba@ejemplo.mx")

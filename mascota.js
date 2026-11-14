@@ -1,7 +1,7 @@
-/* La mascota de Cliks: un asterisco esponjoso con dos ojitos.
-   - Botón de ayuda flotando abajo a la derecha: al pulsarlo abre un chat de ayuda con las dudas más comunes y, si no basta, un botón para hablar con una persona por WhatsApp.
-   - Cualquier <span class="cliks-mascota" data-tam="120" data-estado="feliz"></span> se convierte en mascota.
-   Los ojitos siguen el mouse (o el dedo), parpadea, flota. Respeta "reducir movimiento". */
+/* El botón de ayuda de Cliks: el símbolo de Cliks (el asterisco azul) en un círculo blanco, flotando abajo a la derecha.
+   Al pulsarlo abre un chat de ayuda con las dudas más comunes y, si no basta, botones para hablar con una persona.
+   (Antes aquí vivía la mascota; ahora todo el sitio usa el símbolo.)
+   Cualquier <span class="cliks-mascota" data-tam="64"></span> que quede también se vuelve el símbolo. Respeta "reducir movimiento". */
 (function () {
   "use strict";
   var WHATSAPP = "https://wa.me/525566738980?text=" + encodeURIComponent("Hola, tengo una duda sobre Cliks.");
@@ -27,26 +27,15 @@
   var quieto = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var css = [
-    ".cm{position:relative;display:inline-block;width:var(--t,100px);height:calc(var(--t,100px)*664/622);flex-shrink:0}",
-    ".cm-flota{position:absolute;inset:0;animation:cm-flota 3.6s ease-in-out infinite;transform-origin:50% 60%}",
-    ".cm-sombra{position:absolute;left:18%;right:18%;bottom:-7%;height:9%;border-radius:50%;background:radial-gradient(ellipse at center,rgba(40,50,120,.32),rgba(40,50,120,0) 70%);animation:cm-sombra 3.6s ease-in-out infinite}",
-    ".cm img{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;user-select:none}",
-    ".cm .o{position:absolute;top:48.5%;width:5%;height:9.9%;border-radius:50%;transform:translate(-50%,-50%) translate(var(--mx,0px),var(--my,0px)) scaleY(var(--b,1));transition:transform .09s ease-out;",
-    "background:linear-gradient(135deg,#3d3b35 0%,#1b1b1c 55%,#0c0c0e 100%);box-shadow:calc(var(--t)*.008) calc(var(--t)*.011) calc(var(--t)*.014) rgba(15,25,95,.38),inset 0 calc(var(--t)*-.005) calc(var(--t)*.008) rgba(0,0,0,.45)}",
-    ".cm .o::after{content:'';position:absolute;left:16%;top:9%;width:30%;height:33%;border-radius:50%;background:linear-gradient(#fff,rgba(255,255,255,.15));opacity:.85;transform:rotate(14deg)}",
-    ".cm .o.i{left:41.6%}.cm .o.d{left:58%}",
-    ".cm.p{--b:.1}",
-    ".cm.feliz .o{width:9.6%;height:4.2%;border-radius:999px 999px 0 0;background:none;box-shadow:none;border:calc(var(--t)*.021) solid #17171a;border-bottom:none;top:49.5%}",
-    ".cm.feliz .o::after{display:none}",
-    "@keyframes cm-flota{0%,100%{transform:translateY(0) rotate(-1.6deg)}50%{transform:translateY(-6%) rotate(1.6deg)}}",
-    "@keyframes cm-sombra{0%,100%{transform:scaleX(1);opacity:.95}50%{transform:scaleX(.86);opacity:.6}}",
+    ".cm{position:relative;display:inline-block;flex-shrink:0;width:var(--t,64px);height:var(--t,64px);border-radius:50%;background:#fff url(imagenes/simbolo-cliks.svg) center/50% no-repeat;box-shadow:0 0 0 .5px rgba(20,20,19,.12),0 14px 30px -14px rgba(0,0,0,.6);transition:transform .35s cubic-bezier(.3,.9,.3,1)}",
     ".cm-soporte{position:fixed;right:14px;bottom:12px;z-index:60;display:flex;align-items:center;gap:8px;text-decoration:none;-webkit-tap-highlight-color:transparent}",
-    ".cm-soporte .cm{--t:88px}",
+    ".cm-soporte .cm{--t:58px}",
+    ".cm-soporte:hover .cm,.cm-soporte:focus-visible .cm{transform:scale(1.06) rotate(60deg)}",
     ".cm-burbuja{background:#fff;color:#101828;font:700 13.5px/1.2 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;padding:10px 14px;border-radius:14px;box-shadow:0 12px 30px -10px rgba(16,24,40,.35),0 0 0 1px rgba(16,24,40,.06);white-space:nowrap;opacity:0;transform:translateX(8px) scale(.94);transform-origin:100% 50%;transition:opacity .2s,transform .2s;pointer-events:none;position:relative}",
     ".cm-burbuja::after{content:'';position:absolute;right:-6px;top:50%;width:12px;height:12px;margin-top:-6px;background:#fff;transform:rotate(45deg);border-radius:2px}",
     ".cm-soporte:hover .cm-burbuja,.cm-soporte:focus-visible .cm-burbuja,.cm-soporte.dice .cm-burbuja{opacity:1;transform:none}",
-    ".cm-soporte:focus-visible{outline:3px solid #2f6fed;outline-offset:4px;border-radius:16px}",
-    ".cm-panel{position:fixed;right:14px;bottom:112px;z-index:61;width:340px;max-width:calc(100vw - 20px);max-height:min(540px,calc(100vh - 130px));display:none;flex-direction:column;background:linear-gradient(150deg,rgba(255,255,255,.60),rgba(238,244,255,.30) 55%,rgba(230,226,255,.28));-webkit-backdrop-filter:blur(30px) saturate(1.9) brightness(1.03);backdrop-filter:blur(30px) saturate(1.9) brightness(1.03);border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.65);box-shadow:0 34px 70px -22px rgba(26,42,122,.45),0 2px 10px -4px rgba(16,24,40,.12),inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.35),inset 1px 0 0 rgba(255,255,255,.45);font:14px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#101828}",
+    ".cm-soporte:focus-visible{outline:3px solid #2f6fed;outline-offset:4px;border-radius:999px}",
+    ".cm-panel{position:fixed;right:14px;bottom:84px;z-index:61;width:340px;max-width:calc(100vw - 20px);max-height:min(540px,calc(100vh - 104px));display:none;flex-direction:column;background:linear-gradient(150deg,rgba(255,255,255,.60),rgba(238,244,255,.30) 55%,rgba(230,226,255,.28));-webkit-backdrop-filter:blur(30px) saturate(1.9) brightness(1.03);backdrop-filter:blur(30px) saturate(1.9) brightness(1.03);border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.65);box-shadow:0 34px 70px -22px rgba(26,42,122,.45),0 2px 10px -4px rgba(16,24,40,.12),inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.35),inset 1px 0 0 rgba(255,255,255,.45);font:14px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#101828}",
     ".cm-panel.abierto{display:flex;animation:cm-entra .18s ease-out}",
     ".cm-panel::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 55% at 18% -8%,rgba(255,255,255,.65),transparent 58%),radial-gradient(70% 40% at 100% 100%,rgba(181,139,255,.16),transparent 70%)}",
     ".cm-panel>*{position:relative}",
@@ -74,15 +63,13 @@
     ".cm-form button{border:0;border-radius:999px;padding:0 16px;font:inherit;font-weight:700;font-size:13.5px;color:#fff;background:linear-gradient(180deg,rgba(74,152,255,.95),rgba(47,111,237,.95));box-shadow:inset 0 1px 0 rgba(255,255,255,.45);cursor:pointer}.cm-form button:disabled,.cm-form input:disabled{opacity:.55;cursor:default}",
     ".cm-aviso-ia{margin:0 0 8px !important;font-size:11.5px !important;color:#667085}",
     ".cm-pie details{margin:0}.cm-pie summary{cursor:pointer;font-size:12.5px;color:#475467;font-weight:600;padding:2px 0}",
-    "@media (max-width:760px){.cm-soporte{right:8px;bottom:8px}.cm-soporte .cm{--t:70px}.cm-burbuja{display:none}.cm-panel{right:8px;bottom:92px;max-height:calc(100vh - 110px)}}",
-    "@media (prefers-reduced-motion:reduce){.cm-flota,.cm-sombra{animation:none}.cm .o{transition:none}}"
+    "@media (max-width:760px){.cm-soporte{right:8px;bottom:8px}.cm-soporte .cm{--t:52px}.cm-burbuja{display:none}.cm-panel{right:8px;bottom:70px;max-height:calc(100vh - 86px)}}",
+    "@media (prefers-reduced-motion:reduce){.cm{transition:none}.cm-soporte:hover .cm,.cm-soporte:focus-visible .cm{transform:none}}"
   ].join("");
   var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
-  function crear(tam, estado, sigue, color) {
-    var m = document.createElement("span"); m.className = "cm" + (estado === "feliz" ? " feliz" : ""); m.style.setProperty("--t", tam + "px");
-    if (sigue) m.setAttribute("data-sigue", "1");
-    m.innerHTML = '<span class="cm-sombra"></span><span class="cm-flota"><img src="imagenes/mascota-' + (color || "cuerpo") + '.webp" alt="" width="360" height="384" decoding="async"><i class="o i"></i><i class="o d"></i></span>';
+  function crear(tam) {
+    var m = document.createElement("span"); m.className = "cm"; m.style.setProperty("--t", tam + "px");
     return m;
   }
   // --- el chat de ayuda ---
@@ -242,7 +229,7 @@
 
   function lista() {
     cuerpo.textContent = ""; ia.historial = []; ia.esperando = false;
-    cuerpo.appendChild(el("p", "cm-saludo", ia.activo ? saludoDeHoy() + " Soy el asistente con IA de Cliks. ¿En qué te ayudo? Escribe tu duda abajo o elige una de estas:" : "¡Hola! Soy la mascota de Cliks. ¿Qué quieres saber?"));
+    cuerpo.appendChild(el("p", "cm-saludo", ia.activo ? saludoDeHoy() + " Soy el asistente con IA de Cliks. ¿En qué te ayudo? Escribe tu duda abajo o elige una de estas:" : "¡Hola! ¿Qué quieres saber de Cliks?"));
     FAQ.forEach(function (f, i) {
       var b = el("button", "cm-q", f.p); b.type = "button"; b.addEventListener("click", function () { respuesta(i); }); cuerpo.appendChild(b);
     });
@@ -272,13 +259,9 @@
   window.cliksAyuda = { abrir: abre, cerrar: cierra };
   addEventListener("keydown", function (e) { if (e.key === "Escape" && abierto) cierra(); });
 
-  function parpadea(m) {
-    if (quieto) return;
-    setTimeout(function () { m.classList.add("p"); setTimeout(function () { m.classList.remove("p"); parpadea(m); }, 140); }, 2200 + Math.random() * 3300);
-  }
   function inicia() {
     document.querySelectorAll(".cliks-mascota").forEach(function (h) {
-      var m = crear(parseInt(h.getAttribute("data-tam") || "110", 10), h.getAttribute("data-estado"), true, h.getAttribute("data-color")); h.appendChild(m); parpadea(m);
+      h.appendChild(crear(parseInt(h.getAttribute("data-tam") || "64", 10)));
     });
     // Botón de soporte
     // Sigue siendo un enlace a WhatsApp por si el script falla; con el script, abre el chat de ayuda.
@@ -286,7 +269,7 @@
     a.setAttribute("aria-label", "Abrir el chat de ayuda");
     a.addEventListener("click", function (e) { if (e.ctrlKey || e.metaKey || e.shiftKey) return; e.preventDefault(); a.classList.remove("dice"); if (abierto) cierra(); else abre(); });
     var b = document.createElement("span"); b.className = "cm-burbuja"; b.textContent = "¿Dudas? Pregúntame"; a.appendChild(b);
-    var m = crear(88, "", true); a.appendChild(m); document.body.appendChild(a); parpadea(m);
+    a.appendChild(crear(58)); document.body.appendChild(a);
     // se asoma con su globito una sola vez por visita
     try {
       if (!quieto && innerWidth > 760 && !sessionStorage.getItem("cm-dijo")) {          // en el celular no, para no tapar el botón
@@ -296,20 +279,6 @@
     setTimeout(function () { revisaIA(); }, 2500);          // así, al abrir el chat ya se sabe (y el servidor ya despertó)
     // Cualquier botón con data-abrir-ayuda abre el mismo chat (por ejemplo, el del pie de la página).
     document.addEventListener("click", function (e) { var t = e.target.closest && e.target.closest("[data-abrir-ayuda]"); if (t) { e.preventDefault(); abre(); } });
-    // los ojitos siguen el mouse o el dedo
-    var mx = 0, my = 0, pend = false;
-    function sigue(e) {
-      var p = e.touches ? e.touches[0] : e; if (!p) return; mx = p.clientX; my = p.clientY;
-      if (pend) return; pend = true;
-      requestAnimationFrame(function () {
-        pend = false;
-        document.querySelectorAll(".cm[data-sigue='1']").forEach(function (el) {
-          var r = el.getBoundingClientRect(), dx = mx - (r.left + r.width / 2), dy = my - (r.top + r.height * .52), d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260);
-          el.style.setProperty("--mx", (dx / d * k * r.width * .045).toFixed(1) + "px"); el.style.setProperty("--my", (dy / d * k * r.width * .03).toFixed(1) + "px");
-        });
-      });
-    }
-    if (!quieto) { addEventListener("mousemove", sigue, { passive: true }); addEventListener("touchmove", sigue, { passive: true }); }
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", inicia); else inicia();
 })();

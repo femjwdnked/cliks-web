@@ -6,126 +6,104 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="imagenes/favicon.png">
 <title>Cliks — Gracias</title>
+<meta name="theme-color" content="#ffffff">
+<link rel="stylesheet" href="tema.css?v=2">
+<link rel="stylesheet" href="paginas.css?v=2">
 <style>
-  * { box-sizing: border-box; }
-  html { background: #ffffff; }
-  body::before { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-    background:
-      radial-gradient(900px 620px at 6% -6%, rgba(110,162,255,.30), transparent 62%),
-      radial-gradient(820px 600px at 100% 8%, rgba(181,139,255,.24), transparent 62%),
-      radial-gradient(760px 520px at 62% 100%, rgba(143,211,255,.20), transparent 62%); }
-  body {
-    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
-    padding: 24px 16px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
-    background: transparent;
-    color: #1c2430;
-  }
-  .tarjeta {
-    background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(255,255,255,.58)); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,.92); box-shadow: 0 26px 50px -30px rgba(26,42,122,.38);
-    border-radius: 26px; padding: 40px 36px; width: 100%; max-width: 520px;
-    box-shadow: 0 20px 50px -30px rgba(16,24,40,0.25);
-  }
-  .arriba { text-align: center; }
-  .check {
-    width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 22px;
-    background: #e6f4ea; display: flex; align-items: center; justify-content: center;
-  }
-  h1 { font-size: 22px; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.01em; color: #101828; }
-  .arriba > p { color: #667085; font-size: 14px; line-height: 1.55; margin: 0 0 24px; }
-  .boton-descarga {
-    display: inline-block; padding: 13px 24px; border-radius: 8px;
-    background: #2f6fed; color: white; text-decoration: none; font-weight: 700; font-size: 14.5px;
-  }
-
-  /* Recuadro «Un paso rápido antes de abrirla»: el título va en ROJO a propósito, para que se lea antes de abrir la app. */
-  .ayuda { margin-top: 28px; }
-  .ayuda .cab { display: flex; gap: 12px; align-items: flex-start; }
-  .ayuda .escudo { flex: 0 0 38px; height: 38px; border-radius: 12px; background: #fdecea; color: #d92d20; display: flex; align-items: center; justify-content: center; }
-  .ayuda h2 { font-size: 16.5px; font-weight: 800; margin: 0 0 3px; color: #d92d20; letter-spacing: -0.005em; }
-  .ayuda .porque { font-size: 12.8px; line-height: 1.5; color: #667085; margin: 0; }
-  .seg { display: none; background: #eef2f9; border-radius: 11px; padding: 3px; margin: 16px 0 14px; }
-  .js .seg { display: flex; }
-  .seg button { flex: 1; border: 0; background: none; padding: 8px 0; border-radius: 9px; font: inherit; font-size: 13px; font-weight: 700; color: #667085; cursor: pointer; }
-  .seg button[aria-selected="true"] { background: #fff; color: #101828; box-shadow: 0 2px 8px -3px rgba(16,24,40,.25); }
-  .pasos { margin-top: 14px; }
-  .js .pasos { margin-top: 0; }
-  .paso { position: relative; display: flex; gap: 12px; align-items: flex-start; padding-bottom: 13px; font-size: 13.5px; line-height: 1.45; color: #344054; }
-  .paso:last-child { padding-bottom: 0; }
-  .paso:not(:last-child)::before { content: ""; position: absolute; left: 11px; top: 25px; bottom: 1px; width: 2px; background: #d7e3fb; }
-  .num {
-    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
-    background: #2f6fed; color: white; font-size: 12px; font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .tip { margin-top: 16px; display: flex; gap: 8px; align-items: flex-start; background: #f3f7ff; border-radius: 11px; padding: 10px 12px; font-size: 12.5px; line-height: 1.45; color: #44546f; }
-  .mas { margin-top: 12px; font-size: 12.5px; }
-  .mas a { color: #2f6fed; font-weight: 600; text-decoration: none; }
+  .hecho { padding-block: 48px 72px; }
+  .caja { max-width: 760px; margin: 0 auto; border-radius: 24px; background: var(--ventana); box-shadow: 0 0 0 .5px var(--linea-fuerte); padding: 28px 36px 30px; text-align: center; }
+  .caja .simbolo { --t: 84px; margin-top: 4px; }
+  .caja h1 { font-size: clamp(30px, 4vw, 42px); letter-spacing: -.03em; margin-top: 8px; }
+  .caja p.lead { color: var(--tenue); font-size: 17px; max-width: 520px; margin: 10px auto 0; }
+  .avance { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 30px auto 0; max-width: 560px; position: relative; }
+  .avance::before { content: ""; position: absolute; top: 13px; left: 16.6%; right: 16.6%; height: 2px; background: var(--relleno-2); }
+  .avance::after { content: ""; position: absolute; top: 13px; left: 16.6%; width: 33.4%; height: 2px; background: var(--verde); transform-origin: left; animation: llena 700ms var(--ease-out) 400ms both; }
+  @keyframes llena { from { transform: scaleX(0); } }
+  .avance > div { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: var(--tenue); position: relative; z-index: 1; }
+  .avance i { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-weight: 700; font-size: 13px; background: var(--ventana); box-shadow: 0 0 0 2px var(--relleno-2); color: var(--tenue); }
+  .avance .ok i { background: var(--verde); box-shadow: none; color: #ffffff; }
+  .avance .ahora i { background: var(--boton); color: var(--boton-texto); box-shadow: 0 0 0 5px var(--relleno-2); }
+  .avance .ahora, .avance .ok { color: var(--tinta); font-weight: 600; }
+  .bajar { margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .otro { font-size: 14px; }
+  .rapido { max-width: 760px; margin: 20px auto 0; padding: 28px 32px; border-radius: 24px; }
+  .rapido h2 { font-size: 21px; letter-spacing: -.015em; } .rapido > p { color: var(--tenue); margin: 6px 0 18px; font-size: 14.5px; }
+  .lista { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .lista li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; }
+  .lista li > span { width: 26px; height: 26px; border-radius: 50%; background: var(--azul-suave); color: var(--azul); font-weight: 700; font-size: 13px; display: grid; place-items: center; flex: none; }
+  .lista b { color: var(--tinta); }
+  .espera { display: flex; gap: 10px; align-items: flex-start; margin-top: 20px; padding: 12px 14px; border-radius: var(--r-3); background: var(--ambar-suave); color: var(--tinta); font-size: 14px; }
+  .pie-r { margin: 18px 0 0; font-size: 14px; color: var(--tenue); text-align: center; }
+  @media (max-width: 560px) { .cont { padding-inline: 16px; } .caja, .rapido { padding: 26px 18px; } .avance > div { font-size: 12px; } }
 </style>
 </head>
 <body>
-  <div class="tarjeta">
-    <div class="arriba">
-      <div style="display:flex; justify-content:center; margin:2px 0 10px;"><span class="cliks-mascota" data-estado="feliz" data-tam="118"></span></div>
-      <h1>¡Listo, ya quedaste suscrito!</h1>
-      <p>Baja la app y entra con el mismo correo que usaste para pagar — tu cuenta ya va a aparecer activa.</p>
-      <a href="#" id="link-descargar" class="boton-descarga">Descargar Consultas SAT</a>
-      <div id="texto-descarga-otro" style="margin-top:12px; font-size:12px; color:#98a2b3;"></div>
+
+<header class="cabecera">
+  <div class="cont"><a class="logo" href="index.html" aria-label="Cliks, ir al inicio"><img src="imagenes/logo-cliks.png" alt="Cliks" width="56" height="24" style="width:auto;height:24px"></a></div>
+</header>
+
+<main class="hecho">
+  <div class="cont">
+    <div class="caja">
+      <span class="simbolo entra" aria-hidden="true"></span>
+      <h1 class="entra" style="animation-delay:.15s">¡Listo, ya quedaste suscrito!</h1>
+      <p class="lead entra" style="animation-delay:.22s">Baja la app y entra con el mismo correo que usaste para pagar: tu cuenta ya aparece activa.</p>
+      <div class="avance entra" style="animation-delay:.3s" role="list" aria-label="Tus pasos">
+        <div class="ok" role="listitem"><i>✓</i>Pagaste</div>
+        <div class="ahora" role="listitem"><i>2</i>Descarga la app</div>
+        <div role="listitem"><i>3</i>Entra con tu correo</div>
+      </div>
+      <div class="bajar entra" style="animation-delay:.38s">
+        <a href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/ConsultasSAT-Mac.zip" id="link-descargar" class="btn btn-1 btn-grande">Descargar Consultas SAT</a>
+        <div id="texto-descarga-otro"><a class="otro" id="otro" href="https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/ConsultasSAT.exe">¿Usas Windows? Descárgala aquí</a></div>
+      </div>
     </div>
 
-    <div class="ayuda" id="ayuda">
-      <div class="cab">
-        <div class="escudo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
-        <div>
-          <h2>Un paso rápido antes de abrirla</h2>
-          <p class="porque">Tu sistema mostrará un aviso porque Cliks aún no paga la firma de certificación (cuesta cientos de dólares al año). No significa que sea peligrosa y sale solo la primera vez.</p>
-        </div>
-      </div>
-
-      <div class="seg" role="tablist" aria-label="Tu sistema">
-        <button type="button" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="true">🍎 Mac</button>
-        <button type="button" role="tab" id="tab-win" aria-controls="panel-win" aria-selected="false">🪟 Windows</button>
-      </div>
-
-      <div class="pasos" id="panel-mac" role="tabpanel" aria-labelledby="tab-mac">
-        <div class="paso"><div class="num">1</div><div>En el aviso que sale, pica <strong>Listo</strong> (nunca "Enviar a la papelera").</div></div>
-        <div class="paso"><div class="num">2</div><div>Abre <strong>Ajustes del Sistema → Privacidad y seguridad</strong>.</div></div>
-        <div class="paso"><div class="num">3</div><div>Baja a <strong>Seguridad</strong> y dale <strong>"Abrir de todos modos"</strong>.</div></div>
-        <div class="paso"><div class="num">4</div><div>Confirma con tu Touch ID o contraseña y pica <strong>Abrir</strong>.</div></div>
-      </div>
-      <div class="pasos" id="panel-win" role="tabpanel" aria-labelledby="tab-win">
-        <div class="paso"><div class="num">1</div><div>Sale una ventana azul que dice <strong>"Windows protegió tu PC"</strong>. Dale a <strong>"Más información"</strong> (el texto chiquito).</div></div>
-        <div class="paso"><div class="num">2</div><div>Aparece un botón nuevo: <strong>"Ejecutar de todas formas"</strong>. Dale clic.</div></div>
-      </div>
-
-      <div class="tip">⏳ <span><strong>La primera vez tarda hasta 1 minuto en abrir sin mostrar nada.</strong> Da un solo doble clic y espera — si le picas varias veces, tarda más.</span></div>
-      <div class="mas"><a href="instalar.html">Ver la guía completa →</a> &nbsp;·&nbsp; ¿Dudas? <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a></div>
+    <div class="tarjeta app-clara rapido entra" style="animation-delay:.48s" id="ayuda">
+      <h2>Un paso rápido antes de abrirla</h2>
+      <p>La primera vez tu compu te pide confirmar que quieres abrirla. Es normal con apps nuevas y solo pasa una vez.</p>
+      <div class="segmento" role="tablist" aria-label="Tu sistema"><button type="button" role="tab" id="tab-mac" aria-controls="panel-mac" aria-selected="true">Mac</button><button type="button" role="tab" id="tab-win" aria-controls="panel-win" aria-selected="false">Windows</button></div>
+      <ol class="lista" id="panel-mac" role="tabpanel" aria-labelledby="tab-mac">
+        <li><span>1</span><div>En el aviso que sale, pica <b>Listo</b> (nunca «Enviar a la papelera»).</div></li>
+        <li><span>2</span><div>Abre <b>Ajustes del Sistema → Privacidad y seguridad</b>.</div></li>
+        <li><span>3</span><div>Baja a <b>Seguridad</b> y dale <b>«Abrir de todos modos»</b>.</div></li>
+        <li><span>4</span><div>Confirma con tu Touch ID o contraseña y pica <b>Abrir</b>.</div></li>
+      </ol>
+      <ol class="lista" id="panel-win" role="tabpanel" aria-labelledby="tab-win">
+        <li><span>1</span><div>Sale una ventana azul que dice <b>«Windows protegió tu PC»</b>. Dale a <b>«Más información»</b> (el texto chiquito).</div></li>
+        <li><span>2</span><div>Aparece un botón nuevo: <b>«Ejecutar de todas formas»</b>. Dale clic.</div></li>
+      </ol>
+      <div class="espera"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex:none;margin-top:1px;color:var(--ambar)" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>La primera vez tarda hasta un minuto en aparecer. Dale <b>un solo doble clic</b> y espera; después abre rápido.</span></div>
+      <p class="pie-r"><a href="instalar.html">Ver la guía completa con dibujos →</a> · ¿Dudas? <a href="mailto:contacto@cliks.mx">contacto@cliks.mx</a></p>
     </div>
   </div>
-  <script>
-    const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
-    const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
-    const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT.exe";
-    const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT.exe" : "ConsultasSAT-Mac.zip";
-    const TEXTO_OTRO = ES_MAC ? "¿Usas Windows? Descárgala aquí" : "¿Usas Mac? Descárgala aquí";
+</main>
 
-    document.getElementById("link-descargar").href = BASE_DESCARGAS + ARCHIVO_PROPIO;
-    document.getElementById("texto-descarga-otro").innerHTML =
-      `<a href="${BASE_DESCARGAS}${ARCHIVO_OTRO}" style="background:none; padding:0; color:#98a2b3; text-decoration:underline; font-weight:400; font-size:12px;">${TEXTO_OTRO}</a>`;
+<script>
+  const BASE_DESCARGAS = "https://github.com/femjwdnked/ConsultasSAT-descargas/releases/latest/download/";
+  const ES_MAC = /Mac/.test(navigator.platform) || /Macintosh/.test(navigator.userAgent);
+  const ARCHIVO_PROPIO = ES_MAC ? "ConsultasSAT-Mac.zip" : "ConsultasSAT.exe";
+  const ARCHIVO_OTRO = ES_MAC ? "ConsultasSAT.exe" : "ConsultasSAT-Mac.zip";
 
-    // Pestañas Mac / Windows: la de tu sistema sale primero y abierta. Sin JavaScript se ven las dos listas.
-    document.documentElement.classList.add("js");
-    function mostrar(mac) {
-      document.getElementById("panel-mac").hidden = !mac;
-      document.getElementById("panel-win").hidden = mac;
-      document.getElementById("tab-mac").setAttribute("aria-selected", String(mac));
-      document.getElementById("tab-win").setAttribute("aria-selected", String(!mac));
-    }
-    document.getElementById("tab-mac").addEventListener("click", () => mostrar(true));
-    document.getElementById("tab-win").addEventListener("click", () => mostrar(false));
-    mostrar(ES_MAC);
-  </script>
+  const boton = document.getElementById("link-descargar"), otro = document.getElementById("otro");
+  boton.href = BASE_DESCARGAS + ARCHIVO_PROPIO;
+  boton.textContent = "Descargar para " + (ES_MAC ? "Mac" : "Windows");
+  otro.href = BASE_DESCARGAS + ARCHIVO_OTRO;
+  otro.textContent = ES_MAC ? "¿Usas Windows? Descárgala aquí" : "¿Usas Mac? Descárgala aquí";
+
+  // Pestañas Mac / Windows: la de tu sistema sale primero y abierta. Sin JavaScript se ven las dos listas.
+  function mostrar(mac) {
+    document.getElementById("panel-mac").hidden = !mac;
+    document.getElementById("panel-win").hidden = mac;
+    document.getElementById("tab-mac").setAttribute("aria-selected", String(mac));
+    document.getElementById("tab-win").setAttribute("aria-selected", String(!mac));
+  }
+  document.getElementById("tab-mac").addEventListener("click", () => mostrar(true));
+  document.getElementById("tab-win").addEventListener("click", () => mostrar(false));
+  mostrar(ES_MAC);
+</script>
 <script src="visita.js" defer></script>
-<script src="mascota.js" defer></script>
+<script src="mascota.js?v=2" defer></script>
 </body>
 </html>

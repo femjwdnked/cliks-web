@@ -1,0 +1,56 @@
+/* Colores de cliks.mx: blanco, estilo Apple. Fondo blanco con franjas gris muy claro que se alternan,
+   letras casi negras, botones del azul de la marca y sombras suaves.
+   Lo usan index.html, instalar.html y gracias.html. */
+
+:root {
+  --fondo: #ffffff; --gris: #f5f5f7; --ventana: #f5f5f7; --superficie: #f5f5f7; --escena: #ffffff;
+  --relleno: #f5f5f7; --relleno-2: #e8e8ed; --hover: rgba(0,0,0,.04); --lado: #fafafc;
+  --tinta: #1d1d1f; --texto: #424245; --tenue: #6e6e73; --muy-tenue: #86868b;
+  --linea: rgba(0,0,0,.08); --linea-fuerte: rgba(0,0,0,.12);
+  --boton: #2f6fed; --boton-texto: #ffffff; --boton-hover: #2763db;
+  --azul: #2f6fed; --azul-hover: #2763db; --azul-fuerte: #2f6fed; --azul-suave: rgba(47,111,237,.10);
+  --verde: #1a8a4a; --verde-suave: rgba(26,138,74,.11); --rojo: #d92d20; --rojo-suave: rgba(217,45,32,.10);
+  --ambar: #b25e09; --ambar-suave: rgba(214,130,10,.14); --morado: #6a4fd8; --morado-suave: rgba(106,79,216,.11);
+  --sombra: 0 30px 60px -28px rgba(0,0,0,.22), 0 0 0 .5px rgba(0,0,0,.08);
+  --sombra-flota: 0 20px 44px -18px rgba(0,0,0,.20), 0 0 0 .5px rgba(0,0,0,.08);
+  --r-1: 4px; --r-2: 8px; --r-3: 12px; --r-4: 16px; --r-5: 22px;
+  --ease-out: cubic-bezier(.23,1,.32,1);
+  color-scheme: light;
+}
+
+/* Franja gris (como en apple.com): la sección va en gris muy claro y sus tarjetas en blanco. */
+.franja { background: var(--gris); --ventana: #ffffff; --superficie: #ffffff; }
+
+/* Piezas de la app dentro de la página (ventanita, escenas, chat, documentos, formulario de pago): blancas, como la app. */
+.app-clara {
+  --fondo: #f5f5f7; --ventana: #ffffff; --superficie: #f5f5f7; --escena: #ffffff;
+  --relleno: #f5f5f7; --relleno-2: #e8e8ed; --hover: rgba(0,0,0,.04); --lado: #fafafc;
+  --tinta: #1d1d1f; --texto: #424245; --tenue: #6e6e73; --muy-tenue: #86868b;
+  --linea: rgba(0,0,0,.08); --linea-fuerte: rgba(0,0,0,.12);
+  --boton: #2f6fed; --boton-texto: #ffffff; --boton-hover: #2763db;
+  --azul: #2f6fed; --azul-hover: #2763db; --azul-fuerte: #2f6fed; --azul-suave: rgba(47,111,237,.10);
+  --verde: #1a8a4a; --verde-suave: rgba(26,138,74,.11); --rojo: #d92d20; --rojo-suave: rgba(217,45,32,.10);
+  --ambar: #b25e09; --ambar-suave: rgba(214,130,10,.14); --morado: #6a4fd8; --morado-suave: rgba(106,79,216,.11);
+  color-scheme: light; color: var(--texto);
+}
+
+/* El chat de ayuda de mascota.js: blanco y sólido, con la misma sombra suave del resto
+   (body sube la prioridad sobre el estilo que mete el script). */
+body .cm-panel { background: #ffffff; border-color: rgba(0,0,0,.08); -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: 0 34px 70px -24px rgba(0,0,0,.28), 0 0 0 .5px rgba(0,0,0,.08); }
+body .cm-panel::before { display: none; }
+body .cm-q { background: #f5f5f7; border-color: transparent; box-shadow: none; }
+body .cm-pie { background: #f5f5f7; border-top-color: rgba(0,0,0,.06); }
+body .cm-msg.ia { background: #f5f5f7; border-color: transparent; box-shadow: none; }
+body .cm-form input { background: #ffffff; border-color: rgba(0,0,0,.14); }
+body .cm-btn.co { background: #ffffff; border-color: rgba(0,0,0,.12); }
+
+/* El símbolo de Cliks (el asterisco azul del logo) en un círculo blanco. Va donde antes salía la mascota.
+   Uso: <span class="simbolo" style="--t:64px" aria-hidden="true"></span> */
+.simbolo {
+  --t: 64px;
+  display: inline-block; flex: none; vertical-align: middle;
+  width: var(--t); height: var(--t); border-radius: 50%;
+  background: #ffffff url("imagenes/simbolo-cliks.svg") center / 50% no-repeat;
+  box-shadow: 0 0 0 .5px rgba(0,0,0,.10), 0 12px 28px -12px rgba(0,0,0,.28);
+}

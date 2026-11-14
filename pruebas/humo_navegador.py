@@ -79,12 +79,19 @@ with sync_playwright() as p:
     contexto.route("https://servidor-licencias-37nv.onrender.com/**", simular_servidor)
     contexto.route("**/visita", lambda r: r.fulfill(status=204, body=""))
 
+    def abrir_pago(meses="12"):
+        # Diseño nov-2026: tres tarjetas; al tocar el botón de una aparece el pago (correo, casilla y botón) con ese plazo.
+        pagina.locator(f".pa-elegir[data-meses='{meses}']").first.click()
+        pagina.wait_for_timeout(400)
+
     def precios_en_pantalla():
+        abrir_pago()
         botones = pagina.locator("#planes button")
         precios = {}
         for i in range(botones.count()):
-            botones.nth(i).click(force=True)
-            precios[botones.nth(i).get_attribute("data-meses")] = pagina.locator("#resumen-total").inner_text().replace(",", "")
+            m = botones.nth(i).get_attribute("data-meses")
+            pagina.locator(f"#planes button[data-meses='{m}']").click()
+            precios[m] = (pagina.locator("#pv-precio").inner_text() + " " + pagina.locator("#texto-acepto").inner_text()).replace(",", "")
         return precios
 
     print("Portada CON promoción (quedan 7 lugares):")
@@ -96,9 +103,10 @@ with sync_playwright() as p:
     revisar("aparece el aviso de promoción en la portada", pagina.locator("#promo-hero").is_visible() and "primeras 10" in pagina.locator("#promo-hero").inner_text())
     precios = precios_en_pantalla()
     revisar("los precios son $69, $180, $330 y $499", all(f"${v}" in precios[k] for k, v in (("1", "69"), ("3", "180"), ("6", "330"), ("12", "499"))), str(precios))
-    revisar("dice «IVA incluido»", all("IVA incluido" in v for v in precios.values()), str(precios))
-    pagina.locator("#planes button[data-meses='12']").click(force=True)
-    revisar("el precio de lista sale tachado ($899) junto al de lanzamiento", pagina.locator("#resumen-total .pc-tach").inner_text().strip() == "$899")
+    revisar("dice «IVA incluido»", "IVA incluido" in pagina.locator("#pa-otros").inner_text() and "IVA incluido" in pagina.locator("#pa-pm1").inner_text())
+    pagina.locator("#planes button[data-meses='12']").click()
+    revisar("el precio de lista sale tachado ($899) junto al de lanzamiento", pagina.locator("#pa-p12 s").inner_text().strip() == "$899")
+    revisar("la casilla dice el monto exacto que se cobrará", "$499 al año" in pagina.locator("#texto-acepto").inner_text())
     revisar("ya no hay selector de personas (se vende una licencia por persona)", pagina.get_by_text("Personas", exact=True).count() == 0)
 
     print("Pagar con promoción:")
@@ -121,6 +129,7 @@ with sync_playwright() as p:
     estado.update(quedan=1, responder_409=True)
     pagina.goto(BASE + "/index.html", wait_until="networkidle")
     revisar("con 1 lugar dice «queda 1 lugar»", "queda 1 lugar" in pagina.locator("#promo").inner_text(), pagina.locator("#promo").inner_text())
+    abrir_pago()
     pagina.locator("#correo").fill("prueba@ejemplo.mx")
     pagina.locator("#acepto").check(force=True)
     pagina.locator("#btn-pagar").click()
@@ -129,7 +138,7 @@ with sync_playwright() as p:
     revisar("avisa que los precios cambiaron y dice el monto nuevo", "precios cambiaron" in pagina.locator("#error").inner_text() and "$899" in pagina.locator("#error").inner_text(),
             pagina.locator("#error").inner_text())
     revisar("la promoción desaparece de la pantalla", not pagina.locator("#promo").is_visible() and not pagina.locator("#promo-hero").is_visible())
-    revisar("el precio en pantalla ya es el de lista ($899)", "$899" in pagina.locator("#resumen-total").inner_text())
+    revisar("el precio en pantalla ya es el de lista ($899)", "$899" in pagina.locator("#pv-precio").inner_text() and "$899" in pagina.locator("#pa-p12").inner_text())
     revisar("hay que volver a aceptar (la casilla se desmarca)", not pagina.locator("#acepto").is_checked())
     revisar("el botón queda listo para volver a intentar", pagina.locator("#btn-pagar").is_enabled())
 
@@ -139,7 +148,9 @@ with sync_playwright() as p:
     revisar("no aparece ninguna promoción", not pagina.locator("#promo").is_visible() and not pagina.locator("#promo-hero").is_visible())
     precios = precios_en_pantalla()
     revisar("los precios son $99, $269, $479 y $899", all(f"${v}" in precios[k] for k, v in (("1", "99"), ("3", "269"), ("6", "479"), ("12", "899"))), str(precios))
-    revisar("el 1 año sigue conviniendo (−24% contra pagar 12 meses sueltos)", "−24%" in pagina.locator("#planes button[data-meses='12']").inner_text())
+    revisar("el 1 año sigue conviniendo (ahorras $289 contra pagar 12 meses sueltos)", "Ahorras $289" in pagina.locator("#pa-pm12").inner_text(), pagina.locator("#pa-pm12").inner_text())
+    revisar("la pestaña «Para tu despacho» muestra la cotización", (pagina.locator("#seg-para button[data-para='despacho']").click() or True)
+            and pagina.locator("#pa-despacho").is_visible() and not pagina.locator("#pa-ti").is_visible())
 
     print("Si el servidor de precios no contesta:")
     estado.update(quedan=7, caido=True)

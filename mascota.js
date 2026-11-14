@@ -207,7 +207,7 @@
       campo.autocomplete = "off"; var b = el("button", "", "Enviar"); b.type = "submit"; f.appendChild(campo); f.appendChild(b);
       f.addEventListener("submit", function (e) { e.preventDefault(); enviar(campo.value, campo, b); });
       pie.appendChild(f);
-      pie.appendChild(el("p", "cm-aviso-ia", "Es una IA: puede equivocarse. No escribas contraseñas, tarjetas ni datos de tu e.firma."));
+      pie.appendChild(el("p", "cm-aviso-ia", "Es una IA y puede equivocarse: revisa lo importante. No escribas contraseñas, tarjetas ni datos de tu e.firma."));
       var d = el("details"); d.appendChild(el("summary", "", "¿Prefieres hablar con una persona?")); d.appendChild(contactos()); pie.appendChild(d);
     } else {
       pie.appendChild(el("p", "", "¿No encontraste lo que buscabas?")); pie.appendChild(contactos());

@@ -74,7 +74,11 @@
   }
   // --- el chat de ayuda ---
   var panel = null, cuerpo = null, pie = null, subtitulo = null, abierto = false;
-  var ia = { activo: false, revisado: false, boleto: "", historial: [], esperando: false };
+  var ia = { activo: false, revisado: false, boleto: "", verificar: false, historial: [], esperando: false };
+  // Filtro contra robots (Cloudflare Turnstile): sólo cuando el servidor lo pide y sólo al hacer la primera pregunta. Casi siempre no se ve;
+  // si Cloudflare duda, aparece una casilla dentro del chat para que la persona la toque.
+  var TURNSTILE_SITEKEY = "0x4AAAAAAGETzxs0-cKREEXY";
+  var NO_PERSONA = "No pude comprobar que eres una persona. Recarga la página o escríbenos por WhatsApp y te ayudamos.";
   function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; }
   function parrafo(partes) {
     var p = el("p", "cm-resp");
@@ -95,9 +99,47 @@
     var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { ctl && ctl.abort(); }, 9000);
     fetch(API + "/asistente/estado", { cache: "no-store", signal: ctl ? ctl.signal : undefined })
       .then(function (r) { return r.ok ? r.json() : {}; })
-      .then(function (d) { ia.activo = !!d && d.activo === true && typeof d.boleto === "string"; ia.boleto = ia.activo ? d.boleto : ""; })
+      .then(function (d) {
+        ia.verificar = !!d && d.verificar === true;
+        ia.activo = !!d && d.activo === true && (typeof d.boleto === "string" || ia.verificar);
+        ia.boleto = ia.activo && typeof d.boleto === "string" ? d.boleto : "";
+      })
       .catch(function () {})
       .then(function () { clearTimeout(t); fin(); });
+  }
+  // El boleto del chat. Si el servidor pide comprobar que hay una persona, Cloudflare lo hace sin mostrar nada y el servidor lo confirma.
+  function conseguirBoleto(cb) {
+    if (ia.boleto) { cb(""); return; }
+    if (!ia.verificar) { cb(NO_PERSONA); return; }
+    var hecho = false, caja = null, id = null;
+    var fin = function (error) {
+      if (hecho) return; hecho = true; clearTimeout(t);
+      try { if (id !== null && window.turnstile) window.turnstile.remove(id); } catch (e) {}
+      if (caja) caja.remove();
+      cb(error);
+    };
+    var t = setTimeout(function () { fin(NO_PERSONA); }, 90000);
+    var canjear = function (ficha) {
+      fetch(API + "/asistente/boleto", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ficha: ficha }) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (x) {
+          if (x.ok && typeof x.d.boleto === "string") { ia.boleto = x.d.boleto; fin(""); }
+          else fin(typeof x.d.detail === "string" ? x.d.detail : NO_PERSONA);
+        })
+        .catch(function () { fin("No pude conectarme. Revisa tu internet o escríbenos por WhatsApp y una persona te ayuda."); });
+    };
+    var dibuja = function () {
+      try {
+        caja = el("div", "cm-filtro"); caja.style.cssText = "margin:6px 0"; (cuerpo || document.body).appendChild(caja);
+        id = window.turnstile.render(caja, { sitekey: TURNSTILE_SITEKEY, action: "chat", appearance: "interaction-only", language: "es",
+          callback: canjear, "error-callback": function () { fin(NO_PERSONA); }, "expired-callback": function () { fin(NO_PERSONA); } });
+      } catch (e) { fin(NO_PERSONA); }
+    };
+    if (window.turnstile) { dibuja(); return; }
+    var s = document.createElement("script");
+    s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"; s.async = true;
+    s.onload = dibuja; s.onerror = function () { fin(NO_PERSONA); };
+    document.head.appendChild(s);
   }
   // Sólo se hacen links los de la lista; cualquier otra dirección que venga en la respuesta se muestra como texto.
   function enlazable(u) {
@@ -186,8 +228,8 @@
           clearTimeout(t);
           if (x.ok && typeof x.d.respuesta === "string") { listo(x.d.respuesta, x.d.necesita_persona === true, true); return; }
           if (x.estado === 401 && !reintento) {                      // el boleto venció (la visita fue larga): se pide otro y se repite UNA vez
-            ia.revisado = false; ia.activo = false;
-            revisaIA(function () { if (ia.activo) pregunta(true); else { pintaPie(); listo("Ahora mismo no puedo contestar. Escríbenos por Instagram o WhatsApp y una persona te ayuda.", true, false); } });
+            ia.revisado = false; ia.activo = false; ia.boleto = "";
+            revisaIA(function () { if (ia.activo) conseguirBoleto(function (error) { if (error) listo(error, true, false); else pregunta(true); }); else { pintaPie(); listo("Ahora mismo no puedo contestar. Escríbenos por Instagram o WhatsApp y una persona te ayuda.", true, false); } });
             return;
           }
           if (x.estado === 404) { ia.activo = false; pintaPie(); }
@@ -196,7 +238,7 @@
         })
         .catch(function () { clearTimeout(t); listo("No pude conectarme. Revisa tu internet o escríbenos por WhatsApp y una persona te ayuda.", true, false); });
     };
-    pregunta(false);
+    conseguirBoleto(function (error) { if (error) listo(error, true, false); else pregunta(false); });
   }
   function pintaPie() {
     if (!pie) return;
